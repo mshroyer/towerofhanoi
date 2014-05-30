@@ -1,0 +1,5 @@
+Tower of Hanoi
+==============
+
+A recursive solution to the Tower of Hanoi, with a live graphical display
+implemented in Qt 5.3.
