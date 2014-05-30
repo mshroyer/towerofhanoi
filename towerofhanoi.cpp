@@ -17,6 +17,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
 
 TowerOfHanoi::~TowerOfHanoi()
 {
+    delete m_towerSolver;
     delete ui;
 }
 
