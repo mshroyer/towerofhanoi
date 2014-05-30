@@ -11,9 +11,8 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->towerView->setTower(m_tower);
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(solve()));
+    connect(ui->pushButton, SIGNAL(pressed()), this, SLOT(pushButton()));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
-    connect(m_towerSolver, SIGNAL(finished()), this, SLOT(done()));
 }
 
 TowerOfHanoi::~TowerOfHanoi()
@@ -21,31 +20,33 @@ TowerOfHanoi::~TowerOfHanoi()
     delete ui;
 }
 
-void TowerOfHanoi::solve()
+void TowerOfHanoi::pushButton()
 {
-    ui->spinBox->setEnabled(false);
-    ui->pushButton->setEnabled(false);
+    if (m_towerSolver && m_towerSolver->isRunning()) {
+        // Stop
 
-    delete m_towerSolver;
-    m_towerSolver = new TowerSolver { m_tower };
-    connect(m_towerSolver, SIGNAL(finished()), this, SLOT(done()));
-    m_towerSolver->start();
+        m_towerSolver->terminate();
+        ui->pushButton->setText("Reset");
+    } else if (m_towerSolver) {
+        // Reset
+
+        delete m_towerSolver;
+        m_towerSolver = nullptr;
+        m_tower->reset(m_tower->ndisks());
+        ui->pushButton->setText("Start");
+        ui->spinBox->setEnabled(true);
+    } else {
+        // Start
+
+        m_towerSolver = new TowerSolver { m_tower };
+        connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::done);
+        ui->pushButton->setText("Stop");
+        ui->spinBox->setEnabled(false);
+        m_towerSolver->start();
+    }
 }
 
 void TowerOfHanoi::done()
 {
-    disconnect(this, SLOT(solve()));
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(reset()));
     ui->pushButton->setText("Reset");
-    ui->pushButton->setEnabled(true);
-}
-
-void TowerOfHanoi::reset()
-{
-    m_tower->reset(ui->spinBox->value());
-
-    disconnect(this, SLOT(reset()));
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(solve()));
-    ui->pushButton->setText("Solve");
-    ui->spinBox->setEnabled(true);
 }

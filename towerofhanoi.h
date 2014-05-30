@@ -19,9 +19,8 @@ public:
     ~TowerOfHanoi();
 
 private slots:
-    void solve();
+    void pushButton();
     void done();
-    void reset();
 
 private:
     Tower *m_tower;
