@@ -32,9 +32,16 @@ void TowerOfHanoi::about()
     aboutBox.setWindowTitle("About Tower of Hanoi");
     aboutBox.setTextFormat(Qt::RichText);
     aboutBox.setText(
-                "Tower of Hanoi recursive solution<br><br>"
-                "Mark Shroyer &lt;<a href='mailto:code@markshroyer.com'>code@markshroyer.com</a>&gt;<br>"
-                "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a>"
+                "Tower of Hanoi: Recursive solution<br>"
+                "<br>"
+                "This program implements a recursive solution to the Tower of Hanoi.  For more information, "
+                "see the Wikipedia or source code linked below.<br>"
+                "<br>"
+                "<a href='https://en.wikipedia.org/wiki/Tower_of_hanoi'>https://en.wikipedia.org/wiki/Tower_of_hanoi</a><br>"
+                "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a><br>"
+                "<br>"
+                "Mark Shroyer<br>"
+                "31 May 2014"
                 );
     aboutBox.exec();
 }
