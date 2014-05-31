@@ -2,7 +2,6 @@
 #define TOWERS_H
 
 #include <QObject>
-#include <QReadWriteLock>
 
 class Tower : public QObject
 {
@@ -28,7 +27,6 @@ public slots:
 public:
     int ndisks(void) const;
     const QList<int> &stack(Stack name) const;
-    mutable QReadWriteLock lock;
 
 private:
     QList<int> &getStack(Stack name);

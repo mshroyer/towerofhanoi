@@ -13,6 +13,7 @@ public:
     explicit TowerSolver(Tower *tower, QObject *parent = nullptr);
 
 signals:
+    void moveDisk(Tower::Stack from, Tower::Stack to);
 
 public slots:
 

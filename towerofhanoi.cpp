@@ -10,6 +10,8 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     m_towerSolver { nullptr },
     ui { new Ui::TowerOfHanoi }
 {
+    qRegisterMetaType<Tower::Stack>("Tower::Stack");
+
     ui->setupUi(this);
     ui->towerView->setTower(m_tower);
     connect(ui->pushButton, SIGNAL(pressed()), this, SLOT(pushButton()));

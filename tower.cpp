@@ -1,8 +1,7 @@
 #include "tower.h"
 
 Tower::Tower(int ndisks, QObject *parent) :
-    QObject{ parent },
-    lock { QReadWriteLock::NonRecursive }
+    QObject{ parent }
 {
     reset(ndisks);
 }
@@ -24,8 +23,6 @@ QList<int> &Tower::getStack(Stack name)
 
 void Tower::reset(int ndisks)
 {
-    QWriteLocker locker { &lock };
-
     m_ndisks = ndisks;
 
     auto &left = getStack(Stack::LEFT);
@@ -36,14 +33,11 @@ void Tower::reset(int ndisks)
     getStack(Stack::MIDDLE).clear();
     getStack(Stack::RIGHT).clear();
 
-    locker.unlock();
     emit moved();
 }
 
 void Tower::moveDisk(Stack from, Stack to)
 {
-    QWriteLocker locker { &lock };
-
     auto &t_from = getStack(from);
     auto &t_to   = getStack(to);
 
@@ -61,6 +55,5 @@ void Tower::moveDisk(Stack from, Stack to)
     t_from.removeFirst();
     t_to.insert(0, disk);
 
-    locker.unlock();
     emit moved();
 }

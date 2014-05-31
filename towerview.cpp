@@ -48,7 +48,6 @@ void TowerView::setTower(Tower *tower)
 
 void TowerView::paintEvent(QPaintEvent *)
 {
-    QReadLocker locker { &m_tower->lock };
     QPainter painter { this };
 
     const int ndisks         = m_tower->ndisks();

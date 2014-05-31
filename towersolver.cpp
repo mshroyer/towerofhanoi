@@ -4,6 +4,7 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     QThread { parent },
     m_tower { tower }
 {
+    connect(this, &TowerSolver::moveDisk, tower, &Tower::moveDisk, Qt::QueuedConnection);
 }
 
 void TowerSolver::run()
@@ -17,7 +18,7 @@ void TowerSolver::step(int n, Tower::Stack from, Tower::Stack spare, Tower::Stac
         return;
 
     step(n-1, from, to, spare, false);
-    m_tower->moveDisk(from, to);
+    emit moveDisk(from, to);
     if (n > 1 || !right)
         QThread::msleep(350);
     step(n-1, spare, from, to, right);
