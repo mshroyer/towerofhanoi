@@ -21,6 +21,7 @@ signals:
     void moveError(QString errmsg);
 
 public slots:
+    void reset();
     void reset(int ndisks);
     void moveDisk(Stack from, Stack to);
 

@@ -21,19 +21,23 @@ QList<int> &Tower::getStack(Stack name)
     return const_cast<QList<int> &>(static_cast<const Tower *>(this)->stack(name));
 }
 
-void Tower::reset(int ndisks)
+void Tower::reset()
 {
-    m_ndisks = ndisks;
-
     auto &left = getStack(Stack::LEFT);
     left.clear();
-    for (int i = ndisks; i > 0; --i)
+    for (int i = m_ndisks; i > 0; --i)
         left.insert(0, i);
 
     getStack(Stack::MIDDLE).clear();
     getStack(Stack::RIGHT).clear();
 
     emit moved();
+}
+
+void Tower::reset(int ndisks)
+{
+    m_ndisks = ndisks;
+    reset();
 }
 
 void Tower::moveDisk(Stack from, Stack to)
