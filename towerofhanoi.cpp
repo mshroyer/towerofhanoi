@@ -14,7 +14,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
 
     ui->setupUi(this);
     ui->towerView->setTower(m_tower);
-    connect(ui->pushButton, SIGNAL(pressed()), this, SLOT(pushButton()));
+    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pushButton()));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
