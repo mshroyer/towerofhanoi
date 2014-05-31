@@ -62,6 +62,14 @@ void TowerOfHanoi::pushButton()
     }
 }
 
+void TowerOfHanoi::closeEvent(QCloseEvent *event)
+{
+    if (m_towerSolver && m_towerSolver->isRunning())
+        m_towerSolver->terminate();
+
+    QWidget::closeEvent(event);
+}
+
 void TowerOfHanoi::done()
 {
     ui->pushButton->setText("Reset");

@@ -22,6 +22,9 @@ public slots:
     void about();
     void pushButton();
 
+protected:
+    virtual void closeEvent(QCloseEvent *event) override;
+
 private slots:
     void done();
 
