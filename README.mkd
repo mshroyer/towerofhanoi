@@ -6,4 +6,5 @@ This program is a graphical implementation of a recursive solution to the
 C++11 and built on top of Qt 5.3.
 
 Mark Shroyer
+
 31 May 2014
