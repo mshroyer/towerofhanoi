@@ -1,5 +1,9 @@
 Tower of Hanoi
 ==============
 
-A recursive solution to the Tower of Hanoi, with a live graphical display
-implemented in Qt 5.3.
+This program is a graphical implementation of a recursive solution to the
+[Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_hanoi), written in
+C++11 and built on top of Qt 5.3.
+
+Mark Shroyer
+31 May 2014
