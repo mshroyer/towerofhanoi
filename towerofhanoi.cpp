@@ -49,7 +49,7 @@ void TowerOfHanoi::pushButton()
         delete m_towerSolver;
         m_towerSolver = nullptr;
         m_tower->reset(m_tower->ndisks());
-        ui->pushButton->setText("Start");
+        ui->pushButton->setText("Solve");
         ui->spinBox->setEnabled(true);
     } else {
         // Start
