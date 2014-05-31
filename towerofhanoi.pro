@@ -28,4 +28,4 @@ HEADERS  += \
 FORMS    += \
     towerofhanoi.ui
 
-OTHER_FILES +=
+QMAKE_INFO_PLIST = Info.plist
