@@ -6,6 +6,8 @@
 #include <QPaintEvent>
 #include <QThread>
 
+#include <algorithm>
+
 namespace {
 
 const QVector<QColor> disk_colors {
@@ -25,7 +27,7 @@ QColor diskColor(int disk)
 
 int diskWidth(int disk_min, int disk_max, int ndisks, int i)
 {
-    return disk_min + (i - 1) * (disk_max - disk_min) / ndisks;
+    return disk_min + i * (disk_max - disk_min) / ndisks;
 }
 
 } // namespace
@@ -67,8 +69,8 @@ void TowerView::paintEvent(QPaintEvent *)
     const int x_tower_right  = x_left + 5 * width / 6;
 
     // Disks
-    const int disk_max       = 9 * (width / 3) / 10;
-    const int disk_min       = disk_max / 4;
+    const int disk_max       = std::min(260, width / 3);
+    const int disk_min       = disk_max / 6;
 
     painter.setPen(QPen(Qt::black, stroke, Qt::SolidLine, Qt::SquareCap));
     painter.drawLine(QPoint(x_left, y_bottom), QPoint(x_right, y_bottom));
