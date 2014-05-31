@@ -9,7 +9,7 @@ CONFIG   += c++11
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = q0304
+TARGET = towerofhanoi
 TEMPLATE = app
 
 
@@ -27,3 +27,5 @@ HEADERS  += \
 
 FORMS    += \
     towerofhanoi.ui
+
+OTHER_FILES +=
