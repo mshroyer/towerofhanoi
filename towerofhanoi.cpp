@@ -2,6 +2,7 @@
 #include "ui_towerofhanoi.h"
 
 #include <QThread>
+#include <QMessageBox>
 
 TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     QMainWindow { parent },
@@ -13,12 +14,26 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     ui->towerView->setTower(m_tower);
     connect(ui->pushButton, SIGNAL(pressed()), this, SLOT(pushButton()));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
+    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
 }
 
 TowerOfHanoi::~TowerOfHanoi()
 {
     delete m_towerSolver;
     delete ui;
+}
+
+void TowerOfHanoi::about()
+{
+    QMessageBox aboutBox { this };
+    aboutBox.setWindowTitle("About Tower of Hanoi");
+    aboutBox.setTextFormat(Qt::RichText);
+    aboutBox.setText(
+                "Tower of Hanoi recursive solution<br><br>"
+                "Mark Shroyer &lt;<a href='mailto:code@markshroyer.com'>code@markshroyer.com</a>&gt;<br>"
+                "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a>"
+                );
+    aboutBox.exec();
 }
 
 void TowerOfHanoi::pushButton()

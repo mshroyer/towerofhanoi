@@ -18,8 +18,11 @@ public:
     explicit TowerOfHanoi(QWidget *parent = nullptr);
     ~TowerOfHanoi();
 
-private slots:
+public slots:
+    void about();
     void pushButton();
+
+private slots:
     void done();
 
 private:
