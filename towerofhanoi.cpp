@@ -1,7 +1,6 @@
 #include "towerofhanoi.h"
 #include "ui_towerofhanoi.h"
 
-#include <QThread>
 #include <QMessageBox>
 
 TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
@@ -29,13 +28,14 @@ TowerOfHanoi::~TowerOfHanoi()
 void TowerOfHanoi::about()
 {
     QMessageBox aboutBox { this };
+
     aboutBox.setWindowTitle("About Tower of Hanoi");
     aboutBox.setTextFormat(Qt::RichText);
     aboutBox.setText(
-                "Tower of Hanoi: Recursive solution<br>"
+                "<b>About Tower of Hanoi</b><br>"
                 "<br>"
-                "This program implements a recursive solution to the Tower of Hanoi.  For more information, "
-                "see the Wikipedia or source code linked below.<br>"
+                "This program implements a recursive solution to the Tower of Hanoi.  For more information "
+                "see the Wikipedia article and source code repository linked below.<br>"
                 "<br>"
                 "<a href='https://en.wikipedia.org/wiki/Tower_of_hanoi'>https://en.wikipedia.org/wiki/Tower_of_hanoi</a><br>"
                 "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a><br>"
@@ -43,6 +43,7 @@ void TowerOfHanoi::about()
                 "Mark Shroyer<br>"
                 "31 May 2014"
                 );
+
     aboutBox.exec();
 }
 
