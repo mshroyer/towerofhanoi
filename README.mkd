@@ -5,6 +5,10 @@ This program is a graphical implementation of a recursive solution to the
 [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_hanoi), written in
 C++11 and built on top of Qt 5.3.
 
+Visit the [downloads page](https://bitbucket.org/markshroyer/towerofhanoi/overview)
+to get binaries for OS X (10.6 or newer, 64-bit Intel only) and Windows
+(Vista or later).
+
 Mark Shroyer
 
 31 May 2014
