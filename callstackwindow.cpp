@@ -29,8 +29,11 @@ CallStackWindow::CallStackWindow(TowerOfHanoi *parent) :
     QWidget { parent, Qt::Window },
     ui { new Ui::CallStackWindow }
 {
-    connect(parent, &TowerOfHanoi::callStackChanged, this, &CallStackWindow::updateCallStack);
     ui->setupUi(this);
+
+    QFont font { "Monospace" };
+    font.setStyleHint(QFont::TypeWriter);
+    ui->textEdit->setFont(font);
 }
 
 CallStackWindow::~CallStackWindow()
@@ -55,7 +58,7 @@ void CallStackWindow::updateCallStack()
 
     const QStack<StepCall> &callStack = TOWEROFHANOI->callStack();
     for (const StepCall call : callStack) {
-        callStackText += QString("step(%1, %2, %3, %4)\n").arg(call.n).arg(stackName(call.from)).arg(stackName(call.spare)).arg(stackName(call.to));
+        callStackText += QString("step(%1, %2, %3, %4)\n").arg(call.n, 2).arg(stackName(call.from), 6).arg(stackName(call.spare), 6).arg(stackName(call.to), 6);
     }
 
     ui->textEdit->setText(callStackText);
