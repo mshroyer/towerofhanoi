@@ -138,7 +138,7 @@
     <property name="title">
      <string>Window</string>
     </property>
-    <addaction name="actionCallGraph"/>
+    <addaction name="actionCallStack"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuWindow"/>
@@ -168,7 +168,7 @@
     <enum>QAction::AboutQtRole</enum>
    </property>
   </action>
-  <action name="actionCallGraph">
+  <action name="actionCallStack">
    <property name="text">
     <string>Call Stack</string>
    </property>

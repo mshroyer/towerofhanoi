@@ -17,6 +17,8 @@ void TowerSolver::step(int n, Tower::Stack from, Tower::Stack spare, Tower::Stac
     if (n == 0)
         return;
 
+    emit stepCall(n, from, spare, to);
+
     step(n-1, from, to, spare, false);
 
     emit moveDisk(from, to);
@@ -24,4 +26,6 @@ void TowerSolver::step(int n, Tower::Stack from, Tower::Stack spare, Tower::Stac
         QThread::msleep(350);
 
     step(n-1, spare, from, to, rightmost);
+
+    emit stepReturn();
 }

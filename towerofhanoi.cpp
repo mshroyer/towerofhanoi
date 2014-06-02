@@ -19,7 +19,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-    connect(ui->actionCallGraph, SIGNAL(triggered()), this, SLOT(callGraphWindow()));
+    connect(ui->actionCallStack, SIGNAL(triggered()), this, SLOT(callStackWindow()));
 }
 
 TowerOfHanoi::~TowerOfHanoi()
@@ -92,7 +92,7 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
     QWidget::closeEvent(event);
 }
 
-void TowerOfHanoi::callGraphWindow()
+void TowerOfHanoi::callStackWindow()
 {
     if (!m_callStackWindow)
         m_callStackWindow = new CallStackWindow { };
