@@ -83,6 +83,9 @@ void TowerOfHanoi::pushButton()
 
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
 {
+    if (m_callStackWindow)
+        m_callStackWindow->close();
+
     if (m_towerSolver && m_towerSolver->isRunning())
         m_towerSolver->terminate();
 
