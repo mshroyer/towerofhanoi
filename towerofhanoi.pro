@@ -17,15 +17,18 @@ SOURCES += main.cpp\
     tower.cpp \
     towerofhanoi.cpp \
     towerview.cpp \
-    towersolver.cpp
+    towersolver.cpp \
+    callstackwindow.cpp
 
 HEADERS  += \
     tower.h \
     towerofhanoi.h \
     towerview.h \
-    towersolver.h
+    towersolver.h \
+    callstackwindow.h
 
 FORMS    += \
-    towerofhanoi.ui
+    towerofhanoi.ui \
+    callstackwindow.ui
 
 QMAKE_INFO_PLIST = Info.plist

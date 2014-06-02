@@ -1,6 +1,8 @@
 #include "towerofhanoi.h"
 #include "ui_towerofhanoi.h"
 
+#include "callstackwindow.h"
+
 #include <QMessageBox>
 
 TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
@@ -17,10 +19,16 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(ui->actionCallGraph, SIGNAL(triggered()), this, SLOT(callGraphWindow()));
 }
 
 TowerOfHanoi::~TowerOfHanoi()
 {
+    if (m_callStackWindow) {
+        m_callStackWindow->close();
+        delete m_callStackWindow;
+    }
+
     delete m_towerSolver;
     delete ui;
 }
@@ -79,6 +87,14 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
         m_towerSolver->terminate();
 
     QWidget::closeEvent(event);
+}
+
+void TowerOfHanoi::callGraphWindow()
+{
+    if (!m_callStackWindow)
+        m_callStackWindow = new CallStackWindow { };
+
+    m_callStackWindow->show();
 }
 
 void TowerOfHanoi::done()

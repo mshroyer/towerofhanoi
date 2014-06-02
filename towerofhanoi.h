@@ -6,6 +6,8 @@
 #include "tower.h"
 #include "towersolver.h"
 
+class CallStackWindow;
+
 namespace Ui {
 class TowerOfHanoi;
 }
@@ -26,11 +28,13 @@ protected:
     virtual void closeEvent(QCloseEvent *event) override;
 
 private slots:
+    void callGraphWindow();
     void done();
 
 private:
     Tower *m_tower;
     TowerSolver *m_towerSolver;
+    CallStackWindow *m_callStackWindow;
     Ui::TowerOfHanoi *ui;
 };
 
