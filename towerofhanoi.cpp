@@ -9,6 +9,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     QMainWindow { parent },
     m_tower { new Tower { 6, this } },
     m_towerSolver { nullptr },
+    m_callStackWindow { nullptr },
     ui { new Ui::TowerOfHanoi }
 {
     qRegisterMetaType<Tower::Stack>("Tower::Stack");

@@ -41,12 +41,11 @@ private slots:
     void done();
 
 private:
-    //QList<StepCall> m_callStack;
+    QList<StepCall> m_callStack;
     Tower *m_tower;
     TowerSolver *m_towerSolver;
     CallStackWindow *m_callStackWindow;
     Ui::TowerOfHanoi *ui;
-    //int m_foo;
 };
 
 #endif // TOWERSOFHANOI_H
