@@ -3,6 +3,10 @@
 
 #include "towerofhanoi.h"
 
+#include <QDebug>
+
+#define TOWEROFHANOI qobject_cast<TowerOfHanoi *>(parent())
+
 namespace {
 
 const char *stackName(Tower::Stack stack)
@@ -34,11 +38,22 @@ CallStackWindow::~CallStackWindow()
     delete ui;
 }
 
+void CallStackWindow::showEvent(QShowEvent *)
+{
+    connect(TOWEROFHANOI, &TowerOfHanoi::callStackChanged, this, &CallStackWindow::updateCallStack);
+    updateCallStack();
+}
+
+void CallStackWindow::hideEvent(QHideEvent *)
+{
+    disconnect(TOWEROFHANOI, &TowerOfHanoi::callStackChanged, this, &CallStackWindow::updateCallStack);
+}
+
 void CallStackWindow::updateCallStack()
 {
     QString callStackText;
 
-    const QStack<StepCall> &callStack = qobject_cast<TowerOfHanoi *>(parent())->callStack();
+    const QStack<StepCall> &callStack = TOWEROFHANOI->callStack();
     for (const StepCall call : callStack) {
         callStackText += QString("step(%1, %2, %3, %4)\n").arg(call.n).arg(stackName(call.from)).arg(stackName(call.spare)).arg(stackName(call.to));
     }

@@ -97,6 +97,7 @@ void TowerOfHanoi::callStackWindow()
         m_callStackWindow = new CallStackWindow { this };
 
     m_callStackWindow->show();
+    m_callStackWindow->raise();
 }
 
 void TowerOfHanoi::stepCall(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to)

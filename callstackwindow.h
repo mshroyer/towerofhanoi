@@ -17,6 +17,10 @@ public:
     explicit CallStackWindow(TowerOfHanoi *parent = nullptr);
     ~CallStackWindow();
 
+protected:
+    virtual void showEvent(QShowEvent *) override;
+    virtual void hideEvent(QHideEvent *) override;
+
 private slots:
     void updateCallStack();
 
