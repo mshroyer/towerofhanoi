@@ -23,7 +23,7 @@ protected:
     virtual void run() override;
 
 private:
-    void step(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to, bool rightmost = true);
+    void step(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare, bool rightmost = true);
 
     Tower *m_tower;
 };

@@ -17,8 +17,8 @@ struct StepCall
 {
     int n;
     Tower::Stack from;
-    Tower::Stack spare;
     Tower::Stack to;
+    Tower::Stack spare;
 };
 
 class TowerOfHanoi : public QMainWindow
@@ -44,7 +44,7 @@ protected:
 
 private slots:
     void callStackWindow();
-    void stepCall(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to);
+    void stepCall(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare);
     void stepReturn();
     void done();
 

@@ -9,23 +9,23 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
 
 void TowerSolver::run()
 {
-    step(m_tower->ndisks(), Tower::Stack::LEFT, Tower::Stack::MIDDLE, Tower::Stack::RIGHT);
+    step(m_tower->ndisks(), Tower::Stack::LEFT, Tower::Stack::RIGHT, Tower::Stack::MIDDLE);
 }
 
-void TowerSolver::step(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to, bool rightmost)
+void TowerSolver::step(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare, bool rightmost)
 {
     if (n == 0)
         return;
 
-    emit stepCall(n, from, spare, to);
+    emit stepCall(n, from, to, spare);
 
-    step(n-1, from, to, spare, false);
+    step(n-1, from, spare, to, false);
 
     emit moveDisk(from, to);
     if (n > 1 || !rightmost)
         QThread::msleep(350);
 
-    step(n-1, spare, from, to, rightmost);
+    step(n-1, spare, to, from, rightmost);
 
     emit stepReturn();
 }

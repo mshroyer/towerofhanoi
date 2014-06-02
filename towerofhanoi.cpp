@@ -100,9 +100,9 @@ void TowerOfHanoi::callStackWindow()
     m_callStackWindow->raise();
 }
 
-void TowerOfHanoi::stepCall(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to)
+void TowerOfHanoi::stepCall(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare)
 {
-    m_callStack.push({ n, from, spare, to });
+    m_callStack.push({ n, from, to, spare });
     emit callStackChanged();
 }
 
