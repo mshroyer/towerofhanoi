@@ -13,7 +13,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = towerofhanoi
 TEMPLATE = app
-
+DEFINES *= QT_USE_STRINGBUILDER
 
 SOURCES += main.cpp\
     tower.cpp \

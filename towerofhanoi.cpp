@@ -8,8 +8,6 @@
 TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     QMainWindow { parent },
     m_tower { new Tower { 6, this } },
-    m_towerSolver { nullptr },
-    m_callStackWindow { nullptr },
     ui { new Ui::TowerOfHanoi }
 {
     qRegisterMetaType<Tower::Stack>("Tower::Stack");
@@ -25,11 +23,6 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
 
 TowerOfHanoi::~TowerOfHanoi()
 {
-    if (m_callStackWindow) {
-        m_callStackWindow->close();
-        delete m_callStackWindow;
-    }
-
     delete m_towerSolver;
     delete ui;
 }
@@ -71,22 +64,27 @@ void TowerOfHanoi::pushButton()
         m_tower->reset();
         ui->pushButton->setText("Solve");
         ui->spinBox->setEnabled(true);
+        callStackReset();
     } else {
         // Start
 
         m_towerSolver = new TowerSolver { m_tower };
         connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::done);
+        connect(m_towerSolver, &TowerSolver::stepCall, this, &TowerOfHanoi::stepCall);
+        connect(m_towerSolver, &TowerSolver::stepReturn, this, &TowerOfHanoi::stepReturn);
         ui->pushButton->setText("Stop");
         ui->spinBox->setEnabled(false);
         m_towerSolver->start();
     }
 }
 
+const QStack<StepCall> &TowerOfHanoi::callStack() const
+{
+    return m_callStack;
+}
+
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
 {
-    if (m_callStackWindow)
-        m_callStackWindow->close();
-
     if (m_towerSolver && m_towerSolver->isRunning())
         m_towerSolver->terminate();
 
@@ -96,9 +94,27 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
 void TowerOfHanoi::callStackWindow()
 {
     if (!m_callStackWindow)
-        m_callStackWindow = new CallStackWindow { };
+        m_callStackWindow = new CallStackWindow { this };
 
     m_callStackWindow->show();
+}
+
+void TowerOfHanoi::stepCall(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to)
+{
+    m_callStack.push({ n, from, spare, to });
+    emit callStackChanged();
+}
+
+void TowerOfHanoi::stepReturn()
+{
+    m_callStack.pop();
+    emit callStackChanged();
+}
+
+void TowerOfHanoi::callStackReset()
+{
+    m_callStack.clear();
+    emit callStackChanged();
 }
 
 void TowerOfHanoi::done()

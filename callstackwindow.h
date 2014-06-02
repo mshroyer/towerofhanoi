@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class TowerOfHanoi;
+
 namespace Ui {
 class CallStackWindow;
 }
@@ -12,8 +14,11 @@ class CallStackWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit CallStackWindow(QWidget *parent = 0);
+    explicit CallStackWindow(TowerOfHanoi *parent = nullptr);
     ~CallStackWindow();
+
+private slots:
+    void updateCallStack();
 
 private:
     Ui::CallStackWindow *ui;

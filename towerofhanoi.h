@@ -29,22 +29,32 @@ public:
     explicit TowerOfHanoi(QWidget *parent = nullptr);
     ~TowerOfHanoi();
 
+signals:
+    void callStackChanged();
+
 public slots:
     void about();
     void pushButton();
+
+public:
+    const QStack<StepCall> &callStack() const;
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void callStackWindow();
+    void stepCall(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to);
+    void stepReturn();
     void done();
 
 private:
-    QList<StepCall> m_callStack;
+    void callStackReset();
+
+    QStack<StepCall> m_callStack;
     Tower *m_tower;
-    TowerSolver *m_towerSolver;
-    CallStackWindow *m_callStackWindow;
+    TowerSolver *m_towerSolver = nullptr;
+    CallStackWindow *m_callStackWindow = nullptr;
     Ui::TowerOfHanoi *ui;
 };
 
