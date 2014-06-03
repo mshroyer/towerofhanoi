@@ -5,10 +5,15 @@
 
 #include <QDebug>
 #include <cstdint>
+#include <cstdio>
 
 #define TOWEROFHANOI qobject_cast<TowerOfHanoi *>(parent())
 
 namespace {
+
+constexpr size_t kBufLineLength = 64;
+constexpr size_t kBufNumLines = 16;
+constexpr size_t kBufSize = kBufLineLength * kBufNumLines + 1;
 
 const char *stackName(Tower::Stack stack)
 {
@@ -28,6 +33,7 @@ const char *stackName(Tower::Stack stack)
 
 CallStackWindow::CallStackWindow(TowerOfHanoi *parent) :
     QWidget { parent, Qt::Window },
+    m_textbuf { new char[kBufSize], [](char *buf) { delete[] buf; } },
     ui { new Ui::CallStackWindow }
 {
     ui->setupUi(this);
@@ -55,12 +61,19 @@ void CallStackWindow::hideEvent(QHideEvent *)
 
 void CallStackWindow::updateCallStack()
 {
-    QString callStackText;
+    const auto &callStack = TOWEROFHANOI->callStack();
+    int i = 0, ret;
 
-    const QStack<StepCall> &callStack = TOWEROFHANOI->callStack();
+    *m_textbuf.data() = '\0';
     for (const StepCall call : callStack) {
-        callStackText += QString("0x%5   step(%1, %2, %3, %4)\n").arg(call.n, 2).arg(stackName(call.from), 6).arg(stackName(call.to), 6).arg(stackName(call.spare), 6).arg(reinterpret_cast<uintptr_t>(call.frame), 2*sizeof(call.frame), 16, QChar { '0' });
+        ret = snprintf(m_textbuf.data() + i, kBufLineLength + 1, "step(%2d, %6s, %6s, %6s)  frame: %p\n",
+                       call.n, stackName(call.from), stackName(call.to), stackName(call.spare), call.frame);
+        if (ret < 0) {
+            qWarning("Error formatting call stack frame");
+            return;
+        }
+        i += ret;
     }
 
-    ui->textEdit->setText(callStackText);
+    ui->textEdit->setText(m_textbuf.data());
 }

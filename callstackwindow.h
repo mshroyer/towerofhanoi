@@ -25,6 +25,7 @@ private slots:
     void updateCallStack();
 
 private:
+    QSharedPointer<char> m_textbuf;
     Ui::CallStackWindow *ui;
 };
 
