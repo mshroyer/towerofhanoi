@@ -18,6 +18,9 @@ constexpr size_t kBufSize = kBufLineLength * kBufNumLines + 1;
 const char kSpaces[] = "                ";
 const char *kSpacesEnd = kSpaces + sizeof(kSpaces) - 1;
 
+const char *kCallFormat32 = "0x%08lX%s  step(%d, %s, %s, %s)\n";
+const char *kCallFormat64 = "0x%016lX%s  step(%d, %s, %s, %s)\n";
+
 const char *stackName(Tower::Stack stack)
 {
     switch (stack) {
@@ -42,7 +45,7 @@ CallStackWindow::CallStackWindow(TowerOfHanoi *parent) :
     ui->setupUi(this);
 
     QFont font { "Monospace" };
-    font.setStyleHint(QFont::TypeWriter);
+    font.setStyleHint(QFont::Monospace);
     ui->textEdit->setFont(font);
 }
 
@@ -64,12 +67,13 @@ void CallStackWindow::hideEvent(QHideEvent *)
 
 void CallStackWindow::updateCallStack()
 {
+    const char *callFormat = sizeof(void *) > 4 ? kCallFormat64 : kCallFormat32;
     const auto &callStack = TOWEROFHANOI->callStack();
     int i = 0, line = 0, ret;
 
     *m_textbuf.data() = '\0';
     for (const StepCall call : callStack) {
-        ret = snprintf(m_textbuf.data() + i, kBufLineLength + 1, "%p%s  step(%d, %s, %s, %s)\n",
+        ret = snprintf(m_textbuf.data() + i, kBufLineLength + 1, callFormat,
                        call.frame, kSpacesEnd - line++, call.n,
                        stackName(call.from), stackName(call.to), stackName(call.spare));
         if (ret < 0) {
