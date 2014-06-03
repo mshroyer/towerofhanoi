@@ -111,7 +111,7 @@ void TowerOfHanoi::stepReturn()
     m_stackTrace.pop();
 }
 
-void TowerOfHanoi::moveDisk(TowerStack from, TowerStack to)
+void TowerOfHanoi::moveDisk(TowerStack, TowerStack)
 {
     emit stackTraceChanged();
 }
