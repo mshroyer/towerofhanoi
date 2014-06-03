@@ -47,6 +47,7 @@ private slots:
     void callStackWindow();
     void stepCall(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare, void *frame);
     void stepReturn();
+    void moveDisk(Tower::Stack from, Tower::Stack to);
     void done();
 
 private:

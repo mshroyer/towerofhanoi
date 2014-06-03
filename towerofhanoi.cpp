@@ -72,6 +72,7 @@ void TowerOfHanoi::pushButton()
         connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::done);
         connect(m_towerSolver, &TowerSolver::stepCall, this, &TowerOfHanoi::stepCall);
         connect(m_towerSolver, &TowerSolver::stepReturn, this, &TowerOfHanoi::stepReturn);
+        connect(m_towerSolver, &TowerSolver::moveDisk, this, &TowerOfHanoi::moveDisk);
         ui->pushButton->setText("Stop");
         ui->spinBox->setEnabled(false);
         m_towerSolver->start();
@@ -105,12 +106,15 @@ void TowerOfHanoi::callStackWindow()
 void TowerOfHanoi::stepCall(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare, void *frame)
 {
     m_callStack.push({ n, from, to, spare, frame });
-    emit callStackChanged();
 }
 
 void TowerOfHanoi::stepReturn()
 {
     m_callStack.pop();
+}
+
+void TowerOfHanoi::moveDisk(Tower::Stack from, Tower::Stack to)
+{
     emit callStackChanged();
 }
 
@@ -123,4 +127,5 @@ void TowerOfHanoi::callStackReset()
 void TowerOfHanoi::done()
 {
     ui->pushButton->setText("Reset");
+    emit callStackChanged();
 }
