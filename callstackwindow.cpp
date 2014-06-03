@@ -44,7 +44,16 @@ CallStackWindow::CallStackWindow(TowerOfHanoi *parent) :
 {
     ui->setupUi(this);
 
+#if defined Q_OS_MAC
+    QFont font { "Monaco" };
+    font.setPointSize(12);
+#elif defined Q_OS_WIN
+    QFont font { "Consolas" };
+    font.setPointSize(10);
+#else
     QFont font { "Monospace" };
+    font.setPointSize(12);
+#endif
     font.setStyleHint(QFont::Monospace);
     ui->textEdit->setFont(font);
 }
@@ -69,13 +78,13 @@ void CallStackWindow::updateCallStack()
 {
     const char *callFormat = sizeof(void *) > 4 ? kCallFormat64 : kCallFormat32;
     const auto &callStack = TOWEROFHANOI->callStack();
+    char *buf = m_textbuf.data();
     int i = 0, line = 0, ret;
 
-    *m_textbuf.data() = '\0';
+    *buf = '\0';
     for (const StepCall call : callStack) {
-        ret = snprintf(m_textbuf.data() + i, kBufLineLength + 1, callFormat,
-                       call.frame, kSpacesEnd - line++, call.n,
-                       stackName(call.from), stackName(call.to), stackName(call.spare));
+        ret = snprintf(buf + i, kBufLineLength + 1, callFormat, call.frame, kSpacesEnd - line++,
+                       call.n, stackName(call.from), stackName(call.to), stackName(call.spare));
         if (ret < 0) {
             qWarning("Error formatting call stack frame");
             return;
@@ -83,5 +92,5 @@ void CallStackWindow::updateCallStack()
         i += ret;
     }
 
-    ui->textEdit->setText(m_textbuf.data());
+    ui->textEdit->setText(buf);
 }
