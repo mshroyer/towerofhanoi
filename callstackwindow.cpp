@@ -15,8 +15,8 @@ constexpr size_t kBufLineLength = 96;
 constexpr size_t kBufNumLines = 16;
 constexpr size_t kBufSize = kBufLineLength * kBufNumLines + 1;
 
-const char kSpaces[] = "                ";
-const char *kSpacesEnd = kSpaces + sizeof(kSpaces) - 1;
+const char kPadding[] = "                ";
+const char *kPaddingEnd = kPadding + sizeof(kPadding) - 1;
 
 const char *kCallFormat32 = "0x%08lX%s  step(%d, %s, %s, %s)\n";
 const char *kCallFormat64 = "0x%016lX%s  step(%d, %s, %s, %s)\n";
@@ -83,13 +83,15 @@ void CallStackWindow::updateCallStack()
 
     *buf = '\0';
     for (const StepCall call : callStack) {
-        ret = snprintf(buf + i, kBufLineLength + 1, callFormat, call.frame, kSpacesEnd - line++,
+        ret = snprintf(buf + i, kBufLineLength + 1, callFormat, call.frame, kPaddingEnd - line,
                        call.n, stackName(call.from), stackName(call.to), stackName(call.spare));
         if (ret < 0) {
             qWarning("Error formatting call stack frame");
             return;
         }
+
         i += ret;
+        line++;
     }
 
     ui->textEdit->setText(buf);
