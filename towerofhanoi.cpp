@@ -1,6 +1,7 @@
 #include "towerofhanoi.h"
 #include "ui_towerofhanoi.h"
 
+#include "progresswindow.h"
 #include "stacktracewindow.h"
 
 #include <QMessageBox>
@@ -16,6 +17,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(ui->actionProgress, SIGNAL(triggered()), this, SLOT(progressWindow()));
     connect(ui->actionStackTrace, SIGNAL(triggered()), this, SLOT(stackTraceWindow()));
 }
 
@@ -92,6 +94,17 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
     }
 
     QWidget::closeEvent(event);
+}
+
+void TowerOfHanoi::progressWindow()
+{
+    if (!m_progressWindow) {
+        m_progressWindow = new ProgressWindow { this };
+        m_progressWindow->move(x()+140, y()+140);
+    }
+
+    m_progressWindow->show();
+    m_progressWindow->raise();
 }
 
 void TowerOfHanoi::stackTraceWindow()

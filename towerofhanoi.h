@@ -8,6 +8,7 @@
 #include "tower.h"
 #include "towersolver.h"
 
+class ProgressWindow;
 class StackTraceWindow;
 
 namespace Ui {
@@ -36,6 +37,7 @@ protected:
     virtual void closeEvent(QCloseEvent *event) override;
 
 private slots:
+    void progressWindow();
     void stackTraceWindow();
     void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                          StepRecursion recursion, void *frame);
@@ -49,6 +51,7 @@ private:
     QStack<StackFrame> m_stackTrace;
     Tower *m_tower;
     TowerSolver *m_towerSolver = nullptr;
+    ProgressWindow *m_progressWindow = nullptr;
     StackTraceWindow *m_stackTraceWindow = nullptr;
     Ui::TowerOfHanoi *ui;
 };

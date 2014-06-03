@@ -118,7 +118,7 @@
      <x>0</x>
      <y>0</y>
      <width>583</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -138,6 +138,7 @@
     <property name="title">
      <string>Window</string>
     </property>
+    <addaction name="actionProgress"/>
     <addaction name="actionStackTrace"/>
    </widget>
    <addaction name="menuFile"/>
@@ -171,6 +172,11 @@
   <action name="actionStackTrace">
    <property name="text">
     <string>Stack Trace</string>
+   </property>
+  </action>
+  <action name="actionProgress">
+   <property name="text">
+    <string>Progress</string>
    </property>
   </action>
  </widget>
