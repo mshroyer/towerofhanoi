@@ -37,9 +37,10 @@ protected:
 
 private slots:
     void stackTraceWindow();
-    void stepCall(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion, void *frame);
-    void stepReturn();
-    void moveDisk(TowerStack from, TowerStack to);
+    void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
+                         StepRecursion recursion, void *frame);
+    void moveTowerReturned();
+    void moveDiskCalled(TowerStack from, TowerStack to);
     void done();
 
 private:

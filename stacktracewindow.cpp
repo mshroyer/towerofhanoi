@@ -20,8 +20,8 @@ constexpr size_t kBufSize = kBufLineLength * kBufNumLines + 1;
 const char kPadding[] = "                ";
 const char * const kPaddingEnd = kPadding + sizeof(kPadding) - 1;
 
-const char * const kCallFormat32 = "0x%08lX %c%s step(%d, %s, %s, %s)\n";
-const char * const kCallFormat64 = "0x%016lX %c%s step(%d, %s, %s, %s)\n";
+const char * const kCallFormat32 = "0x%08lX %c%s moveTower(%d, %s, %s, %s)\n";
+const char * const kCallFormat64 = "0x%016lX %c%s moveTower(%d, %s, %s, %s)\n";
 
 const char *towerStackName(TowerStack stack)
 {
@@ -51,8 +51,8 @@ char recursionLabel(StepRecursion recursion)
 
 } // namespace
 
-extern const char * const kStepFunctionFile;
-extern const int kStepFunctionLine;
+extern const char * const kMoveTowerFile;
+extern const int kMoveTowerLine;
 
 StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
     QWidget { parent, Qt::Dialog },
@@ -75,7 +75,7 @@ StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
     ui->textEdit->setFont(font);
 
     const QString labelFormat = "See <a href='%3/src/%4/towersolver.cpp#cl-%2'>%1:%2</a> for algorithm implementation";
-    const QString labelText = labelFormat.arg(kStepFunctionFile).arg(kStepFunctionLine).arg(REPOSITORY_URL).arg(COMMIT_ID);
+    const QString labelText = labelFormat.arg(kMoveTowerFile).arg(kMoveTowerLine).arg(REPOSITORY_URL).arg(COMMIT_ID);
     ui->label->setText(labelText);
 }
 

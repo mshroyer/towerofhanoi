@@ -9,21 +9,36 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
 
 void TowerSolver::run()
 {
-    step(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
+    moveTower(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
 }
 
-extern const char * const kStepFunctionFile = "towersolver.cpp";
-extern const int kStepFunctionLine = __LINE__ + 1;
-void TowerSolver::step(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion)
+// Don't move these, for linking to moveTower() from stack trace window:
+extern const char * const kMoveTowerFile = "towersolver.cpp";
+extern const int          kMoveTowerLine = __LINE__ + 2;
+
+void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
+                            StepRecursion recursion)
 {
-    if (n > 0) {
-        emit stepCall(n, from, to, spare, recursion, __builtin_frame_address(0));
-        step(n-1, from, spare, to, StepRecursion::LEFT);
+    /*
+     * This is a recursive solution to the Tower of Hanoi. For explanation:
+     * https://en.wikipedia.org/wiki/Tower_of_Hanoi#Recursive_solution
+     */
 
-        emit moveDisk(from, to);
-        QThread::msleep(350);
+    // Nothing to do for move of zero disks
+    if (n == 0)
+        return;
 
-        step(n-1, spare, to, from, StepRecursion::RIGHT);
-        emit stepReturn();
-    }
+    emit moveTowerCalled(n, from, to, spare, recursion, __builtin_frame_address(0));
+
+    // Move all except bottom disk to spare stack
+    moveTower(n-1, from, spare, to, StepRecursion::LEFT);
+
+    // Move bottom disk to target stack
+    emit moveDisk(from, to);
+    QThread::msleep(350);
+
+    // Move all except bottom disk from spare to target stack
+    moveTower(n-1, spare, to, from, StepRecursion::RIGHT);
+
+    emit moveTowerReturned();
 }
