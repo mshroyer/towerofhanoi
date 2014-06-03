@@ -29,21 +29,23 @@ void TowerOfHanoi::about()
 {
     QMessageBox aboutBox { this };
 
+    const QString format =
+        "<p><b>About Tower of Hanoi %2</b><p>"
+        "<p>This program implements a recursive solution to the Tower of Hanoi.  For more information "
+        "see the Wikipedia article and source code repository linked below.</p>"
+        "<p><a href='https://en.wikipedia.org/wiki/Tower_of_hanoi'>https://en.wikipedia.org/wiki/Tower_of_hanoi</a><br>"
+        "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a></p>"
+        "<p>This build was created from revision <a href='%1/commits/%3'>%4</a></p>"
+        "<p>Mark Shroyer<br>"
+        "31 May 2014</p>";
+
+    QString shortCommitId { COMMIT_ID };
+    shortCommitId.truncate(12);
+    const auto aboutText = format.arg(REPOSITORY_URL).arg(VERSION).arg(COMMIT_ID).arg(shortCommitId);
+
     aboutBox.setWindowTitle("About Tower of Hanoi");
     aboutBox.setTextFormat(Qt::RichText);
-    aboutBox.setText(
-                "<b>About Tower of Hanoi " VERSION "</b><br>"
-                "<br>"
-                "This program implements a recursive solution to the Tower of Hanoi.  For more information "
-                "see the Wikipedia article and source code repository linked below.<br>"
-                "<br>"
-                "<a href='https://en.wikipedia.org/wiki/Tower_of_hanoi'>https://en.wikipedia.org/wiki/Tower_of_hanoi</a><br>"
-                "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a><br>"
-                "<br>"
-                "Mark Shroyer<br>"
-                "31 May 2014"
-                );
-
+    aboutBox.setText(aboutText);
     aboutBox.exec();
 }
 
