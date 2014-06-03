@@ -8,7 +8,7 @@
 #include "tower.h"
 #include "towersolver.h"
 
-class CallStackWindow;
+class StackTraceWindow;
 
 namespace Ui {
 class TowerOfHanoi;
@@ -30,25 +30,25 @@ public slots:
     void pushButton();
 
 public:
-    const QStack<StepCall> &callStack() const;
+    const QStack<StackFrame> &callStack() const;
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void callStackWindow();
-    void stepCall(int n, Stack from, Stack to, Stack spare, StepRecursion recursion, void *frame);
+    void stepCall(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion, void *frame);
     void stepReturn();
-    void moveDisk(Stack from, Stack to);
+    void moveDisk(TowerStack from, TowerStack to);
     void done();
 
 private:
     void callStackReset();
 
-    QStack<StepCall> m_callStack;
+    QStack<StackFrame> m_callStack;
     Tower *m_tower;
     TowerSolver *m_towerSolver = nullptr;
-    CallStackWindow *m_callStackWindow = nullptr;
+    StackTraceWindow *m_callStackWindow = nullptr;
     Ui::TowerOfHanoi *ui;
 };
 

@@ -1,7 +1,7 @@
 #include "towerofhanoi.h"
 #include "ui_towerofhanoi.h"
 
-#include "callstackwindow.h"
+#include "stacktracewindow.h"
 
 #include <QMessageBox>
 
@@ -77,7 +77,7 @@ void TowerOfHanoi::pushButton()
     }
 }
 
-const QStack<StepCall> &TowerOfHanoi::callStack() const
+const QStack<StackFrame> &TowerOfHanoi::callStack() const
 {
     return m_callStack;
 }
@@ -95,13 +95,13 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
 void TowerOfHanoi::callStackWindow()
 {
     if (!m_callStackWindow)
-        m_callStackWindow = new CallStackWindow { this };
+        m_callStackWindow = new StackTraceWindow { this };
 
     m_callStackWindow->show();
     m_callStackWindow->raise();
 }
 
-void TowerOfHanoi::stepCall(int n, Stack from, Stack to, Stack spare, StepRecursion recursion, void *frame)
+void TowerOfHanoi::stepCall(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion, void *frame)
 {
     m_callStack.push({ n, from, to, spare, recursion, frame });
 }
@@ -111,7 +111,7 @@ void TowerOfHanoi::stepReturn()
     m_callStack.pop();
 }
 
-void TowerOfHanoi::moveDisk(Stack from, Stack to)
+void TowerOfHanoi::moveDisk(TowerStack from, TowerStack to)
 {
     emit callStackChanged();
 }

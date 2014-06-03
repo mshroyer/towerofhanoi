@@ -9,10 +9,10 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
 
 void TowerSolver::run()
 {
-    step(m_tower->ndisks(), Stack::LEFT, Stack::RIGHT, Stack::MIDDLE);
+    step(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
 }
 
-void TowerSolver::step(int n, Stack from, Stack to, Stack spare, StepRecursion recursion)
+void TowerSolver::step(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion)
 {
     if (n > 0) {
         emit stepCall(n, from, to, spare, recursion, __builtin_frame_address(0));

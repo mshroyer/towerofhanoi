@@ -1,7 +1,8 @@
-#ifndef STACKTRACE_H
-#define STACKTRACE_H
+#ifndef DATATYPES_H
+#define DATATYPES_H
 
-enum class Stack : int {
+enum class TowerStack : int
+{
     LEFT = 0,
     MIDDLE = 1,
     RIGHT = 2
@@ -14,14 +15,14 @@ enum class StepRecursion : int
     RIGHT = 2
 };
 
-struct StepCall
+struct StackFrame
 {
     int n;
-    Stack from;
-    Stack to;
-    Stack spare;
+    TowerStack from;
+    TowerStack to;
+    TowerStack spare;
     StepRecursion recursion;
-    void *frame;
+    void *fp;
 };
 
-#endif // STACKTRACE_H
+#endif // DATATYPES_H

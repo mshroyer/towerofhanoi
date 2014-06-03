@@ -1,21 +1,21 @@
-#ifndef CALLSTACKWINDOW_H
-#define CALLSTACKWINDOW_H
+#ifndef STACKTRACEWINDOW_H
+#define STACKTRACEWINDOW_H
 
 #include <QWidget>
 
 class TowerOfHanoi;
 
 namespace Ui {
-class CallStackWindow;
+class StackTraceWindow;
 }
 
-class CallStackWindow : public QWidget
+class StackTraceWindow : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CallStackWindow(TowerOfHanoi *parent = nullptr);
-    ~CallStackWindow();
+    explicit StackTraceWindow(TowerOfHanoi *parent = nullptr);
+    ~StackTraceWindow();
 
 protected:
     virtual void showEvent(QShowEvent *) override;
@@ -26,7 +26,7 @@ private slots:
 
 private:
     QSharedPointer<char> m_textbuf;
-    Ui::CallStackWindow *ui;
+    Ui::StackTraceWindow *ui;
 };
 
-#endif // CALLSTACKWINDOW_H
+#endif // STACKTRACEWINDOW_H

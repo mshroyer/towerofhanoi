@@ -19,14 +19,14 @@ signals:
 public slots:
     void reset();
     void reset(int ndisks);
-    void moveDisk(Stack from, Stack to);
+    void moveDisk(TowerStack from, TowerStack to);
 
 public:
     int ndisks(void) const;
-    const QList<int> &stack(Stack name) const;
+    const QList<int> &stack(TowerStack name) const;
 
 private:
-    QList<int> &getStack(Stack name);
+    QList<int> &getStack(TowerStack name);
     int m_ndisks;
     QList<int> m_stacks[3];
 };

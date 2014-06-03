@@ -1,5 +1,5 @@
-#include "callstackwindow.h"
-#include "ui_callstackwindow.h"
+#include "stacktracewindow.h"
+#include "ui_stacktracewindow.h"
 
 #include "datatypes.h"
 #include "towerofhanoi.h"
@@ -22,14 +22,14 @@ const char *kPaddingEnd = kPadding + sizeof(kPadding) - 1;
 const char *kCallFormat32 = "0x%08lX %c%s step(%d, %s, %s, %s)\n";
 const char *kCallFormat64 = "0x%016lX %c%s step(%d, %s, %s, %s)\n";
 
-const char *stackName(Stack stack)
+const char *stackName(TowerStack stack)
 {
     switch (stack) {
-    case Stack::LEFT:
+    case TowerStack::LEFT:
         return "LEFT";
-    case Stack::MIDDLE:
+    case TowerStack::MIDDLE:
         return "MIDDLE";
-    case Stack::RIGHT:
+    case TowerStack::RIGHT:
         return "RIGHT";
     }
     return nullptr;
@@ -50,10 +50,10 @@ char recursionLabel(StepRecursion recursion)
 
 } // namespace
 
-CallStackWindow::CallStackWindow(TowerOfHanoi *parent) :
+StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
     QWidget { parent, Qt::Window },
     m_textbuf { new char[kBufSize], [](char *buf) { delete[] buf; } },
-    ui { new Ui::CallStackWindow }
+    ui { new Ui::StackTraceWindow }
 {
     ui->setupUi(this);
 
@@ -71,23 +71,23 @@ CallStackWindow::CallStackWindow(TowerOfHanoi *parent) :
     ui->textEdit->setFont(font);
 }
 
-CallStackWindow::~CallStackWindow()
+StackTraceWindow::~StackTraceWindow()
 {
     delete ui;
 }
 
-void CallStackWindow::showEvent(QShowEvent *)
+void StackTraceWindow::showEvent(QShowEvent *)
 {
-    connect(TOWEROFHANOI, &TowerOfHanoi::callStackChanged, this, &CallStackWindow::updateCallStack);
+    connect(TOWEROFHANOI, &TowerOfHanoi::callStackChanged, this, &StackTraceWindow::updateCallStack);
     updateCallStack();
 }
 
-void CallStackWindow::hideEvent(QHideEvent *)
+void StackTraceWindow::hideEvent(QHideEvent *)
 {
-    disconnect(TOWEROFHANOI, &TowerOfHanoi::callStackChanged, this, &CallStackWindow::updateCallStack);
+    disconnect(TOWEROFHANOI, &TowerOfHanoi::callStackChanged, this, &StackTraceWindow::updateCallStack);
 }
 
-void CallStackWindow::updateCallStack()
+void StackTraceWindow::updateCallStack()
 {
     const char *callFormat = sizeof(void *) > 4 ? kCallFormat64 : kCallFormat32;
     const auto &callStack = TOWEROFHANOI->callStack();
@@ -95,8 +95,8 @@ void CallStackWindow::updateCallStack()
     int i = 0, line = 0, ret;
 
     *buf = '\0';
-    for (const StepCall call : callStack) {
-        ret = snprintf(buf + i, kBufLineLength + 1, callFormat, call.frame, recursionLabel(call.recursion),
+    for (const StackFrame call : callStack) {
+        ret = snprintf(buf + i, kBufLineLength + 1, callFormat, call.fp, recursionLabel(call.recursion),
                        kPaddingEnd - line, call.n, stackName(call.from), stackName(call.to), stackName(call.spare));
         if (ret < 0) {
             qWarning("Error formatting call stack frame");
