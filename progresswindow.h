@@ -19,7 +19,13 @@ protected:
     virtual void showEvent(QShowEvent *) override;
     virtual void hideEvent(QHideEvent *) override;
 
+private slots:
+    void setValue(int);
+    void setMaximum(int);
+
 private:
+    void updateLabel();
+
     Ui::ProgressWindow *ui;
 };
 

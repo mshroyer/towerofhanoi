@@ -20,15 +20,36 @@ ProgressWindow::~ProgressWindow()
 
 void ProgressWindow::showEvent(QShowEvent *)
 {
-    connect(TOWEROFHANOI, &TowerOfHanoi::maxMovesChanged, ui->progressBar, &QProgressBar::setMaximum);
-    connect(TOWEROFHANOI, &TowerOfHanoi::numMovesChanged, ui->progressBar, &QProgressBar::setValue);
+    connect(TOWEROFHANOI, &TowerOfHanoi::maxMovesChanged, this, &ProgressWindow::setMaximum);
+    connect(TOWEROFHANOI, &TowerOfHanoi::numMovesChanged, this, &ProgressWindow::setValue);
 
     ui->progressBar->setMaximum(TOWEROFHANOI->maxMoves());
     ui->progressBar->setValue(TOWEROFHANOI->numMoves());
+    updateLabel();
 }
 
 void ProgressWindow::hideEvent(QHideEvent *)
 {
-    disconnect(TOWEROFHANOI, &TowerOfHanoi::maxMovesChanged, ui->progressBar, &QProgressBar::setMaximum);
-    disconnect(TOWEROFHANOI, &TowerOfHanoi::numMovesChanged, ui->progressBar, &QProgressBar::setValue);
+    disconnect(TOWEROFHANOI, &TowerOfHanoi::maxMovesChanged, this, &ProgressWindow::setMaximum);
+    disconnect(TOWEROFHANOI, &TowerOfHanoi::numMovesChanged, this, &ProgressWindow::setValue);
+}
+
+void ProgressWindow::setMaximum(int max)
+{
+    ui->progressBar->setMaximum(max);
+    updateLabel();
+}
+
+void ProgressWindow::setValue(int max)
+{
+    ui->progressBar->setValue(max);
+    updateLabel();
+}
+
+void ProgressWindow::updateLabel()
+{
+    const auto *bar = ui->progressBar;
+    const auto text = QString("Moves: %1 / %2").arg(bar->value()).arg(bar->maximum());
+
+    ui->label->setText(text);
 }
