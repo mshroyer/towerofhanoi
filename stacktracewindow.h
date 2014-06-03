@@ -22,7 +22,7 @@ protected:
     virtual void hideEvent(QHideEvent *) override;
 
 private slots:
-    void updateCallStack();
+    void updateStackTrace();
 
 private:
     QSharedPointer<char> m_textbuf;

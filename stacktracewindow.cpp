@@ -86,16 +86,16 @@ StackTraceWindow::~StackTraceWindow()
 
 void StackTraceWindow::showEvent(QShowEvent *)
 {
-    connect(TOWEROFHANOI, &TowerOfHanoi::stackTraceChanged, this, &StackTraceWindow::updateCallStack);
-    updateCallStack();
+    connect(TOWEROFHANOI, &TowerOfHanoi::stackTraceChanged, this, &StackTraceWindow::updateStackTrace);
+    updateStackTrace();
 }
 
 void StackTraceWindow::hideEvent(QHideEvent *)
 {
-    disconnect(TOWEROFHANOI, &TowerOfHanoi::stackTraceChanged, this, &StackTraceWindow::updateCallStack);
+    disconnect(TOWEROFHANOI, &TowerOfHanoi::stackTraceChanged, this, &StackTraceWindow::updateStackTrace);
 }
 
-void StackTraceWindow::updateCallStack()
+void StackTraceWindow::updateStackTrace()
 {
     const char *frameFormat = sizeof(void *) > 4 ? kCallFormat64 : kCallFormat32;
     const auto &stackTrace = TOWEROFHANOI->stackTrace();
