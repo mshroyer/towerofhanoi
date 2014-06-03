@@ -12,6 +12,8 @@ void TowerSolver::run()
     step(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
 }
 
+extern const char * const kStepFunctionFile = "towersolver.cpp";
+extern const int kStepFunctionLine = __LINE__ + 1;
 void TowerSolver::step(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion)
 {
     if (n > 0) {

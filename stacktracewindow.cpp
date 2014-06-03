@@ -5,6 +5,7 @@
 #include "towerofhanoi.h"
 
 #include <QDebug>
+
 #include <cstdint>
 #include <cstdio>
 
@@ -50,6 +51,9 @@ char recursionLabel(StepRecursion recursion)
 
 } // namespace
 
+extern const char * const kStepFunctionFile;
+extern const int kStepFunctionLine;
+
 StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
     QWidget { parent, Qt::Window },
     m_textbuf { new char[kBufSize], [](char *buf) { delete[] buf; } },
@@ -69,6 +73,10 @@ StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
 #endif
     font.setStyleHint(QFont::Monospace);
     ui->textEdit->setFont(font);
+
+    const QString labelFormat = "See <a href='https://bitbucket.org/markshroyer/towerofhanoi/src/default/towersolver.cpp#cl-%2'>%1:%2</a> for algorithm implementation";
+    const QString labelText = labelFormat.arg(kStepFunctionFile).arg(kStepFunctionLine);
+    ui->label->setText(labelText);
 }
 
 StackTraceWindow::~StackTraceWindow()
