@@ -13,7 +13,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = towerofhanoi
 TEMPLATE = app
+
 DEFINES *= QT_USE_STRINGBUILDER
+DEFINES += "REPOSITORY_URL=\\\"https://bitbucket.org/markshroyer/towerofhanoi\\\""
+DEFINES += "COMMIT_ID=\\\"$$system(./commit_id.sh)\\\""
 
 SOURCES += main.cpp\
     tower.cpp \

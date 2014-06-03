@@ -13,6 +13,7 @@ class StackTraceWindow : public QWidget
 {
     Q_OBJECT
 
+
 public:
     explicit StackTraceWindow(TowerOfHanoi *parent = nullptr);
     ~StackTraceWindow();
