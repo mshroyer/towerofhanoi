@@ -11,9 +11,12 @@
 
 namespace {
 
-constexpr size_t kBufLineLength = 64;
+constexpr size_t kBufLineLength = 96;
 constexpr size_t kBufNumLines = 16;
 constexpr size_t kBufSize = kBufLineLength * kBufNumLines + 1;
+
+const char kSpaces[] = "                ";
+const char *kSpacesEnd = kSpaces + sizeof(kSpaces) - 1;
 
 const char *stackName(Tower::Stack stack)
 {
@@ -62,12 +65,13 @@ void CallStackWindow::hideEvent(QHideEvent *)
 void CallStackWindow::updateCallStack()
 {
     const auto &callStack = TOWEROFHANOI->callStack();
-    int i = 0, ret;
+    int i = 0, line = 0, ret;
 
     *m_textbuf.data() = '\0';
     for (const StepCall call : callStack) {
-        ret = snprintf(m_textbuf.data() + i, kBufLineLength + 1, "step(%2d, %6s, %6s, %6s)  frame: %p\n",
-                       call.n, stackName(call.from), stackName(call.to), stackName(call.spare), call.frame);
+        ret = snprintf(m_textbuf.data() + i, kBufLineLength + 1, "%p%s  step(%d, %s, %s, %s)\n",
+                       call.frame, kSpacesEnd - line++, call.n,
+                       stackName(call.from), stackName(call.to), stackName(call.spare));
         if (ret < 0) {
             qWarning("Error formatting call stack frame");
             return;
