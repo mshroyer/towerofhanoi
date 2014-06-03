@@ -16,7 +16,13 @@ TEMPLATE = app
 
 DEFINES *= QT_USE_STRINGBUILDER
 DEFINES += "REPOSITORY_URL=\\\"https://bitbucket.org/markshroyer/towerofhanoi\\\""
-DEFINES += "COMMIT_ID=\\\"$$system(./commit_id.sh)\\\""
+
+win32 {
+    COMMIT_ID = $$system(commit_id.cmd)
+} else {
+    COMMIT_ID = $$system(./commit_id.sh)
+}
+DEFINES += "COMMIT_ID=\\\"$$COMMIT_ID\\\""
 
 SOURCES += main.cpp\
     tower.cpp \
