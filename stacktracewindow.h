@@ -1,7 +1,7 @@
 #ifndef STACKTRACEWINDOW_H
 #define STACKTRACEWINDOW_H
 
-#include <QWidget>
+#include <QDialog>
 
 class TowerOfHanoi;
 
@@ -9,7 +9,7 @@ namespace Ui {
 class StackTraceWindow;
 }
 
-class StackTraceWindow : public QWidget
+class StackTraceWindow : public QDialog
 {
     Q_OBJECT
 

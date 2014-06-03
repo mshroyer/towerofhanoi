@@ -55,7 +55,7 @@ extern const char * const kMoveTowerFile;
 extern const int kMoveTowerLine;
 
 StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
-    QWidget { parent, Qt::Dialog },
+    QDialog { parent },
     m_textbuf { new char[kBufSize], [](char *buf) { delete[] buf; } },
     ui { new Ui::StackTraceWindow }
 {

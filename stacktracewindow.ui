@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>StackTraceWindow</class>
- <widget class="QWidget" name="StackTraceWindow">
+ <widget class="QDialog" name="StackTraceWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,6 +12,9 @@
   </property>
   <property name="windowTitle">
    <string>Stack Trace</string>
+  </property>
+  <property name="sizeGripEnabled">
+   <bool>true</bool>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
