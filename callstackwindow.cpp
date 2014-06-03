@@ -41,9 +41,9 @@ char recursionLabel(StepRecursion recursion)
     case StepRecursion::ROOT:
         return ' ';
     case StepRecursion::LEFT:
-        return 'L';
+        return '0';
     case StepRecursion::RIGHT:
-        return 'R';
+        return '1';
     }
     return ' ';
 }
