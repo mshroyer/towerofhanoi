@@ -58,7 +58,7 @@ void CallStackWindow::updateCallStack()
 
     const QStack<StepCall> &callStack = TOWEROFHANOI->callStack();
     for (const StepCall call : callStack) {
-        callStackText += QString("step(%1, %2, %3, %4)\n").arg(call.n, 2).arg(stackName(call.from), 6).arg(stackName(call.to), 6).arg(stackName(call.spare), 6);
+        callStackText += QString("0x%5   step(%1, %2, %3, %4)\n").arg(call.n, 2).arg(stackName(call.from), 6).arg(stackName(call.to), 6).arg(stackName(call.spare), 6).arg(reinterpret_cast<quint64>(call.frame), 2*sizeof(call.frame), 16, QChar { '0' });
     }
 
     ui->textEdit->setText(callStackText);

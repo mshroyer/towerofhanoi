@@ -17,7 +17,7 @@ void TowerSolver::step(int n, Tower::Stack from, Tower::Stack to, Tower::Stack s
     if (n == 0)
         return;
 
-    emit stepCall(n, from, to, spare);
+    emit stepCall(n, from, to, spare, __builtin_frame_address(0));
 
     step(n-1, from, spare, to, false);
 
