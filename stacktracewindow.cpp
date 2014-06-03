@@ -18,10 +18,10 @@ constexpr size_t kBufNumLines = 16;
 constexpr size_t kBufSize = kBufLineLength * kBufNumLines + 1;
 
 const char kPadding[] = "                ";
-const char *kPaddingEnd = kPadding + sizeof(kPadding) - 1;
+const char * const kPaddingEnd = kPadding + sizeof(kPadding) - 1;
 
-const char *kCallFormat32 = "0x%08lX %c%s step(%d, %s, %s, %s)\n";
-const char *kCallFormat64 = "0x%016lX %c%s step(%d, %s, %s, %s)\n";
+const char * const kCallFormat32 = "0x%08lX %c%s step(%d, %s, %s, %s)\n";
+const char * const kCallFormat64 = "0x%016lX %c%s step(%d, %s, %s, %s)\n";
 
 const char *towerStackName(TowerStack stack)
 {
@@ -55,7 +55,7 @@ extern const char * const kStepFunctionFile;
 extern const int kStepFunctionLine;
 
 StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
-    QWidget { parent, Qt::Window },
+    QWidget { parent, Qt::Tool },
     m_textbuf { new char[kBufSize], [](char *buf) { delete[] buf; } },
     ui { new Ui::StackTraceWindow }
 {
@@ -105,7 +105,9 @@ void StackTraceWindow::updateCallStack()
     *buf = '\0';
     for (const StackFrame call : stackTrace) {
         ret = snprintf(buf + i, kBufLineLength + 1, frameFormat, call.fp, recursionLabel(call.recursion),
-                       kPaddingEnd - line, call.n, towerStackName(call.from), towerStackName(call.to), towerStackName(call.spare));
+                       kPaddingEnd - line, call.n, towerStackName(call.from), towerStackName(call.to),
+                       towerStackName(call.spare));
+
         if (ret < 0) {
             qWarning("Error formatting call stack frame");
             return;
