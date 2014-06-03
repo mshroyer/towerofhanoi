@@ -10,8 +10,6 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     m_tower { new Tower { 6, this } },
     ui { new Ui::TowerOfHanoi }
 {
-    qRegisterMetaType<Tower::Stack>("Tower::Stack");
-
     ui->setupUi(this);
     ui->towerView->setTower(m_tower);
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pushButton()));
@@ -103,9 +101,9 @@ void TowerOfHanoi::callStackWindow()
     m_callStackWindow->raise();
 }
 
-void TowerOfHanoi::stepCall(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare, void *frame)
+void TowerOfHanoi::stepCall(int n, Stack from, Stack to, Stack spare, StepRecursion recursion, void *frame)
 {
-    m_callStack.push({ n, from, to, spare, frame });
+    m_callStack.push({ n, from, to, spare, recursion, frame });
 }
 
 void TowerOfHanoi::stepReturn()
@@ -113,7 +111,7 @@ void TowerOfHanoi::stepReturn()
     m_callStack.pop();
 }
 
-void TowerOfHanoi::moveDisk(Tower::Stack from, Tower::Stack to)
+void TowerOfHanoi::moveDisk(Stack from, Stack to)
 {
     emit callStackChanged();
 }

@@ -3,6 +3,7 @@
 
 #include <QThread>
 
+#include "datatypes.h"
 #include "tower.h"
 
 class TowerSolver : public QThread
@@ -13,9 +14,9 @@ public:
     explicit TowerSolver(Tower *tower, QObject *parent = nullptr);
 
 signals:
-    void stepCall(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to, void *frame);
+    void stepCall(int n, Stack from, Stack spare, Stack to, StepRecursion recursion, void *frame);
     void stepReturn();
-    void moveDisk(Tower::Stack from, Tower::Stack to);
+    void moveDisk(Stack from, Stack to);
 
 public slots:
 
@@ -23,7 +24,7 @@ protected:
     virtual void run() override;
 
 private:
-    void step(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare, bool rightmost = true);
+    void step(int n, Stack from, Stack to, Stack spare, StepRecursion recursion = StepRecursion::ROOT, bool rightmost = true);
 
     Tower *m_tower;
 };

@@ -3,18 +3,14 @@
 
 #include <QObject>
 
+#include "datatypes.h"
+
 class Tower : public QObject
 {
     Q_OBJECT
 
 public:
     explicit Tower(int ndisks = 6, QObject *parent = nullptr);
-
-    enum class Stack : int {
-        LEFT = 0,
-        MIDDLE = 1,
-        RIGHT = 2
-    };
 
 signals:
     void moved(void);

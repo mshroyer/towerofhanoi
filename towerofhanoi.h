@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QStack>
 
+#include "datatypes.h"
 #include "tower.h"
 #include "towersolver.h"
 
@@ -12,15 +13,6 @@ class CallStackWindow;
 namespace Ui {
 class TowerOfHanoi;
 }
-
-struct StepCall
-{
-    int n;
-    Tower::Stack from;
-    Tower::Stack to;
-    Tower::Stack spare;
-    void *frame;
-};
 
 class TowerOfHanoi : public QMainWindow
 {
@@ -45,9 +37,9 @@ protected:
 
 private slots:
     void callStackWindow();
-    void stepCall(int n, Tower::Stack from, Tower::Stack to, Tower::Stack spare, void *frame);
+    void stepCall(int n, Stack from, Stack to, Stack spare, StepRecursion recursion, void *frame);
     void stepReturn();
-    void moveDisk(Tower::Stack from, Tower::Stack to);
+    void moveDisk(Stack from, Stack to);
     void done();
 
 private:

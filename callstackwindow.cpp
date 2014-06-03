@@ -1,6 +1,7 @@
 #include "callstackwindow.h"
 #include "ui_callstackwindow.h"
 
+#include "datatypes.h"
 #include "towerofhanoi.h"
 
 #include <QDebug>
@@ -21,14 +22,14 @@ const char *kPaddingEnd = kPadding + sizeof(kPadding) - 1;
 const char *kCallFormat32 = "0x%08lX%s  step(%d, %s, %s, %s)\n";
 const char *kCallFormat64 = "0x%016lX%s  step(%d, %s, %s, %s)\n";
 
-const char *stackName(Tower::Stack stack)
+const char *stackName(Stack stack)
 {
     switch (stack) {
-    case Tower::Stack::LEFT:
+    case Stack::LEFT:
         return "LEFT";
-    case Tower::Stack::MIDDLE:
+    case Stack::MIDDLE:
         return "MIDDLE";
-    case Tower::Stack::RIGHT:
+    case Stack::RIGHT:
         return "RIGHT";
     }
 

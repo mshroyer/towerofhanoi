@@ -27,7 +27,8 @@ HEADERS  += \
     towerofhanoi.h \
     towerview.h \
     towersolver.h \
-    callstackwindow.h
+    callstackwindow.h \
+    datatypes.h
 
 FORMS    += \
     towerofhanoi.ui \
