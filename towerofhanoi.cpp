@@ -94,8 +94,10 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
 
 void TowerOfHanoi::stackTraceWindow()
 {
-    if (!m_stackTraceWindow)
+    if (!m_stackTraceWindow) {
         m_stackTraceWindow = new StackTraceWindow { this };
+        m_stackTraceWindow->move(x()+70, y()+70);
+    }
 
     m_stackTraceWindow->show();
     m_stackTraceWindow->raise();
