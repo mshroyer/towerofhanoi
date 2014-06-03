@@ -20,10 +20,15 @@ ProgressWindow::~ProgressWindow()
 
 void ProgressWindow::showEvent(QShowEvent *)
 {
+    connect(TOWEROFHANOI, &TowerOfHanoi::maxMovesChanged, ui->progressBar, &QProgressBar::setMaximum);
     connect(TOWEROFHANOI, &TowerOfHanoi::numMovesChanged, ui->progressBar, &QProgressBar::setValue);
+
+    ui->progressBar->setMaximum(TOWEROFHANOI->maxMoves());
+    ui->progressBar->setValue(TOWEROFHANOI->numMoves());
 }
 
 void ProgressWindow::hideEvent(QHideEvent *)
 {
+    disconnect(TOWEROFHANOI, &TowerOfHanoi::maxMovesChanged, ui->progressBar, &QProgressBar::setMaximum);
     disconnect(TOWEROFHANOI, &TowerOfHanoi::numMovesChanged, ui->progressBar, &QProgressBar::setValue);
 }

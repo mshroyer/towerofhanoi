@@ -24,6 +24,7 @@ public:
     ~TowerOfHanoi();
 
 signals:
+    void maxMovesChanged(int);
     void numMovesChanged(int);
     void stackTraceChanged();
 
@@ -33,6 +34,8 @@ public slots:
 
 public:
     const QStack<StackFrame> &stackTrace() const;
+    int maxMoves() const;
+    int numMoves() const;
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
@@ -40,6 +43,7 @@ protected:
 private slots:
     void progressWindow();
     void stackTraceWindow();
+    void spinBoxChanged(int value);
     void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                          StepRecursion recursion, void *frame);
     void moveTowerReturned();
@@ -50,6 +54,7 @@ private:
     void numMovesReset();
     void stackTraceReset();
 
+    int m_maxMoves = 0;
     int m_numMoves = 0;
     QStack<StackFrame> m_stackTrace;
     Tower *m_tower;

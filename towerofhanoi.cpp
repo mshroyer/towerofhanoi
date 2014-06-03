@@ -15,10 +15,13 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     ui->towerView->setTower(m_tower);
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pushButton()));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
+    connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(spinBoxChanged(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     connect(ui->actionProgress, SIGNAL(triggered()), this, SLOT(progressWindow()));
     connect(ui->actionStackTrace, SIGNAL(triggered()), this, SLOT(stackTraceWindow()));
+
+    spinBoxChanged(ui->spinBox->value());
 }
 
 TowerOfHanoi::~TowerOfHanoi()
@@ -87,6 +90,16 @@ const QStack<StackFrame> &TowerOfHanoi::stackTrace() const
     return m_stackTrace;
 }
 
+int TowerOfHanoi::maxMoves() const
+{
+    return m_maxMoves;
+}
+
+int TowerOfHanoi::numMoves() const
+{
+    return m_numMoves;
+}
+
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
 {
     if (m_towerSolver && m_towerSolver->isRunning()) {
@@ -117,6 +130,12 @@ void TowerOfHanoi::stackTraceWindow()
 
     m_stackTraceWindow->show();
     m_stackTraceWindow->raise();
+}
+
+void TowerOfHanoi::spinBoxChanged(int value)
+{
+    m_maxMoves = (1 << value) - 1;
+    emit maxMovesChanged(m_maxMoves);
 }
 
 void TowerOfHanoi::moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
