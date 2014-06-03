@@ -85,8 +85,10 @@ const QStack<StepCall> &TowerOfHanoi::callStack() const
 
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
 {
-    if (m_towerSolver && m_towerSolver->isRunning())
+    if (m_towerSolver && m_towerSolver->isRunning()) {
         m_towerSolver->terminate();
+        m_towerSolver->wait(1000);
+    }
 
     QWidget::closeEvent(event);
 }
