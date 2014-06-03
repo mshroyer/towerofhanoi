@@ -7,7 +7,7 @@
 QT       += core gui
 CONFIG   += c++11
 
-QMAKE_CXXFLAGS = -Wall -Werror
+QMAKE_CXXFLAGS = -Wall -Werror -Wno-unused-parameter
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
