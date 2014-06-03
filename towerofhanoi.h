@@ -23,32 +23,32 @@ public:
     ~TowerOfHanoi();
 
 signals:
-    void callStackChanged();
+    void stackTraceChanged();
 
 public slots:
     void about();
     void pushButton();
 
 public:
-    const QStack<StackFrame> &callStack() const;
+    const QStack<StackFrame> &stackTrace() const;
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
 
 private slots:
-    void callStackWindow();
+    void stackTraceWindow();
     void stepCall(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion, void *frame);
     void stepReturn();
     void moveDisk(TowerStack from, TowerStack to);
     void done();
 
 private:
-    void callStackReset();
+    void stackTraceReset();
 
-    QStack<StackFrame> m_callStack;
+    QStack<StackFrame> m_stackTrace;
     Tower *m_tower;
     TowerSolver *m_towerSolver = nullptr;
-    StackTraceWindow *m_callStackWindow = nullptr;
+    StackTraceWindow *m_stackTraceWindow = nullptr;
     Ui::TowerOfHanoi *ui;
 };
 

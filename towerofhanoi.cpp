@@ -16,7 +16,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-    connect(ui->actionCallStack, SIGNAL(triggered()), this, SLOT(callStackWindow()));
+    connect(ui->actionStackTrace, SIGNAL(triggered()), this, SLOT(stackTraceWindow()));
 }
 
 TowerOfHanoi::~TowerOfHanoi()
@@ -62,7 +62,7 @@ void TowerOfHanoi::pushButton()
         m_tower->reset();
         ui->pushButton->setText("Solve");
         ui->spinBox->setEnabled(true);
-        callStackReset();
+        stackTraceReset();
     } else {
         // Start
 
@@ -77,9 +77,9 @@ void TowerOfHanoi::pushButton()
     }
 }
 
-const QStack<StackFrame> &TowerOfHanoi::callStack() const
+const QStack<StackFrame> &TowerOfHanoi::stackTrace() const
 {
-    return m_callStack;
+    return m_stackTrace;
 }
 
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
@@ -92,38 +92,38 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
     QWidget::closeEvent(event);
 }
 
-void TowerOfHanoi::callStackWindow()
+void TowerOfHanoi::stackTraceWindow()
 {
-    if (!m_callStackWindow)
-        m_callStackWindow = new StackTraceWindow { this };
+    if (!m_stackTraceWindow)
+        m_stackTraceWindow = new StackTraceWindow { this };
 
-    m_callStackWindow->show();
-    m_callStackWindow->raise();
+    m_stackTraceWindow->show();
+    m_stackTraceWindow->raise();
 }
 
 void TowerOfHanoi::stepCall(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion, void *frame)
 {
-    m_callStack.push({ n, from, to, spare, recursion, frame });
+    m_stackTrace.push({ n, from, to, spare, recursion, frame });
 }
 
 void TowerOfHanoi::stepReturn()
 {
-    m_callStack.pop();
+    m_stackTrace.pop();
 }
 
 void TowerOfHanoi::moveDisk(TowerStack from, TowerStack to)
 {
-    emit callStackChanged();
+    emit stackTraceChanged();
 }
 
-void TowerOfHanoi::callStackReset()
+void TowerOfHanoi::stackTraceReset()
 {
-    m_callStack.clear();
-    emit callStackChanged();
+    m_stackTrace.clear();
+    emit stackTraceChanged();
 }
 
 void TowerOfHanoi::done()
 {
     ui->pushButton->setText("Reset");
-    emit callStackChanged();
+    emit stackTraceChanged();
 }
