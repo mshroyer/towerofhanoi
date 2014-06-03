@@ -52,7 +52,7 @@ CallStackWindow::CallStackWindow(TowerOfHanoi *parent) :
     font.setPointSize(10);
 #else
     QFont font { "Monospace" };
-    font.setPointSize(12);
+    font.setPointSize(10);
 #endif
     font.setStyleHint(QFont::Monospace);
     ui->textEdit->setFont(font);
