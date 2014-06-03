@@ -55,7 +55,7 @@ extern const char * const kStepFunctionFile;
 extern const int kStepFunctionLine;
 
 StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
-    QWidget { parent, Qt::Tool },
+    QWidget { parent, Qt::Dialog },
     m_textbuf { new char[kBufSize], [](char *buf) { delete[] buf; } },
     ui { new Ui::StackTraceWindow }
 {
