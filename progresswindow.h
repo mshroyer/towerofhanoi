@@ -15,6 +15,10 @@ public:
     explicit ProgressWindow(QWidget *parent = 0);
     ~ProgressWindow();
 
+protected:
+    virtual void showEvent(QShowEvent *) override;
+    virtual void hideEvent(QHideEvent *) override;
+
 private:
     Ui::ProgressWindow *ui;
 };

@@ -66,6 +66,7 @@ void TowerOfHanoi::pushButton()
         m_tower->reset();
         ui->pushButton->setText("Solve");
         ui->spinBox->setEnabled(true);
+        numMovesReset();
         stackTraceReset();
     } else {
         // Start
@@ -131,7 +132,14 @@ void TowerOfHanoi::moveTowerReturned()
 
 void TowerOfHanoi::moveDiskCalled(TowerStack, TowerStack)
 {
+    emit numMovesChanged(++m_numMoves);
     emit stackTraceChanged();
+}
+
+void TowerOfHanoi::numMovesReset()
+{
+    m_numMoves = 0;
+    emit numMovesChanged(0);
 }
 
 void TowerOfHanoi::stackTraceReset()

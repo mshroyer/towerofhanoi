@@ -24,6 +24,7 @@ public:
     ~TowerOfHanoi();
 
 signals:
+    void numMovesChanged(int);
     void stackTraceChanged();
 
 public slots:
@@ -46,8 +47,10 @@ private slots:
     void done();
 
 private:
+    void numMovesReset();
     void stackTraceReset();
 
+    int m_numMoves = 0;
     QStack<StackFrame> m_stackTrace;
     Tower *m_tower;
     TowerSolver *m_towerSolver = nullptr;
