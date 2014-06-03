@@ -24,7 +24,7 @@ protected:
     virtual void run() override;
 
 private:
-    void step(int n, Stack from, Stack to, Stack spare, StepRecursion recursion = StepRecursion::ROOT, bool rightmost = true);
+    void step(int n, Stack from, Stack to, Stack spare, StepRecursion recursion = StepRecursion::ROOT);
 
     Tower *m_tower;
 };
