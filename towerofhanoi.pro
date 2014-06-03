@@ -14,8 +14,11 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = towerofhanoi
 TEMPLATE = app
 
+VERSION = v1.0.0
+
 DEFINES *= QT_USE_STRINGBUILDER
 DEFINES += "REPOSITORY_URL=\\\"https://bitbucket.org/markshroyer/towerofhanoi\\\""
+DEFINES *= "VERSION=\\\"$$VERSION\\\""
 
 win32 {
     COMMIT_ID = $$system(commit_id.cmd)
