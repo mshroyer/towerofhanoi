@@ -1,3 +1,4 @@
+#include "datatypes.h"
 #include "towerview.h"
 #include "tower.h"
 
@@ -45,7 +46,7 @@ void TowerView::setTower(Tower *tower)
     m_tower = tower;
     connect(m_tower, &Tower::moveError, this, &TowerView::debug);
     connect(m_tower, SIGNAL(moved()), this, SLOT(update()));
-    //m_tower->moveDisk(Tower::Stack::LEFT, Tower::Stack::RIGHT);
+    //m_tower->moveDisk(Stack::LEFT, Stack::RIGHT);
 }
 
 void TowerView::paintEvent(QPaintEvent *)
@@ -82,9 +83,9 @@ void TowerView::paintEvent(QPaintEvent *)
 
     int tower_x_offsets[] = { x_left, x_left + width / 3, x_left + 2 * width / 3 };
     const QList<int> towers[] = {
-        m_tower->stack(Tower::Stack::LEFT),
-        m_tower->stack(Tower::Stack::MIDDLE),
-        m_tower->stack(Tower::Stack::RIGHT)
+        m_tower->stack(TowerStack::LEFT),
+        m_tower->stack(TowerStack::MIDDLE),
+        m_tower->stack(TowerStack::RIGHT)
     };
     for (int i = 0; i < 3; ++i) {
         const QList<int> &tower = towers[i];

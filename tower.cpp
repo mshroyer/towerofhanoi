@@ -11,25 +11,25 @@ int Tower::ndisks(void) const
     return m_ndisks;
 }
 
-const QList<int> &Tower::stack(Stack name) const
+const QList<int> &Tower::stack(TowerStack name) const
 {
     return m_stacks[static_cast<int>(name)];
 }
 
-QList<int> &Tower::getStack(Stack name)
+QList<int> &Tower::getStack(TowerStack name)
 {
     return const_cast<QList<int> &>(static_cast<const Tower *>(this)->stack(name));
 }
 
 void Tower::reset()
 {
-    auto &left = getStack(Stack::LEFT);
+    auto &left = getStack(TowerStack::LEFT);
     left.clear();
     for (int i = m_ndisks; i > 0; --i)
         left.insert(0, i);
 
-    getStack(Stack::MIDDLE).clear();
-    getStack(Stack::RIGHT).clear();
+    getStack(TowerStack::MIDDLE).clear();
+    getStack(TowerStack::RIGHT).clear();
 
     emit moved();
 }
@@ -40,7 +40,7 @@ void Tower::reset(int ndisks)
     reset();
 }
 
-void Tower::moveDisk(Stack from, Stack to)
+void Tower::moveDisk(TowerStack from, TowerStack to)
 {
     auto &t_from = getStack(from);
     auto &t_to   = getStack(to);

@@ -3,18 +3,14 @@
 
 #include <QObject>
 
+#include "datatypes.h"
+
 class Tower : public QObject
 {
     Q_OBJECT
 
 public:
     explicit Tower(int ndisks = 6, QObject *parent = nullptr);
-
-    enum class Stack : int {
-        LEFT = 0,
-        MIDDLE = 1,
-        RIGHT = 2
-    };
 
 signals:
     void moved(void);
@@ -23,14 +19,14 @@ signals:
 public slots:
     void reset();
     void reset(int ndisks);
-    void moveDisk(Stack from, Stack to);
+    void moveDisk(TowerStack from, TowerStack to);
 
 public:
     int ndisks(void) const;
-    const QList<int> &stack(Stack name) const;
+    const QList<int> &stack(TowerStack name) const;
 
 private:
-    QList<int> &getStack(Stack name);
+    QList<int> &getStack(TowerStack name);
     int m_ndisks;
     QList<int> m_stacks[3];
 };

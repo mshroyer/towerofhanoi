@@ -9,19 +9,21 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
 
 void TowerSolver::run()
 {
-    step(m_tower->ndisks(), Tower::Stack::LEFT, Tower::Stack::MIDDLE, Tower::Stack::RIGHT);
+    step(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
 }
 
-void TowerSolver::step(int n, Tower::Stack from, Tower::Stack spare, Tower::Stack to, bool rightmost)
+extern const char * const kStepFunctionFile = "towersolver.cpp";
+extern const int kStepFunctionLine = __LINE__ + 1;
+void TowerSolver::step(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion)
 {
-    if (n == 0)
-        return;
+    if (n > 0) {
+        emit stepCall(n, from, to, spare, recursion, __builtin_frame_address(0));
+        step(n-1, from, spare, to, StepRecursion::LEFT);
 
-    step(n-1, from, to, spare, false);
-
-    emit moveDisk(from, to);
-    if (n > 1 || !rightmost)
+        emit moveDisk(from, to);
         QThread::msleep(350);
 
-    step(n-1, spare, from, to, rightmost);
+        step(n-1, spare, to, from, StepRecursion::RIGHT);
+        emit stepReturn();
+    }
 }

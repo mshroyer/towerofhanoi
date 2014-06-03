@@ -1,22 +1,22 @@
 #include "towerofhanoi.h"
 #include "ui_towerofhanoi.h"
 
+#include "stacktracewindow.h"
+
 #include <QMessageBox>
 
 TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     QMainWindow { parent },
     m_tower { new Tower { 6, this } },
-    m_towerSolver { nullptr },
     ui { new Ui::TowerOfHanoi }
 {
-    qRegisterMetaType<Tower::Stack>("Tower::Stack");
-
     ui->setupUi(this);
     ui->towerView->setTower(m_tower);
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pushButton()));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(ui->actionStackTrace, SIGNAL(triggered()), this, SLOT(stackTraceWindow()));
 }
 
 TowerOfHanoi::~TowerOfHanoi()
@@ -62,26 +62,70 @@ void TowerOfHanoi::pushButton()
         m_tower->reset();
         ui->pushButton->setText("Solve");
         ui->spinBox->setEnabled(true);
+        stackTraceReset();
     } else {
         // Start
 
         m_towerSolver = new TowerSolver { m_tower };
         connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::done);
+        connect(m_towerSolver, &TowerSolver::stepCall, this, &TowerOfHanoi::stepCall);
+        connect(m_towerSolver, &TowerSolver::stepReturn, this, &TowerOfHanoi::stepReturn);
+        connect(m_towerSolver, &TowerSolver::moveDisk, this, &TowerOfHanoi::moveDisk);
         ui->pushButton->setText("Stop");
         ui->spinBox->setEnabled(false);
         m_towerSolver->start();
     }
 }
 
+const QStack<StackFrame> &TowerOfHanoi::stackTrace() const
+{
+    return m_stackTrace;
+}
+
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
 {
-    if (m_towerSolver && m_towerSolver->isRunning())
+    if (m_towerSolver && m_towerSolver->isRunning()) {
         m_towerSolver->terminate();
+        m_towerSolver->wait(1000);
+    }
 
     QWidget::closeEvent(event);
+}
+
+void TowerOfHanoi::stackTraceWindow()
+{
+    if (!m_stackTraceWindow) {
+        m_stackTraceWindow = new StackTraceWindow { this };
+        m_stackTraceWindow->move(x()+70, y()+70);
+    }
+
+    m_stackTraceWindow->show();
+    m_stackTraceWindow->raise();
+}
+
+void TowerOfHanoi::stepCall(int n, TowerStack from, TowerStack to, TowerStack spare, StepRecursion recursion, void *frame)
+{
+    m_stackTrace.push({ n, from, to, spare, recursion, frame });
+}
+
+void TowerOfHanoi::stepReturn()
+{
+    m_stackTrace.pop();
+}
+
+void TowerOfHanoi::moveDisk(TowerStack, TowerStack)
+{
+    emit stackTraceChanged();
+}
+
+void TowerOfHanoi::stackTraceReset()
+{
+    m_stackTrace.clear();
+    emit stackTraceChanged();
 }
 
 void TowerOfHanoi::done()
 {
     ui->pushButton->setText("Reset");
+    emit stackTraceChanged();
 }
