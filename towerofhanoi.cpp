@@ -114,7 +114,7 @@ void TowerOfHanoi::progressWindow()
 {
     if (!m_progressWindow) {
         m_progressWindow = new ProgressWindow { this };
-        m_progressWindow->move(x()+140, y()+140);
+        m_progressWindow->move(x()+60, y()+60);
     }
 
     m_progressWindow->show();
@@ -125,7 +125,7 @@ void TowerOfHanoi::stackTraceWindow()
 {
     if (!m_stackTraceWindow) {
         m_stackTraceWindow = new StackTraceWindow { this };
-        m_stackTraceWindow->move(x()+70, y()+70);
+        m_stackTraceWindow->move(x()+120, y()+120);
     }
 
     m_stackTraceWindow->show();
