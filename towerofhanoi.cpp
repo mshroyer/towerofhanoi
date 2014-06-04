@@ -60,6 +60,7 @@ void TowerOfHanoi::pushButton()
         // Stop
 
         m_towerSolver->terminate();
+        m_towerSolver->wait(1000);
     } else if (m_towerSolver) {
         // Reset
 
