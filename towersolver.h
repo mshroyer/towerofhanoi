@@ -2,6 +2,7 @@
 #define TOWERSOLVER_H
 
 #include <QThread>
+#include <QSemaphore>
 
 #include "datatypes.h"
 #include "tower.h"
@@ -19,7 +20,8 @@ signals:
     void moveTowerReturned();
     void moveDisk(TowerStack from, TowerStack to);
 
-public slots:
+public:
+    void stopSolver();
 
 protected:
     virtual void run() override;
@@ -27,7 +29,9 @@ protected:
 private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
                    MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
+    void interruptibleSleep(int ms);
 
+    QSemaphore m_sem;
     Tower *m_tower;
 };
 
