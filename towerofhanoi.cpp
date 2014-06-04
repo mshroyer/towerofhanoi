@@ -41,7 +41,7 @@ void TowerOfHanoi::about()
 
     QString shortRevId { REV_ID };
     shortRevId.truncate(12);
-    const auto aboutText = format.arg(REPOSITORY_URL).arg(VERSION).arg(REV_ID).arg(shortRevId);
+    const auto aboutText = format.arg(REPOSITORY_URL).arg(ABOUT_VERSION).arg(REV_ID).arg(shortRevId);
 
     aboutBox.setWindowTitle("About Tower of Hanoi");
     aboutBox.setTextFormat(Qt::RichText);
