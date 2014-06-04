@@ -45,7 +45,7 @@ private slots:
     void stackTraceWindow();
     void spinBoxChanged(int value);
     void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                         StepRecursion recursion, void *frame);
+                         MoveTowerRecursion recursion, void *frame);
     void moveTowerReturned();
     void moveDiskCalled(TowerStack from, TowerStack to);
     void done();

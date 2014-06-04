@@ -36,14 +36,14 @@ const char *towerStackName(TowerStack stack)
     return nullptr;
 }
 
-char recursionLabel(StepRecursion recursion)
+char recursionLabel(MoveTowerRecursion recursion)
 {
     switch (recursion) {
-    case StepRecursion::ROOT:
+    case MoveTowerRecursion::ROOT:
         return ' ';
-    case StepRecursion::LEFT:
+    case MoveTowerRecursion::LEFT:
         return '0';
-    case StepRecursion::RIGHT:
+    case MoveTowerRecursion::RIGHT:
         return '1';
     }
     return ' ';

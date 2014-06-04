@@ -138,7 +138,7 @@ void TowerOfHanoi::spinBoxChanged(int value)
 }
 
 void TowerOfHanoi::moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                                   StepRecursion recursion, void *frame)
+                                   MoveTowerRecursion recursion, void *frame)
 {
     m_stackTrace.push({ n, from, to, spare, recursion, frame });
 }

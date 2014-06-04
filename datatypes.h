@@ -8,7 +8,7 @@ enum class TowerStack : int
     RIGHT = 2
 };
 
-enum class StepRecursion : int
+enum class MoveTowerRecursion : int
 {
     ROOT = 0,
     LEFT = 1,
@@ -21,7 +21,7 @@ struct StackFrame
     TowerStack from;
     TowerStack to;
     TowerStack spare;
-    StepRecursion recursion;
+    MoveTowerRecursion recursion;
     void *fp;
 };
 

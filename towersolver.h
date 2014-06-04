@@ -14,7 +14,8 @@ public:
     explicit TowerSolver(Tower *tower, QObject *parent = nullptr);
 
 signals:
-    void moveTowerCalled(int n, TowerStack from, TowerStack spare, TowerStack to, StepRecursion recursion, void *frame);
+    void moveTowerCalled(int n, TowerStack from, TowerStack spare, TowerStack to,
+                         MoveTowerRecursion recursion, void *frame);
     void moveTowerReturned();
     void moveDisk(TowerStack from, TowerStack to);
 
@@ -25,7 +26,7 @@ protected:
 
 private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
-                   StepRecursion recursion = StepRecursion::ROOT);
+                   MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
 
     Tower *m_tower;
 };
