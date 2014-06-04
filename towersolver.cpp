@@ -20,6 +20,7 @@ void TowerSolver::run()
 {
     m_sem.acquire(1);
     moveTower(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
+    m_sem.release(1);
 }
 
 // Don't move these, for linking to moveTower() from stack trace window:
@@ -46,7 +47,7 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
 
     // Second, move the bottom disk to the target stack
     emit moveDisk(from, to);
-    QThread::msleep(350);
+    interruptibleSleep(350);
     CHECK_STOP;
 
     // Third, move all except bottom disk from spare to the target stack
