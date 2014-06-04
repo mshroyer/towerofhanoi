@@ -1,6 +1,7 @@
 #include "towerofhanoi.h"
 #include "ui_towerofhanoi.h"
 
+#include "progresswindow.h"
 #include "stacktracewindow.h"
 
 #include <QMessageBox>
@@ -14,9 +15,13 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     ui->towerView->setTower(m_tower);
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pushButton()));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
+    connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(spinBoxChanged(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    connect(ui->actionProgress, SIGNAL(triggered()), this, SLOT(progressWindow()));
     connect(ui->actionStackTrace, SIGNAL(triggered()), this, SLOT(stackTraceWindow()));
+
+    spinBoxChanged(ui->spinBox->value());
 }
 
 TowerOfHanoi::~TowerOfHanoi()
@@ -64,6 +69,7 @@ void TowerOfHanoi::pushButton()
         m_tower->reset();
         ui->pushButton->setText("Solve");
         ui->spinBox->setEnabled(true);
+        numMovesReset();
         stackTraceReset();
     } else {
         // Start
@@ -84,6 +90,16 @@ const QStack<StackFrame> &TowerOfHanoi::stackTrace() const
     return m_stackTrace;
 }
 
+int TowerOfHanoi::maxMoves() const
+{
+    return m_maxMoves;
+}
+
+int TowerOfHanoi::numMoves() const
+{
+    return m_numMoves;
+}
+
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
 {
     if (m_towerSolver && m_towerSolver->isRunning()) {
@@ -92,6 +108,17 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
     }
 
     QWidget::closeEvent(event);
+}
+
+void TowerOfHanoi::progressWindow()
+{
+    if (!m_progressWindow) {
+        m_progressWindow = new ProgressWindow { this };
+        m_progressWindow->move(x()+140, y()+140);
+    }
+
+    m_progressWindow->show();
+    m_progressWindow->raise();
 }
 
 void TowerOfHanoi::stackTraceWindow()
@@ -103,6 +130,12 @@ void TowerOfHanoi::stackTraceWindow()
 
     m_stackTraceWindow->show();
     m_stackTraceWindow->raise();
+}
+
+void TowerOfHanoi::spinBoxChanged(int value)
+{
+    m_maxMoves = (1 << value) - 1;
+    emit maxMovesChanged(m_maxMoves);
 }
 
 void TowerOfHanoi::moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
@@ -118,7 +151,14 @@ void TowerOfHanoi::moveTowerReturned()
 
 void TowerOfHanoi::moveDiskCalled(TowerStack, TowerStack)
 {
+    emit numMovesChanged(++m_numMoves);
     emit stackTraceChanged();
+}
+
+void TowerOfHanoi::numMovesReset()
+{
+    m_numMoves = 0;
+    emit numMovesChanged(0);
 }
 
 void TowerOfHanoi::stackTraceReset()

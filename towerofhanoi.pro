@@ -31,7 +31,8 @@ SOURCES += main.cpp\
     towerofhanoi.cpp \
     towerview.cpp \
     towersolver.cpp \
-    stacktracewindow.cpp
+    stacktracewindow.cpp \
+    progresswindow.cpp
 
 HEADERS  += \
     tower.h \
@@ -39,10 +40,12 @@ HEADERS  += \
     towerview.h \
     towersolver.h \
     datatypes.h \
-    stacktracewindow.h
+    stacktracewindow.h \
+    progresswindow.h
 
 FORMS    += \
     towerofhanoi.ui \
-    stacktracewindow.ui
+    stacktracewindow.ui \
+    progresswindow.ui
 
 QMAKE_INFO_PLIST = Info.plist
