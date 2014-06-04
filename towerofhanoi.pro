@@ -21,11 +21,10 @@ DEFINES += "REPOSITORY_URL=\\\"https://bitbucket.org/markshroyer/towerofhanoi\\\
 DEFINES *= "VERSION=\\\"$$VERSION\\\""
 
 win32 {
-    COMMIT_ID = $$system(commit_id.cmd)
+    DEFINES += "REV_ID=\\\"$$system(commit_id.cmd)\\\""
 } else {
-    COMMIT_ID = $$system(./commit_id.sh)
+    DEFINES += "REV_ID=\\\"$$system(./commit_id.sh)\\\""
 }
-DEFINES += "COMMIT_ID=\\\"$$COMMIT_ID\\\""
 
 SOURCES += main.cpp\
     tower.cpp \

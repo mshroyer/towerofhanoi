@@ -39,9 +39,9 @@ void TowerOfHanoi::about()
         "<p>Mark Shroyer<br>"
         "31 May 2014</p>";
 
-    QString shortCommitId { COMMIT_ID };
-    shortCommitId.truncate(12);
-    const auto aboutText = format.arg(REPOSITORY_URL).arg(VERSION).arg(COMMIT_ID).arg(shortCommitId);
+    QString shortRevId { REV_ID };
+    shortRevId.truncate(12);
+    const auto aboutText = format.arg(REPOSITORY_URL).arg(VERSION).arg(REV_ID).arg(shortRevId);
 
     aboutBox.setWindowTitle("About Tower of Hanoi");
     aboutBox.setTextFormat(Qt::RichText);
