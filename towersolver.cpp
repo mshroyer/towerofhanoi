@@ -9,6 +9,8 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
 
 void TowerSolver::stop()
 {
+    // Don't do this in real code. And if you won't take my word for it, please
+    // visit #qt on freenode so that thiago can set you straight.
     terminate();
     wait(1000);
 }
