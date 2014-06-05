@@ -27,7 +27,8 @@ protected:
     virtual void run() override;
 
 private:
-    void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare);
+    void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
+                   MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
 
     QSemaphore m_semaphore;
     Tower *m_tower;

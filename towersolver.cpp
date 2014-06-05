@@ -1,19 +1,10 @@
 #include "towersolver.h"
 
-#define CHECK_STOP \
-    do { \
-        if (m_semaphore.available()) { \
-            return; \
-        } \
-    } while (0)
-
 #define _moveTower(n, from, to, spare, recursion) \
     do { \
-        CHECK_STOP; \
-        emit moveTowerCalled(n, from, to, spare, recursion, __builtin_frame_address(0)); \
-        moveTower(n, from, to, spare); \
-        CHECK_STOP; \
-        emit moveTowerReturned(); \
+        moveTower(n, from, to, spare, recursion); \
+        if (m_semaphore.available()) \
+            return; \
     } while (0)
 
 #define _moveDisk(from, to) \
@@ -36,12 +27,13 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
 void TowerSolver::stop()
 {
     m_semaphore.release(1);
+    wait();
+    m_semaphore.acquire(1);
 }
 
 void TowerSolver::run()
 {
-    _moveTower(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE,
-               MoveTowerRecursion::ROOT);
+    moveTower(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
 }
 
 
@@ -49,8 +41,11 @@ void TowerSolver::run()
 extern const char * const kMoveTowerFile = "towersolver.cpp";
 extern const int          kMoveTowerLine = __LINE__ + 2;
 
-void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack spare)
+void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
+                            MoveTowerRecursion recursion)
 {
+    emit moveTowerCalled(n, from, to, spare, recursion, __builtin_frame_address(0));
+
     /*
      * This is a recursive solution to the Tower of Hanoi.
      *
@@ -70,4 +65,6 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
     if (n > 1) {
         _moveTower(n-1, spare, to, from, MoveTowerRecursion::RIGHT);
     }
+
+    emit moveTowerReturned();
 }
