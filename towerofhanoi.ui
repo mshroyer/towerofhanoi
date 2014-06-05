@@ -138,8 +138,8 @@
     <property name="title">
      <string>Window</string>
     </property>
-    <addaction name="actionProgress"/>
     <addaction name="actionStackTrace"/>
+    <addaction name="actionProgress"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuWindow"/>
