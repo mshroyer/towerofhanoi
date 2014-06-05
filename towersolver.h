@@ -19,7 +19,8 @@ signals:
     void moveTowerReturned();
     void moveDisk(TowerStack from, TowerStack to);
 
-public slots:
+public:
+    void stop();
 
 protected:
     virtual void run() override;
@@ -27,10 +28,10 @@ protected:
 private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
                    MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
-    void signalMoveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
+    void _moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                                MoveTowerRecursion recursion, void *frame);
-    void signalMoveTowerReturned();
-    void signalMoveDisk(TowerStack from, TowerStack to);
+    void _moveTowerReturned();
+    void _moveDisk(TowerStack from, TowerStack to);
 
     Tower *m_tower;
 };

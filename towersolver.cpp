@@ -7,6 +7,12 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     connect(this, &TowerSolver::moveDisk, tower, &Tower::moveDisk, Qt::QueuedConnection);
 }
 
+void TowerSolver::stop()
+{
+    terminate();
+    wait(1000);
+}
+
 void TowerSolver::run()
 {
     moveTower(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
@@ -20,11 +26,13 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
                             MoveTowerRecursion recursion)
 {
     /*
-     * This is a recursive solution to the Tower of Hanoi. For explanation:
+     * This is a recursive solution to the Tower of Hanoi.
+     *
+     * For detailed explanation:
      * https://en.wikipedia.org/wiki/Tower_of_Hanoi#Recursive_solution
      */
 
-    signalMoveTowerCalled(n, from, to, spare, recursion, __builtin_frame_address(0));
+    _moveTowerCalled(n, from, to, spare, recursion, __builtin_frame_address(0));
 
     // First, move all except bottom disk to the spare stack
     if (n > 1) {
@@ -32,7 +40,7 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
     }
 
     // Second, move the bottom disk to the target stack
-    signalMoveDisk(from, to);
+    _moveDisk(from, to);
     QThread::msleep(350);
 
     // Third, move all except bottom disk from spare to the target stack
@@ -40,19 +48,19 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
         moveTower(n-1, spare, to, from, MoveTowerRecursion::RIGHT);
     }
 
-    signalMoveTowerReturned();
+    _moveTowerReturned();
 }
 
 
 /*
- * The following are wrappers to prevent thread termination during queued
- * activation. We're using QThread::terminate() rather than voluntary
- * termination via a semaphore in order to keep the moveTower() function
- * relatively simple, since this program is for illustrative purposes after
- * all...
+ * The following are wrappers to prevent corrupting Qt data structures due to
+ * thread termination while queueing signals for activation in the UI thread.
+ * We're using QThread::terminate() to stop the solver rather than voluntary
+ * termination so that we can keep the moveTower() function relatively free of
+ * ancillary logic; this program is for illustrative purposes.
  */
 
-void TowerSolver::signalMoveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
+void TowerSolver::_moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                                         MoveTowerRecursion recursion, void *frame)
 {
     setTerminationEnabled(false);
@@ -60,14 +68,14 @@ void TowerSolver::signalMoveTowerCalled(int n, TowerStack from, TowerStack to, T
     setTerminationEnabled(true);
 }
 
-void TowerSolver::signalMoveTowerReturned()
+void TowerSolver::_moveTowerReturned()
 {
     setTerminationEnabled(false);
     emit moveTowerReturned();
     setTerminationEnabled(true);
 }
 
-void TowerSolver::signalMoveDisk(TowerStack from, TowerStack to)
+void TowerSolver::_moveDisk(TowerStack from, TowerStack to)
 {
     setTerminationEnabled(false);
     emit moveDisk(from, to);

@@ -59,8 +59,7 @@ void TowerOfHanoi::pushButton()
     if (m_towerSolver && m_towerSolver->isRunning()) {
         // Stop
 
-        m_towerSolver->terminate();
-        m_towerSolver->wait(1000);
+        m_towerSolver->stop();
     } else if (m_towerSolver) {
         // Reset
 
@@ -103,8 +102,7 @@ int TowerOfHanoi::numMoves() const
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
 {
     if (m_towerSolver && m_towerSolver->isRunning()) {
-        m_towerSolver->terminate();
-        m_towerSolver->wait(1000);
+        m_towerSolver->stop();
     }
 
     QWidget::closeEvent(event);
