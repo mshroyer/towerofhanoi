@@ -26,7 +26,6 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
 
 TowerOfHanoi::~TowerOfHanoi()
 {
-    delete m_towerSolver;
     delete ui;
 }
 
@@ -73,11 +72,13 @@ void TowerOfHanoi::pushButton()
     } else {
         // Start
 
-        m_towerSolver = new TowerSolver { m_tower };
-        connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::done);
-        connect(m_towerSolver, &TowerSolver::moveTowerCalled, this, &TowerOfHanoi::moveTowerCalled);
-        connect(m_towerSolver, &TowerSolver::moveTowerReturned, this, &TowerOfHanoi::moveTowerReturned);
-        connect(m_towerSolver, &TowerSolver::moveDisk, this, &TowerOfHanoi::moveDiskCalled);
+        if (!m_towerSolver) {
+            m_towerSolver = new TowerSolver { m_tower, this };
+            connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::done);
+            connect(m_towerSolver, &TowerSolver::moveTowerCalled, this, &TowerOfHanoi::moveTowerCalled);
+            connect(m_towerSolver, &TowerSolver::moveTowerReturned, this, &TowerOfHanoi::moveTowerReturned);
+            connect(m_towerSolver, &TowerSolver::moveDisk, this, &TowerOfHanoi::moveDiskCalled);
+        }
         ui->pushButton->setText("Stop");
         ui->spinBox->setEnabled(false);
         m_towerSolver->start();

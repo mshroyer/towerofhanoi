@@ -2,6 +2,7 @@
 #define TOWERSOLVER_H
 
 #include <QThread>
+#include <QSemaphore>
 
 #include "datatypes.h"
 #include "tower.h"
@@ -33,6 +34,7 @@ private:
     void _moveTowerReturned();
     void _moveDisk(TowerStack from, TowerStack to);
 
+    QSemaphore m_semaphore;
     Tower *m_tower;
 };
 
