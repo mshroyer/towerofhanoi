@@ -42,7 +42,7 @@ void TowerOfHanoi::about()
         "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a></p>"
         "<p>This build was created from revision <a href='%1/commits/%3'>%4</a></p>"
         "<p>Mark Shroyer<br>"
-        "3 June 2014</p>";
+        "4 June 2014</p>";
 
     QString shortRevId { REV_ID };
     shortRevId.truncate(12);
