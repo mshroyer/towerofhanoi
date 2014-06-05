@@ -1,67 +1,73 @@
 #include "towersolver.h"
 
-#define CHECK_STOP do { if (m_sem.available()) return; } while (0)
+#define CHECK_STOP \
+    do { \
+        if (m_semaphore.available()) { \
+            return; \
+        } \
+    } while (0)
+
+#define _moveTower(n, from, to, spare, recursion) \
+    do { \
+        CHECK_STOP; \
+        emit moveTowerCalled(n, from, to, spare, recursion, __builtin_frame_address(0)); \
+        moveTower(n, from, to, spare); \
+        CHECK_STOP; \
+        emit moveTowerReturned(); \
+    } while (0)
+
+#define _moveDisk(from, to) \
+    do { \
+        emit moveDisk(from, to); \
+        if (m_semaphore.tryAcquire(1, 350)) { \
+            m_semaphore.release(1); \
+            return; \
+        } \
+    } while (0)
 
 TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     QThread { parent },
-    m_sem { 1 },
+    m_semaphore { 0 },
     m_tower { tower }
 {
     connect(this, &TowerSolver::moveDisk, tower, &Tower::moveDisk, Qt::QueuedConnection);
 }
 
-void TowerSolver::stopSolver()
+void TowerSolver::stop()
 {
-    // TODO handle multiple invocations
-    m_sem.release(1);
+    m_semaphore.release(1);
 }
 
 void TowerSolver::run()
 {
-    m_sem.acquire(1);
-    moveTower(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
-    m_sem.release(1);
+    _moveTower(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE,
+               MoveTowerRecursion::ROOT);
 }
+
 
 // Don't move these, for linking to moveTower() from stack trace window:
 extern const char * const kMoveTowerFile = "towersolver.cpp";
 extern const int          kMoveTowerLine = __LINE__ + 2;
 
-void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
-                            MoveTowerRecursion recursion)
+void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack spare)
 {
     /*
-     * This is a recursive solution to the Tower of Hanoi. For explanation:
+     * This is a recursive solution to the Tower of Hanoi.
+     *
+     * For detailed explanation:
      * https://en.wikipedia.org/wiki/Tower_of_Hanoi#Recursive_solution
      */
 
-    CHECK_STOP;
-
-    emit moveTowerCalled(n, from, to, spare, recursion, __builtin_frame_address(0));
-
     // First, move all except bottom disk to the spare stack
     if (n > 1) {
-        moveTower(n-1, from, spare, to, MoveTowerRecursion::LEFT);
-        CHECK_STOP;
+        _moveTower(n-1, from, spare, to, MoveTowerRecursion::LEFT);
     }
 
     // Second, move the bottom disk to the target stack
-    emit moveDisk(from, to);
-    interruptibleSleep(350);
-    CHECK_STOP;
+    _moveDisk(from, to);
 
     // Third, move all except bottom disk from spare to the target stack
     if (n > 1) {
-        moveTower(n-1, spare, to, from, MoveTowerRecursion::RIGHT);
-        CHECK_STOP;
-    }
-
-    emit moveTowerReturned();
-}
-
-void TowerSolver::interruptibleSleep(int ms)
-{
-    if (m_sem.tryAcquire(1, ms)) {
-        m_sem.release(1);
+        _moveTower(n-1, spare, to, from, MoveTowerRecursion::RIGHT);
     }
 }

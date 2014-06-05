@@ -21,17 +21,15 @@ signals:
     void moveDisk(TowerStack from, TowerStack to);
 
 public:
-    void stopSolver();
+    void stop();
 
 protected:
     virtual void run() override;
 
 private:
-    void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
-                   MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
-    void interruptibleSleep(int ms);
+    void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare);
 
-    QSemaphore m_sem;
+    QSemaphore m_semaphore;
     Tower *m_tower;
 };
 
