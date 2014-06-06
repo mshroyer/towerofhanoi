@@ -16,17 +16,7 @@
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="control-icons.svg">
   <defs
-     id="defs4">
-    <clipPath
-       clipPathUnits="userSpaceOnUse"
-       id="clipPath5375">
-      <path
-         inkscape:connector-curvature="0"
-         id="path5377"
-         d="m 161.75,24.165073 -10.25391,-10.253906 20.50782,0 0,20.507813 -20.50782,0 z"
-         style="fill:#ff0000;fill-opacity:1;stroke:none" />
-    </clipPath>
-  </defs>
+     id="defs4" />
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -34,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="22.627417"
-     inkscape:cx="155.24058"
-     inkscape:cy="24.943401"
+     inkscape:zoom="32"
+     inkscape:cx="158.91051"
+     inkscape:cy="25.431688"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -152,22 +142,16 @@
        y="17.5"
        transform="translate(0,1004.3622)" />
     <path
-       sodipodi:type="arc"
-       style="fill:none;stroke:#000000;stroke-width:4.1015625;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       id="path4657"
-       sodipodi:cx="161.75"
-       sodipodi:cy="24.25"
-       sodipodi:rx="6.75"
-       sodipodi:ry="6.75"
-       d="m 168.5,24.25 a 6.75,6.75 0 1 1 -13.5,0 6.75,6.75 0 1 1 13.5,0 z"
-       transform="matrix(0.9752381,0,0,0.97523809,4.2552373,1005.7955)"
-       clip-path="url(#clipPath5375)" />
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       clip-path="none"
+       d="M 162 16 C 159.51642 16 157.26739 17.006957 155.625 18.625 L 158.46875 21.46875 C 159.38716 20.574358 160.62085 20 162 20 C 164.8072 20 167.09375 22.286548 167.09375 25.09375 C 167.09375 27.900952 164.8072 30.15625 162 30.15625 C 160.57195 30.15625 159.3011 29.568029 158.375 28.625 L 155.53125 31.46875 C 157.18015 33.126349 159.47538 34.15625 162 34.15625 C 167.01633 34.15625 171.09375 30.11008 171.09375 25.09375 C 171.09375 20.07742 167.01633 16 162 16 z "
+       transform="translate(0,1004.3622)"
+       id="path4657" />
     <path
        style="fill:#000000;fill-opacity:1;stroke:none"
-       d="M 161.5,23 155,16.5 155,23 z"
+       d="m 161,1027.3622 -7,-6.5 0,6.5 z"
        id="path5379"
        inkscape:connector-curvature="0"
-       transform="translate(0,1004.3622)"
        sodipodi:nodetypes="cccc" />
   </g>
 </svg>
