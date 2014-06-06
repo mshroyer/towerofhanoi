@@ -29,10 +29,6 @@ protected:
 private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
                    MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
-    void _moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                               MoveTowerRecursion recursion, void *frame);
-    void _moveTowerReturned();
-    void _moveDisk(TowerStack from, TowerStack to);
 
     QSemaphore m_semaphore;
     Tower *m_tower;
