@@ -16,7 +16,17 @@
    inkscape:version="0.48.3.1 r9886"
    sodipodi:docname="control-icons.svg">
   <defs
-     id="defs4" />
+     id="defs4">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath5375">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5377"
+         d="m 161.75,24.165073 -10.25391,-10.253906 20.50782,0 0,20.507813 -20.50782,0 z"
+         style="fill:#ff0000;fill-opacity:1;stroke:none" />
+    </clipPath>
+  </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
@@ -24,9 +34,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6"
-     inkscape:cx="59.876808"
-     inkscape:cy="30.331043"
+     inkscape:zoom="22.627417"
+     inkscape:cx="155.24058"
+     inkscape:cy="24.943401"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -141,5 +151,23 @@
        x="119.5"
        y="17.5"
        transform="translate(0,1004.3622)" />
+    <path
+       sodipodi:type="arc"
+       style="fill:none;stroke:#000000;stroke-width:4.1015625;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="path4657"
+       sodipodi:cx="161.75"
+       sodipodi:cy="24.25"
+       sodipodi:rx="6.75"
+       sodipodi:ry="6.75"
+       d="m 168.5,24.25 a 6.75,6.75 0 1 1 -13.5,0 6.75,6.75 0 1 1 13.5,0 z"
+       transform="matrix(0.9752381,0,0,0.97523809,4.2552373,1005.7955)"
+       clip-path="url(#clipPath5375)" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="M 161.5,23 155,16.5 155,23 z"
+       id="path5379"
+       inkscape:connector-curvature="0"
+       transform="translate(0,1004.3622)"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>
