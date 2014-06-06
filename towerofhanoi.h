@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QStack>
+#include <QTimer>
 
 #include "datatypes.h"
 #include "tower.h"
@@ -30,7 +31,9 @@ signals:
 
 public slots:
     void about();
-    void pushButton();
+    void playPause();
+    void singleStep();
+    void reset();
 
 public:
     const QStack<StackFrame> &stackTrace() const;
@@ -48,17 +51,20 @@ private slots:
                          MoveTowerRecursion recursion, void *frame);
     void moveTowerReturned();
     void moveDiskCalled(TowerStack from, TowerStack to);
+    void step();
     void done();
 
 private:
     void numMovesReset();
     void stackTraceReset();
 
+    bool m_playing = false;
     int m_maxMoves = 0;
     int m_numMoves = 0;
     QStack<StackFrame> m_stackTrace;
     Tower *m_tower;
-    TowerSolver *m_towerSolver = nullptr;
+    TowerSolver *m_towerSolver;
+    QTimer *m_towerTimer;
     ProgressWindow *m_progressWindow = nullptr;
     StackTraceWindow *m_stackTraceWindow = nullptr;
     Ui::TowerOfHanoi *ui;

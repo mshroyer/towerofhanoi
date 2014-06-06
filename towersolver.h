@@ -2,7 +2,8 @@
 #define TOWERSOLVER_H
 
 #include <QThread>
-#include <QSemaphore>
+#include <QMutex>
+#include <QWaitCondition>
 
 #include "datatypes.h"
 #include "tower.h"
@@ -20,7 +21,8 @@ signals:
     void moveTowerReturned();
     void moveDisk(TowerStack from, TowerStack to);
 
-public:
+public slots:
+    void step();
     void stop();
 
 protected:
@@ -30,7 +32,9 @@ private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
                    MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
 
-    QSemaphore m_semaphore;
+    bool m_stopRequested = false;
+    QMutex m_mutex;
+    QWaitCondition m_condition;
     Tower *m_tower;
 };
 

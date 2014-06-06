@@ -9,17 +9,29 @@
 TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     QMainWindow { parent },
     m_tower { new Tower { 6, this } },
+    m_towerSolver { new TowerSolver { m_tower, this } },
+    m_towerTimer { new QTimer { this } },
     ui { new Ui::TowerOfHanoi }
 {
     ui->setupUi(this);
     ui->towerView->setTower(m_tower);
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(pushButton()));
+    connect(ui->playPauseButton, SIGNAL(clicked()), this, SLOT(playPause()));
+    connect(ui->singleStepButton, SIGNAL(clicked()), this, SLOT(singleStep()));
+    connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(reset()));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(spinBoxChanged(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     connect(ui->actionProgress, SIGNAL(triggered()), this, SLOT(progressWindow()));
     connect(ui->actionStackTrace, SIGNAL(triggered()), this, SLOT(stackTraceWindow()));
+
+    connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::done);
+    connect(m_towerSolver, &TowerSolver::moveTowerCalled, this, &TowerOfHanoi::moveTowerCalled);
+    connect(m_towerSolver, &TowerSolver::moveTowerReturned, this, &TowerOfHanoi::moveTowerReturned);
+    connect(m_towerSolver, &TowerSolver::moveDisk, this, &TowerOfHanoi::moveDiskCalled);
+
+    m_towerTimer->setSingleShot(true);
+    connect(m_towerTimer, &QTimer::timeout, this, &TowerOfHanoi::step);
 
     spinBoxChanged(ui->spinBox->value());
 }
@@ -53,36 +65,57 @@ void TowerOfHanoi::about()
     aboutBox.exec();
 }
 
-void TowerOfHanoi::pushButton()
+void TowerOfHanoi::playPause()
 {
-    if (m_towerSolver && m_towerSolver->isRunning()) {
-        // Stop
+    if (m_playing) {
+        // Pause
 
-        m_towerSolver->stop();
-    } else if (m_towerSolver) {
-        // Reset
+        m_playing = false;
+        ui->playPauseButton->setIcon(QIcon(":/icons/play.svg"));
+        ui->singleStepButton->setEnabled(true);
 
-        delete m_towerSolver;
-        m_towerSolver = nullptr;
-        m_tower->reset();
-        ui->pushButton->setText("Solve");
-        ui->spinBox->setEnabled(true);
-        numMovesReset();
-        stackTraceReset();
-    } else {
-        // Start
-
-        if (!m_towerSolver) {
-            m_towerSolver = new TowerSolver { m_tower, this };
-            connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::done);
-            connect(m_towerSolver, &TowerSolver::moveTowerCalled, this, &TowerOfHanoi::moveTowerCalled);
-            connect(m_towerSolver, &TowerSolver::moveTowerReturned, this, &TowerOfHanoi::moveTowerReturned);
-            connect(m_towerSolver, &TowerSolver::moveDisk, this, &TowerOfHanoi::moveDiskCalled);
+        if (m_towerTimer->isActive()) {
+            m_towerTimer->stop();
         }
-        ui->pushButton->setText("Stop");
+
+    } else {
+        // Play
+
+        m_playing = true;
+        ui->playPauseButton->setIcon(QIcon(":/icons/pause.svg"));
         ui->spinBox->setEnabled(false);
+        ui->singleStepButton->setEnabled(false);
+
+        singleStep();
+    }
+}
+
+void TowerOfHanoi::singleStep()
+{
+    if (!m_towerSolver->isRunning()) {
         m_towerSolver->start();
     }
+    ui->spinBox->setEnabled(false);
+    ui->resetButton->setEnabled(true);
+    step();
+}
+
+void TowerOfHanoi::reset()
+{
+    m_playing = false;
+    if (m_towerTimer->isActive()) {
+        m_towerTimer->stop();
+    }
+
+    m_towerSolver->stop();
+    m_tower->reset();
+    numMovesReset();
+    stackTraceReset();
+
+    ui->spinBox->setEnabled(true);
+    ui->playPauseButton->setIcon(QIcon(":/icons/play.svg"));
+    ui->playPauseButton->setEnabled(true);
+    ui->resetButton->setEnabled(false);
 }
 
 const QStack<StackFrame> &TowerOfHanoi::stackTrace() const
@@ -150,7 +183,11 @@ void TowerOfHanoi::moveTowerReturned()
 
 void TowerOfHanoi::moveDiskCalled(TowerStack, TowerStack)
 {
-    emit numMovesChanged(++m_numMoves);
+    if (m_playing && m_numMoves < m_maxMoves) {
+        m_towerTimer->start(350);
+    }
+
+    emit numMovesChanged(m_numMoves);
     emit stackTraceChanged();
 }
 
@@ -166,8 +203,20 @@ void TowerOfHanoi::stackTraceReset()
     emit stackTraceChanged();
 }
 
+void TowerOfHanoi::step()
+{
+    if (m_numMoves < m_maxMoves) {
+        m_numMoves++;
+        m_towerSolver->step();
+    }
+    if (m_numMoves >= m_maxMoves) {
+        ui->playPauseButton->setIcon(QIcon(":/icons/play.svg"));
+        ui->playPauseButton->setEnabled(false);
+        ui->singleStepButton->setEnabled(false);
+    }
+}
+
 void TowerOfHanoi::done()
 {
-    ui->pushButton->setText("Reset");
     emit stackTraceChanged();
 }
