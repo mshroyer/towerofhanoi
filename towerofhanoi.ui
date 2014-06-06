@@ -81,6 +81,12 @@
          <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/play.svg</normaloff>:/icons/play.svg</iconset>
         </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
        </widget>
       </item>
       <item>
@@ -91,6 +97,15 @@
         <property name="icon">
          <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/step.svg</normaloff>:/icons/step.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
+        </property>
+        <property name="shortcut">
+         <string>Meta+S</string>
         </property>
        </widget>
       </item>
@@ -105,6 +120,12 @@
         <property name="icon">
          <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/reset.svg</normaloff>:/icons/reset.svg</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>24</width>
+          <height>24</height>
+         </size>
         </property>
        </widget>
       </item>
@@ -154,7 +175,7 @@
      <x>0</x>
      <y>0</y>
      <width>583</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
