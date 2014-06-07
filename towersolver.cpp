@@ -38,7 +38,6 @@ void TowerSolver::stop()
 
     m_mutex.lock();
     m_stopRequested = true;
-    m_stepsRequested++;
     m_condition.wakeOne();
     m_mutex.unlock();
 
@@ -53,15 +52,11 @@ void TowerSolver::run()
     {
         QMutexLocker locker { &m_mutex };
 
-        if (m_stopRequested) {
-            m_stepsRequested = 0;
+        if (m_stopRequested)
             return;
-        }
 
-        if (m_stepsRequested == 0) {
+        if (m_stepsRequested == 0)
             m_condition.wait(&m_mutex);
-        }
-        m_stepsRequested = 0;
     }
 }
 
@@ -97,8 +92,8 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
         if (m_stepsRequested == 0) {
             m_condition.wait(&m_mutex);
         }
-        m_stepsRequested--;
         if (m_stopRequested) return;
+        --m_stepsRequested;
     }
 
     // Second, move the bottom disk to the target stack
