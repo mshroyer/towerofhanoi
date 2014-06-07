@@ -118,12 +118,12 @@ void TowerOfHanoi::spinBoxChanged(int value)
 
 void TowerOfHanoi::dialChanged(int value)
 {
-    double exponent = static_cast<double>(value) * std::log(100) / 99;
-    double diskRate = std::exp(exponent);
-    int iDiskRate = static_cast<int>(diskRate);
+    const double diskRate = std::exp(static_cast<double>(value) * std::log(100) / 99);
+    const int intRate = static_cast<int>(diskRate);
 
-    const auto labelText = iDiskRate == 1 ? QString("1 disk/sec") : QString("%1 disks/sec").arg(iDiskRate);
+    const auto labelText = intRate == 1 ? QString("1 disk / s") : QString("%1 disks / s").arg(intRate);
     ui->diskRateLabel->setText(labelText);
+
     m_delay = static_cast<int>(1000 / diskRate);
 }
 

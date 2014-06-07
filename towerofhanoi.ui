@@ -84,7 +84,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="towerofhanoi.qrc">
+         <iconset>
           <normaloff>:/icons/play.svg</normaloff>:/icons/play.svg</iconset>
         </property>
         <property name="iconSize">
@@ -104,7 +104,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="towerofhanoi.qrc">
+         <iconset>
           <normaloff>:/icons/step.svg</normaloff>:/icons/step.svg</iconset>
         </property>
         <property name="iconSize">
@@ -130,7 +130,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="towerofhanoi.qrc">
+         <iconset>
           <normaloff>:/icons/reset.svg</normaloff>:/icons/reset.svg</iconset>
         </property>
         <property name="iconSize">
@@ -169,7 +169,7 @@
          </size>
         </property>
         <property name="text">
-         <string>100 disks/sec</string>
+         <string>100 disks / s</string>
         </property>
        </widget>
       </item>
@@ -286,9 +286,7 @@
  <tabstops>
   <tabstop>spinBox</tabstop>
  </tabstops>
- <resources>
-  <include location="towerofhanoi.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>actionQuit</sender>
