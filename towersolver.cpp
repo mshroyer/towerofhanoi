@@ -4,8 +4,10 @@
 
 TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     QThread { parent },
+    m_mutex { QMutex::NonRecursive },
+    m_condition { },
     m_stopRequested { false },
-    m_semaphore { 0 },
+    m_stepsRequested { 0 },
     m_tower { tower }
 {
     connect(this, &TowerSolver::moveDisk, tower, &Tower::moveDisk, Qt::QueuedConnection);
@@ -13,17 +15,28 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
 
 void TowerSolver::step()
 {
-    m_semaphore.release(1);
+    QMutexLocker locker { &m_mutex };
+
+    m_stepsRequested++;
+    m_condition.wakeOne();
 }
 
 void TowerSolver::stop()
 {
-    if (isRunning()) {
-        m_stopRequested.store(true);
-        m_semaphore.release(1);
-        wait();
-        m_stopRequested.store(false);
-    }
+    if (!isRunning())
+        return;
+
+    m_mutex.lock();
+    m_stopRequested = true;
+    m_stepsRequested++;
+    m_condition.wakeOne();
+    m_mutex.unlock();
+
+    wait();
+
+    m_mutex.lock();
+    m_stopRequested = false;
+    m_mutex.unlock();
 }
 
 void TowerSolver::run()
@@ -51,12 +64,21 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
     // First, move all except bottom disk to the spare stack
     if (n > 1) {
         moveTower(n-1, from, spare, to, MoveTowerRecursion::LEFT);
-        if (m_stopRequested.load()) return;
+
+        QMutexLocker locker { &m_mutex };
+        if (m_stopRequested) return;
     }
 
     // (Synchronize with UI thread)
-    m_semaphore.acquire(1);
-    if (m_stopRequested.load()) return;
+    {
+        QMutexLocker locker { &m_mutex };
+
+        if (m_stepsRequested == 0) {
+            m_condition.wait(&m_mutex);
+        }
+        m_stepsRequested--;
+        if (m_stopRequested) return;
+    }
 
     // Second, move the bottom disk to the target stack
     emit moveDisk(from, to);
@@ -64,7 +86,9 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
     // Third, move all except bottom disk from spare to the target stack
     if (n > 1) {
         moveTower(n-1, spare, to, from, MoveTowerRecursion::RIGHT);
-        if (m_stopRequested.load()) return;
+
+        QMutexLocker locker { &m_mutex };
+        if (m_stopRequested) return;
     }
 
     emit moveTowerReturned();

@@ -5,9 +5,8 @@
 #include "tower.h"
 
 #include <QThread>
-#include <QSemaphore>
-
-#include <atomic>
+#include <QMutex>
+#include <QWaitCondition>
 
 class TowerSolver : public QThread
 {
@@ -33,8 +32,11 @@ private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
                    MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
 
-    std::atomic<bool> m_stopRequested;
-    QSemaphore m_semaphore;
+    QMutex m_mutex;
+    QWaitCondition m_condition;
+    bool m_stopRequested;
+    int m_stepsRequested;
+
     Tower *m_tower;
 };
 
