@@ -115,6 +115,7 @@ void TowerOfHanoi::reset()
     ui->spinBox->setEnabled(true);
     ui->playPauseButton->setIcon(QIcon(":/icons/play.svg"));
     ui->playPauseButton->setEnabled(true);
+    ui->singleStepButton->setEnabled(true);
     ui->resetButton->setEnabled(false);
 }
 
