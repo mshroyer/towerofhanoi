@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QStack>
+#include <QTimer>
 
 #include "datatypes.h"
 #include "tower.h"
@@ -28,10 +29,6 @@ signals:
     void numMovesChanged(int);
     void stackTraceChanged();
 
-public slots:
-    void about();
-    void pushButton();
-
 public:
     const QStack<StackFrame> &stackTrace() const;
     int maxMoves() const;
@@ -41,24 +38,39 @@ protected:
     virtual void closeEvent(QCloseEvent *event) override;
 
 private slots:
+    void about();
     void progressWindow();
     void stackTraceWindow();
+
     void spinBoxChanged(int value);
+    void dialChanged(int value);
+    void playPause();
+    void singleStep();
+    void reset();
+    void step();
+    void finished();
+
     void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                          MoveTowerRecursion recursion, void *frame);
     void moveTowerReturned();
     void moveDiskCalled(TowerStack from, TowerStack to);
-    void done();
 
 private:
-    void numMovesReset();
-    void stackTraceReset();
+    void setPlaying(bool playing);
+    void resetNumMoves();
+    void resetStackTrace();
 
+    int m_delay = 0;
+    bool m_playing = false;
     int m_maxMoves = 0;
     int m_numMoves = 0;
-    QStack<StackFrame> m_stackTrace;
+    int m_numSteps = 0;
+
     Tower *m_tower;
-    TowerSolver *m_towerSolver = nullptr;
+    QStack<StackFrame> m_stackTrace;
+    TowerSolver *m_towerSolver;
+    QTimer *m_towerTimer;
+
     ProgressWindow *m_progressWindow = nullptr;
     StackTraceWindow *m_stackTraceWindow = nullptr;
     Ui::TowerOfHanoi *ui;

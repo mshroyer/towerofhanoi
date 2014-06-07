@@ -1,11 +1,12 @@
 #ifndef TOWERSOLVER_H
 #define TOWERSOLVER_H
 
-#include <QThread>
-#include <QSemaphore>
-
 #include "datatypes.h"
 #include "tower.h"
+
+#include <QThread>
+#include <QMutex>
+#include <QWaitCondition>
 
 class TowerSolver : public QThread
 {
@@ -21,6 +22,8 @@ signals:
     void moveDisk(TowerStack from, TowerStack to);
 
 public:
+    void start();
+    void step();
     void stop();
 
 protected:
@@ -30,7 +33,11 @@ private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
                    MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
 
-    QSemaphore m_semaphore;
+    QMutex m_mutex;
+    QWaitCondition m_condition;
+    bool m_stopRequested;
+    int m_stepsRequested;
+
     Tower *m_tower;
 };
 

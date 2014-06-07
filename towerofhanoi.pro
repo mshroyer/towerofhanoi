@@ -49,3 +49,6 @@ FORMS    += \
     progresswindow.ui
 
 QMAKE_INFO_PLIST = Info.plist
+
+RESOURCES += \
+    towerofhanoi.qrc
