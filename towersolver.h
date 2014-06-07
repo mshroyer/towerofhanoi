@@ -21,7 +21,8 @@ signals:
     void moveTowerReturned();
     void moveDisk(TowerStack from, TowerStack to);
 
-public slots:
+public:
+    void start();
     void step();
     void stop();
 

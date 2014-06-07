@@ -13,6 +13,16 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     connect(this, &TowerSolver::moveDisk, tower, &Tower::moveDisk, Qt::QueuedConnection);
 }
 
+void TowerSolver::start()
+{
+    QMutexLocker locker { &m_mutex };
+    m_stopRequested = false;
+    m_stepsRequested = 0;
+    locker.unlock();
+
+    QThread::start();
+}
+
 void TowerSolver::step()
 {
     QMutexLocker locker { &m_mutex };
@@ -33,10 +43,6 @@ void TowerSolver::stop()
     m_mutex.unlock();
 
     wait();
-
-    m_mutex.lock();
-    m_stopRequested = false;
-    m_mutex.unlock();
 }
 
 void TowerSolver::run()
