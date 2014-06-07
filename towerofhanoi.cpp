@@ -183,8 +183,9 @@ void TowerOfHanoi::dialChanged(int value)
 {
     double exponent = static_cast<double>(value) * std::log(100) / 99;
     double diskRate = std::exp(exponent);
+    int iDiskRate = static_cast<int>(diskRate);
 
-    const auto labelText = QString("%1 disks/s").arg(static_cast<int>(diskRate));
+    const auto labelText = iDiskRate == 1 ? QString("1 disk/sec") : QString("%1 disks/sec").arg(iDiskRate);
     ui->diskRateLabel->setText(labelText);
     m_delay = static_cast<int>(1000 / diskRate);
 }
