@@ -4,7 +4,7 @@
 
 TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     QThread { parent },
-    m_stopRequested { 0 },
+    m_stopRequested { false },
     m_semaphore { 0 },
     m_tower { tower }
 {
@@ -19,10 +19,10 @@ void TowerSolver::step()
 void TowerSolver::stop()
 {
     if (isRunning()) {
-        m_stopRequested.store(1);
+        m_stopRequested.store(true);
         m_semaphore.release(1);
         wait();
-        m_stopRequested.store(0);
+        m_stopRequested.store(false);
     }
 }
 
@@ -59,7 +59,7 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
     if (m_stopRequested.load()) return;
 
     // Second, move the bottom disk to the target stack
-    moveDisk(from, to);
+    emit moveDisk(from, to);
 
     // Third, move all except bottom disk from spare to the target stack
     if (n > 1) {

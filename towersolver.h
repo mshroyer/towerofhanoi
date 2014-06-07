@@ -1,12 +1,13 @@
 #ifndef TOWERSOLVER_H
 #define TOWERSOLVER_H
 
-#include <QThread>
-#include <QSemaphore>
-#include <QAtomicInt>
-
 #include "datatypes.h"
 #include "tower.h"
+
+#include <QThread>
+#include <QSemaphore>
+
+#include <atomic>
 
 class TowerSolver : public QThread
 {
@@ -32,7 +33,7 @@ private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
                    MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
 
-    QAtomicInt m_stopRequested;
+    std::atomic<bool> m_stopRequested;
     QSemaphore m_semaphore;
     Tower *m_tower;
 };
