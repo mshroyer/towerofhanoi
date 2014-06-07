@@ -6,6 +6,8 @@
 
 #include <QMessageBox>
 
+#include <cmath>
+
 TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     QMainWindow { parent },
     m_tower { new Tower { 6, this } },
@@ -20,6 +22,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(reset()));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(spinBoxChanged(int)));
+    connect(ui->dial, SIGNAL(valueChanged(int)), this, SLOT(dialChanged(int)));
     connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
     connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     connect(ui->actionProgress, SIGNAL(triggered()), this, SLOT(progressWindow()));
@@ -34,6 +37,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     connect(m_towerTimer, &QTimer::timeout, this, &TowerOfHanoi::step);
 
     spinBoxChanged(ui->spinBox->value());
+    dialChanged(ui->dial->value());
 }
 
 TowerOfHanoi::~TowerOfHanoi()
@@ -171,6 +175,16 @@ void TowerOfHanoi::spinBoxChanged(int value)
     emit maxMovesChanged(m_maxMoves);
 }
 
+void TowerOfHanoi::dialChanged(int value)
+{
+    double exponent = static_cast<double>(value) * std::log(100) / 99;
+    double diskRate = std::exp(exponent);
+
+    const auto labelText = QString("%1 disks/s").arg(static_cast<int>(diskRate));
+    ui->diskRateLabel->setText(labelText);
+    m_delay = static_cast<int>(1000 / diskRate);
+}
+
 void TowerOfHanoi::moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                                    MoveTowerRecursion recursion, void *frame)
 {
@@ -185,7 +199,7 @@ void TowerOfHanoi::moveTowerReturned()
 void TowerOfHanoi::moveDiskCalled(TowerStack, TowerStack)
 {
     if (m_playing && m_numMoves < m_maxMoves) {
-        m_towerTimer->start(350);
+        m_towerTimer->start(m_delay);
     }
 
     emit numMovesChanged(m_numMoves);

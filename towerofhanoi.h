@@ -47,6 +47,7 @@ private slots:
     void progressWindow();
     void stackTraceWindow();
     void spinBoxChanged(int value);
+    void dialChanged(int value);
     void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                          MoveTowerRecursion recursion, void *frame);
     void moveTowerReturned();
@@ -58,6 +59,7 @@ private:
     void numMovesReset();
     void stackTraceReset();
 
+    int m_delay = 0;
     bool m_playing = false;
     int m_maxMoves = 0;
     int m_numMoves = 0;
