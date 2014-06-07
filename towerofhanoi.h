@@ -27,10 +27,10 @@ public:
 signals:
     void maxMovesChanged(int);
     void numMovesChanged(int);
-    void stackTraceChanged();
+    void stackChanged();
 
 public:
-    const QStack<StackFrame> &stackTrace() const;
+    const QStack<StackFrame> &stack() const;
     int maxMoves() const;
     int numMoves() const;
 
@@ -58,7 +58,7 @@ private slots:
 private:
     void setPlaying(bool playing);
     void resetNumMoves();
-    void resetStackTrace();
+    void resetStack();
 
     int m_delay = 0;
     bool m_playing = false;
@@ -67,7 +67,8 @@ private:
     int m_numSteps = 0;
 
     Tower *m_tower;
-    QStack<StackFrame> m_stackTrace;
+    QStack<StackFrame> m_stackNext;
+    QStack<StackFrame> m_stack;
     TowerSolver *m_towerSolver;
     QTimer *m_towerTimer;
 

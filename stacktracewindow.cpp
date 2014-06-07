@@ -86,24 +86,24 @@ StackTraceWindow::~StackTraceWindow()
 
 void StackTraceWindow::showEvent(QShowEvent *)
 {
-    connect(TOWEROFHANOI, &TowerOfHanoi::stackTraceChanged, this, &StackTraceWindow::updateStackTrace);
+    connect(TOWEROFHANOI, &TowerOfHanoi::stackChanged, this, &StackTraceWindow::updateStackTrace);
     updateStackTrace();
 }
 
 void StackTraceWindow::hideEvent(QHideEvent *)
 {
-    disconnect(TOWEROFHANOI, &TowerOfHanoi::stackTraceChanged, this, &StackTraceWindow::updateStackTrace);
+    disconnect(TOWEROFHANOI, &TowerOfHanoi::stackChanged, this, &StackTraceWindow::updateStackTrace);
 }
 
 void StackTraceWindow::updateStackTrace()
 {
     const char *frameFormat = sizeof(void *) > 4 ? kCallFormat64 : kCallFormat32;
-    const auto &stackTrace = TOWEROFHANOI->stackTrace();
+    const auto &stack = TOWEROFHANOI->stack();
     char *buf = m_textbuf.data();
     int i = 0, line = 0, ret;
 
     *buf = '\0';
-    for (const StackFrame call : stackTrace) {
+    for (const StackFrame call : stack) {
         ret = snprintf(buf + i, kBufLineLength + 1, frameFormat, call.fp, recursionLabel(call.recursion),
                        kPaddingEnd - line, call.n, towerStackName(call.from), towerStackName(call.to),
                        towerStackName(call.spare));

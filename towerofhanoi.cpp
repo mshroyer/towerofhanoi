@@ -45,9 +45,9 @@ TowerOfHanoi::~TowerOfHanoi()
     delete ui;
 }
 
-const QStack<StackFrame> &TowerOfHanoi::stackTrace() const
+const QStack<StackFrame> &TowerOfHanoi::stack() const
 {
-    return m_stackTrace;
+    return m_stack;
 }
 
 int TowerOfHanoi::maxMoves() const
@@ -156,7 +156,7 @@ void TowerOfHanoi::reset()
     m_towerSolver->stop();
     m_tower->reset();
     resetNumMoves();
-    resetStackTrace();
+    resetStack();
 
     ui->spinBox->setEnabled(true);
     ui->playPauseButton->setEnabled(true);
@@ -183,18 +183,19 @@ void TowerOfHanoi::step()
 
 void TowerOfHanoi::finished()
 {
-    emit stackTraceChanged();
+    m_stack = m_stackNext;
+    emit stackChanged();
 }
 
 void TowerOfHanoi::moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                                    MoveTowerRecursion recursion, void *frame)
 {
-    m_stackTrace.push({ n, from, to, spare, recursion, frame });
+    m_stackNext.push({ n, from, to, spare, recursion, frame });
 }
 
 void TowerOfHanoi::moveTowerReturned()
 {
-    m_stackTrace.pop();
+    m_stackNext.pop();
 }
 
 void TowerOfHanoi::moveDiskCalled(TowerStack, TowerStack)
@@ -202,8 +203,11 @@ void TowerOfHanoi::moveDiskCalled(TowerStack, TowerStack)
     if (m_playing)
         m_towerTimer->start(m_delay);
 
-    emit numMovesChanged(++m_numMoves);
-    emit stackTraceChanged();
+    ++m_numMoves;
+    m_stack = m_stackNext;
+
+    emit numMovesChanged(m_numMoves);
+    emit stackChanged();
 }
 
 void TowerOfHanoi::setPlaying(bool playing)
@@ -228,8 +232,9 @@ void TowerOfHanoi::resetNumMoves()
     emit numMovesChanged(0);
 }
 
-void TowerOfHanoi::resetStackTrace()
+void TowerOfHanoi::resetStack()
 {
-    m_stackTrace.clear();
-    emit stackTraceChanged();
+    m_stackNext.clear();
+    m_stack.clear();
+    emit stackChanged();
 }
