@@ -76,6 +76,7 @@ void TowerOfHanoi::playPause()
 
         m_playing = false;
         ui->playPauseButton->setIcon(QIcon(":/icons/play.svg"));
+        ui->playPauseButton->setToolTip("Solve");
         ui->singleStepButton->setEnabled(true);
 
         if (m_towerTimer->isActive()) {
@@ -87,6 +88,7 @@ void TowerOfHanoi::playPause()
 
         m_playing = true;
         ui->playPauseButton->setIcon(QIcon(":/icons/pause.svg"));
+        ui->playPauseButton->setToolTip("Pause");
         ui->spinBox->setEnabled(false);
         ui->singleStepButton->setEnabled(false);
 
@@ -119,6 +121,7 @@ void TowerOfHanoi::reset()
 
     ui->spinBox->setEnabled(true);
     ui->playPauseButton->setIcon(QIcon(":/icons/play.svg"));
+    ui->playPauseButton->setToolTip("Solve");
     ui->playPauseButton->setEnabled(true);
     ui->singleStepButton->setEnabled(true);
     ui->resetButton->setEnabled(false);
@@ -227,6 +230,7 @@ void TowerOfHanoi::step()
     }
     if (m_numMoves >= m_maxMoves + 1) {
         ui->playPauseButton->setIcon(QIcon(":/icons/play.svg"));
+        ui->playPauseButton->setToolTip("Solve");
         ui->playPauseButton->setEnabled(false);
         ui->singleStepButton->setEnabled(false);
     }
