@@ -111,6 +111,7 @@ void TowerOfHanoi::reset()
         m_towerTimer->stop();
     }
 
+    m_towerTimer->stop();
     m_towerSolver->stop();
     m_tower->reset();
     numMovesReset();
@@ -198,7 +199,7 @@ void TowerOfHanoi::moveTowerReturned()
 
 void TowerOfHanoi::moveDiskCalled(TowerStack, TowerStack)
 {
-    if (m_playing && m_numMoves < m_maxMoves) {
+    if (m_playing && m_numMoves < m_maxMoves + 1) {
         m_towerTimer->start(m_delay);
     }
 
@@ -220,11 +221,11 @@ void TowerOfHanoi::stackTraceReset()
 
 void TowerOfHanoi::step()
 {
-    if (m_numMoves < m_maxMoves) {
+    if (m_numMoves < m_maxMoves + 1) {
         m_numMoves++;
         m_towerSolver->step();
     }
-    if (m_numMoves >= m_maxMoves) {
+    if (m_numMoves >= m_maxMoves + 1) {
         ui->playPauseButton->setIcon(QIcon(":/icons/play.svg"));
         ui->playPauseButton->setEnabled(false);
         ui->singleStepButton->setEnabled(false);

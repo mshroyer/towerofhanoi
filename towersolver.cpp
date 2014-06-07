@@ -42,6 +42,21 @@ void TowerSolver::stop()
 void TowerSolver::run()
 {
     moveTower(m_tower->ndisks(), TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
+
+    // Pause after last step so that stack trace is shown for each disk move
+    {
+        QMutexLocker locker { &m_mutex };
+
+        if (m_stopRequested) {
+            m_stepsRequested = 0;
+            return;
+        }
+
+        if (m_stepsRequested == 0) {
+            m_condition.wait(&m_mutex);
+        }
+        m_stepsRequested = 0;
+    }
 }
 
 
