@@ -84,7 +84,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="towerofhanoi.qrc">
+         <iconset>
           <normaloff>:/icons/play.svg</normaloff>:/icons/play.svg</iconset>
         </property>
         <property name="iconSize">
@@ -104,7 +104,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="towerofhanoi.qrc">
+         <iconset>
           <normaloff>:/icons/step.svg</normaloff>:/icons/step.svg</iconset>
         </property>
         <property name="iconSize">
@@ -130,7 +130,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="towerofhanoi.qrc">
+         <iconset>
           <normaloff>:/icons/reset.svg</normaloff>:/icons/reset.svg</iconset>
         </property>
         <property name="iconSize">
@@ -170,6 +170,9 @@
         </property>
         <property name="text">
          <string>100 disks / s</string>
+        </property>
+        <property name="buddy">
+         <cstring>dial</cstring>
         </property>
        </widget>
       </item>
@@ -212,7 +215,7 @@
      <x>0</x>
      <y>0</y>
      <width>583</width>
-     <height>22</height>
+     <height>27</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -286,9 +289,7 @@
  <tabstops>
   <tabstop>spinBox</tabstop>
  </tabstops>
- <resources>
-  <include location="towerofhanoi.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>actionQuit</sender>
@@ -434,8 +435,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>TowerOfHanoi</sender>
+   <signal>diskRateChanged(QString)</signal>
+   <receiver>diskRateLabel</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>439</x>
+     <y>59</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
+  <signal>diskRateChanged(QString)</signal>
   <slot>about()</slot>
   <slot>progressWindow()</slot>
   <slot>stackTraceWindow()</slot>

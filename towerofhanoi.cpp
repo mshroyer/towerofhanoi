@@ -112,10 +112,10 @@ void TowerOfHanoi::dialChanged(int value)
     const double diskRate = std::exp(static_cast<double>(value) * std::log(100) / 99);
     const int intRate = static_cast<int>(diskRate);
 
-    const auto labelText = intRate == 1 ? QString("1 disk / s") : QString("%1 disks / s").arg(intRate);
-    ui->diskRateLabel->setText(labelText);
+    const auto text = intRate == 1 ? QString("1 disk / s") : QString("%1 disks / s").arg(intRate);
 
     m_delay = static_cast<int>(1000 / diskRate);
+    emit diskRateChanged(text);
 }
 
 void TowerOfHanoi::playPause()

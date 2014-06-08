@@ -28,6 +28,7 @@ signals:
     void maxMovesChanged(int);
     void numMovesChanged(int);
     void stackChanged();
+    void diskRateChanged(QString);
 
 public:
     const QStack<StackFrame> &stack() const;
