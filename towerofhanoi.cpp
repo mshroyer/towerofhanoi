@@ -17,17 +17,8 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->towerView->setTower(m_tower);
-    connect(ui->playPauseButton, SIGNAL(clicked()), this, SLOT(playPause()));
-    connect(ui->singleStepButton, SIGNAL(clicked()), this, SLOT(singleStep()));
-    connect(ui->resetButton, SIGNAL(clicked()), this, SLOT(reset()));
-    connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
-    connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(spinBoxChanged(int)));
-    connect(ui->dial, SIGNAL(valueChanged(int)), this, SLOT(dialChanged(int)));
-    connect(ui->actionAbout, SIGNAL(triggered()), this, SLOT(about()));
-    connect(ui->actionAboutQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
-    connect(ui->actionProgress, SIGNAL(triggered()), this, SLOT(progressWindow()));
-    connect(ui->actionStackTrace, SIGNAL(triggered()), this, SLOT(stackTraceWindow()));
 
+    connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::finished);
     connect(m_towerSolver, &TowerSolver::moveTowerCalled, this, &TowerOfHanoi::moveTowerCalled);
     connect(m_towerSolver, &TowerSolver::moveTowerReturned, this, &TowerOfHanoi::moveTowerReturned);

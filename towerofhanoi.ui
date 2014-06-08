@@ -84,7 +84,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/play.svg</normaloff>:/icons/play.svg</iconset>
         </property>
         <property name="iconSize">
@@ -104,7 +104,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/step.svg</normaloff>:/icons/step.svg</iconset>
         </property>
         <property name="iconSize">
@@ -130,7 +130,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/reset.svg</normaloff>:/icons/reset.svg</iconset>
         </property>
         <property name="iconSize">
@@ -212,7 +212,7 @@
      <x>0</x>
      <y>0</y>
      <width>583</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -286,7 +286,9 @@
  <tabstops>
   <tabstop>spinBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="towerofhanoi.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>
@@ -304,5 +306,145 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>playPauseButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>playPause()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>244</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>singleStepButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>singleStep()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>286</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>resetButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>reset()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>328</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>spinBoxChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>143</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dial</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>dialChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>379</x>
+     <y>58</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>about()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionProgress</sender>
+   <signal>triggered()</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>progressWindow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionStackTrace</sender>
+   <signal>triggered()</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>stackTraceWindow()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>about()</slot>
+  <slot>progressWindow()</slot>
+  <slot>stackTraceWindow()</slot>
+  <slot>spinBoxChanged(int)</slot>
+  <slot>dialChanged(int)</slot>
+  <slot>playPause()</slot>
+  <slot>singleStep()</slot>
+  <slot>reset()</slot>
+  <slot>step()</slot>
+  <slot>finished()</slot>
+ </slots>
 </ui>
