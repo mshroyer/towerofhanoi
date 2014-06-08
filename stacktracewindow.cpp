@@ -14,14 +14,19 @@
 namespace {
 
 constexpr size_t kBufLineLength = 96;
-constexpr size_t kBufNumLines = 16;
+constexpr size_t kBufNumLines = 2 + 16;
 constexpr size_t kBufSize = kBufLineLength * kBufNumLines + 1;
 
 const char kPadding[] = "                ";
 const char * const kPaddingEnd = kPadding + sizeof(kPadding) - 1;
 
-const char * const kCallFormat32 = "0x%08lX %c%s moveTower(%d, %s, %s, %s)\n";
-const char * const kCallFormat64 = "0x%016lX %c%s moveTower(%d, %s, %s, %s)\n";
+const char kCallHeader32[] = "Frame       Sub  Call graph\n"
+                             "-----------------------------------------------------------------\n";
+const char kCallHeader64[] = "Frame address       Sub  Call graph\n"
+                             "-------------------------------------------------------------------------\n";
+
+const char * const kCallFormat32 = "0x%08lX  %c%s    moveTower(%d, %s, %s, %s)\n";
+const char * const kCallFormat64 = "0x%016lX  %c%s    moveTower(%d, %s, %s, %s)\n";
 
 const char *towerStackName(TowerStack stack)
 {
@@ -77,6 +82,8 @@ StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
     const QString labelFormat = "See <a href='%3/src/%4/towersolver.cpp#cl-%2'>%1:%2</a> for algorithm implementation";
     const QString labelText = labelFormat.arg(kMoveTowerFile).arg(kMoveTowerLine).arg(REPOSITORY_URL).arg(REV_ID);
     ui->label->setText(labelText);
+
+    strncpy(m_textbuf.data(), sizeof(void *) > 4 ? kCallHeader64 : kCallHeader32, kBufSize);
 }
 
 StackTraceWindow::~StackTraceWindow()
@@ -99,7 +106,7 @@ void StackTraceWindow::updateStackTrace()
 {
     const char *frameFormat = sizeof(void *) > 4 ? kCallFormat64 : kCallFormat32;
     const auto &stack = TOWEROFHANOI->stack();
-    char *buf = m_textbuf.data();
+    char *buf = m_textbuf.data() + (sizeof(void *) > 4 ? sizeof(kCallHeader64) : sizeof(kCallHeader32)) - 1;
     int i = 0, line = 0, ret;
 
     *buf = '\0';
@@ -117,5 +124,5 @@ void StackTraceWindow::updateStackTrace()
         line++;
     }
 
-    ui->textEdit->setText(buf);
+    ui->textEdit->setText(m_textbuf.data());
 }
