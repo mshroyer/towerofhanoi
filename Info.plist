@@ -6,8 +6,8 @@
 	<string>NSApplication</string>
 	<key>CFBundleName</key>
 	<string>Tower of Hanoi</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
+    <key>CFBundleIconFile</key>
+    <string>towerofhanoi.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleGetInfoString</key>
