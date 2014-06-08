@@ -7,7 +7,7 @@
 QT       += core gui svg
 CONFIG   += c++11
 
-QMAKE_CXXFLAGS = -Wall -Werror
+QMAKE_CXXFLAGS += -Wall -Werror -Wextra -pedantic
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
