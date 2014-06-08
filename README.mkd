@@ -1,16 +1,35 @@
 Tower of Hanoi
 ==============
 
-This program is a graphical implementation of a recursive solution to the
+This program illustrates a recursive solution to the
 [Tower of Hanoi](https://en.wikipedia.org/wiki/Tower_of_hanoi), written in
-C++11 and built on top of [Qt](http://qt-project.org/) 5.3.
+C++11 and built on top of [Qt](http://qt-project.org/) 5.3.  See
+towersolver.cpp for the algorithm itself; the rest of the code provides a
+GUI application to demonstrate it.
+
+
+Build
+-----
 
 Visit the [downloads page](https://bitbucket.org/markshroyer/towerofhanoi/downloads)
 to get binaries for OS X (10.6 or newer, 64-bit Intel only) and Windows
-(Vista or later).
+(Vista or later).  These binary bundles were created with Qt 5.3's
+deployment tools.  To deploy your own release on OS X, run:
 
-Some GCC/Clang-specific intrinsics and flags are used by this program, so
-it is unlikely to build under MSVC without modification.
+    $ macdeployqt towerofhanoi.app -dmg
+    
+For Windows deployment, the dependency on QtSvg for the control button
+icons must be explicitly specified on the command line (whereas
+`macdeployqt` infers this from the project file):
+
+    $ windeployqt towerofhanoi.exe -svg
+
+Some gcc and clang-specific intrinsics and flags are used, so this is
+unlikely to build under MSVC without modification.
+
+
+Copyright and license
+---------------------
 
 This program is open source software.  It may be freely used,
 redistributed, and modified under the terms of the following ISC license:
@@ -28,7 +47,3 @@ redistributed, and modified under the terms of the following ISC license:
     WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
     ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-Mark Shroyer
-
-31 May 2014
