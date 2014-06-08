@@ -18,6 +18,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     ui->setupUi(this);
     ui->towerView->setTower(m_tower);
 
+    connect(ui->actionAboutQt, &QAction::triggered, qApp, &QApplication::aboutQt);
     connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
     connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::finished);
     connect(m_towerSolver, &TowerSolver::moveTowerCalled, this, &TowerOfHanoi::moveTowerCalled);
