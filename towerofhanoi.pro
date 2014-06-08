@@ -50,5 +50,8 @@ FORMS    += \
 
 QMAKE_INFO_PLIST = Info.plist
 
+ICON = towerofhanoi.icns
+RC_ICONS = towerofhanoi.ico
+
 RESOURCES += \
     towerofhanoi.qrc
