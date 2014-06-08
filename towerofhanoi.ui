@@ -169,7 +169,7 @@
          </size>
         </property>
         <property name="text">
-         <string>100 disks / s</string>
+         <string>100 moves / s</string>
         </property>
         <property name="buddy">
          <cstring>dial</cstring>
