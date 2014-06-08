@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <cstdio>
 
+#define IS32BIT (sizeof(void *) == 4)
 #define TOWEROFHANOI qobject_cast<TowerOfHanoi *>(parent())
 
 namespace {
@@ -25,8 +26,13 @@ const char kCallHeader32[] = "Frame address  Sub  Call graph\n"
 const char kCallHeader64[] = "Frame address       Sub  Call graph\n"
                              "-------------------------------------------------------------------------\n";
 
+const char * const kCallHeader = IS32BIT ? kCallHeader32 : kCallHeader64;
+const size_t kCallHeaderSize = IS32BIT ? sizeof(kCallHeader32) : sizeof(kCallHeader64);
+
 const char * const kCallFormat32 = "0x%08lX     %c%s    moveTower(%d, %s, %s, %s)\n";
 const char * const kCallFormat64 = "0x%016lX  %c%s    moveTower(%d, %s, %s, %s)\n";
+
+const char * const kCallFormat = IS32BIT ? kCallFormat32 : kCallFormat64;
 
 const char *towerStackName(TowerStack stack)
 {
@@ -83,7 +89,7 @@ StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
     const QString labelText = labelFormat.arg(kMoveTowerFile).arg(kMoveTowerLine).arg(REPOSITORY_URL).arg(REV_ID);
     ui->label->setText(labelText);
 
-    strncpy(m_textbuf.data(), sizeof(void *) > 4 ? kCallHeader64 : kCallHeader32, kBufSize);
+    strncpy(m_textbuf.data(), kCallHeader, kBufSize);
 }
 
 StackTraceWindow::~StackTraceWindow()
@@ -104,24 +110,23 @@ void StackTraceWindow::hideEvent(QHideEvent *)
 
 void StackTraceWindow::updateStackTrace()
 {
-    const char *frameFormat = sizeof(void *) > 4 ? kCallFormat64 : kCallFormat32;
     const auto &stack = TOWEROFHANOI->stack();
-    char *buf = m_textbuf.data() + (sizeof(void *) > 4 ? sizeof(kCallHeader64) : sizeof(kCallHeader32)) - 1;
+    char *buf = m_textbuf.data() + kCallHeaderSize - 1;
     int i = 0, line = 0, ret;
 
     *buf = '\0';
     for (const StackFrame call : stack) {
-        ret = snprintf(buf + i, kBufLineLength + 1, frameFormat, call.fp, recursionLabel(call.recursion),
-                       kPaddingEnd - line, call.n, towerStackName(call.from), towerStackName(call.to),
-                       towerStackName(call.spare));
+        ret = snprintf(buf + i, kBufLineLength + 1, kCallFormat, reinterpret_cast<uintptr_t>(call.fp),
+                       recursionLabel(call.recursion), kPaddingEnd - line, call.n,
+                       towerStackName(call.from), towerStackName(call.to), towerStackName(call.spare));
 
         if (ret < 0) {
-            qWarning("Error formatting call stack frame");
+            qCritical("Error formatting call stack frame");
             return;
         }
 
         i += ret;
-        line++;
+        ++line;
     }
 
     ui->textEdit->setText(m_textbuf.data());

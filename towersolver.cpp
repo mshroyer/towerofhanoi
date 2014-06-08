@@ -26,8 +26,7 @@ void TowerSolver::start()
 void TowerSolver::step()
 {
     QMutexLocker locker { &m_mutex };
-
-    m_stepsRequested++;
+    ++m_stepsRequested;
     m_condition.wakeOne();
 }
 
@@ -36,10 +35,10 @@ void TowerSolver::stop()
     if (!isRunning())
         return;
 
-    m_mutex.lock();
+    QMutexLocker locker { &m_mutex };
     m_stopRequested = true;
     m_condition.wakeOne();
-    m_mutex.unlock();
+    locker.unlock();
 
     wait();
 }
@@ -61,7 +60,7 @@ void TowerSolver::run()
 }
 
 
-// Don't move these, for linking to moveTower() from stack trace window:
+// Don't move these, for linking to moveTower() source from stack trace window:
 extern const char * const kMoveTowerFile = "towersolver.cpp";
 extern const int          kMoveTowerLine = __LINE__ + 2;
 

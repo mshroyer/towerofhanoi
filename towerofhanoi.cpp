@@ -19,7 +19,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     ui->towerView->setTower(m_tower);
 
     connect(ui->actionAboutQt, &QAction::triggered, qApp, &QApplication::aboutQt);
-    connect(ui->spinBox, SIGNAL(valueChanged(int)), m_tower, SLOT(reset(int)));
+
     connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::finished);
     connect(m_towerSolver, &TowerSolver::moveTowerCalled, this, &TowerOfHanoi::moveTowerCalled);
     connect(m_towerSolver, &TowerSolver::moveTowerReturned, this, &TowerOfHanoi::moveTowerReturned);
@@ -68,9 +68,22 @@ void TowerOfHanoi::about()
         "see the Wikipedia article and source code repository linked below.</p>"
         "<p><a href='https://en.wikipedia.org/wiki/Tower_of_hanoi'>https://en.wikipedia.org/wiki/Tower_of_hanoi</a><br>"
         "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a></p>"
-        "<p>This build was created from revision <a href='%1/commits/%3'>%4</a></p>"
-        "<p>Mark Shroyer<br>"
-        "8 June 2014</p>";
+        "<p>This build was created from revision <a href='%1/commits/%3'>%4</a>.</p>"
+
+        "<p>&nbsp;</p>"
+
+        "<p>Copyright (c) 2014 Mark Shroyer &lt;code@markshroyer.com&gt;</p>"
+        "<p>Permission to use, copy, modify, and distribute this software for any "
+        "purpose with or without fee is hereby granted, provided that the above "
+        "copyright notice and this permission notice appear in all copies.</p>"
+
+        "<p>THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL WARRANTIES "
+        "WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF "
+        "MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR "
+        "ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES "
+        "WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN "
+        "ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF "
+        "OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>";
 
     QString shortRevId { REV_ID };
     shortRevId.truncate(12);
@@ -104,6 +117,8 @@ void TowerOfHanoi::stackTraceWindow()
 
 void TowerOfHanoi::spinBoxChanged(int value)
 {
+    m_tower->reset(value);
+
     m_maxMoves = (1 << value) - 1;
     emit maxMovesChanged(m_maxMoves);
 }
@@ -112,7 +127,6 @@ void TowerOfHanoi::dialChanged(int value)
 {
     const double diskRate = std::exp(static_cast<double>(value) * std::log(100) / 99);
     const int intRate = static_cast<int>(diskRate);
-
     const auto text = intRate == 1 ? QString("1 move / s") : QString("%1 moves / s").arg(intRate);
 
     m_delay = static_cast<int>(1000 / diskRate);

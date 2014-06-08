@@ -40,13 +40,14 @@ TowerView::TowerView(QWidget *parent) :
 
 void TowerView::setTower(Tower *tower)
 {
-    if (m_tower)
+    if (m_tower) {
+        qFatal("Tower has already been set");
         return;
+    }
 
     m_tower = tower;
     connect(m_tower, &Tower::moveError, this, &TowerView::debug);
-    connect(m_tower, SIGNAL(moved()), this, SLOT(update()));
-    //m_tower->moveDisk(Stack::LEFT, Stack::RIGHT);
+    connect(m_tower, &Tower::moved, this, static_cast<void (TowerView::*)()>(&TowerView::update));
 }
 
 void TowerView::paintEvent(QPaintEvent *)

@@ -8,13 +8,34 @@ towersolver.cpp for the algorithm itself; the rest of the code provides a
 GUI application to demonstrate it.
 
 
-Build
------
+Binary releases
+---------------
 
 Visit the [downloads page](https://bitbucket.org/markshroyer/towerofhanoi/downloads)
 to get binaries for OS X (10.6 or newer, 64-bit Intel only) and Windows
-(Vista or later).  These binary bundles were created with Qt 5.3's
-deployment tools.  To deploy your own release on OS X, run:
+(Vista or later).
+
+To run the OS X release, mount the provided disk image and open the
+application inside.  To run the Windows release, extract the ZIP archive
+and then double-click towerofhanoi.exe in the extracted folder.
+
+
+Building from source
+--------------------
+
+Compilation requires a recent GCC (4.7 or later) or Clang+LLVM (3.3 or
+later) C++11 toolchain, as well as the Qt 5 development tools.  Some gcc
+and clang-specific intrinsics and flags are used, so this will not build
+under MSVC without modification.
+
+Run the following commands to build on Linux, optionally specifying a
+non-default C++ compiler to qmake:
+
+    $ qmake -spec linux-g++ QMAKE_CXX=/usr/bin/g++-4.8
+    $ make
+
+The release binary bundles were created with Qt 5.3's deployment tools.  To
+deploy your own release on OS X after completing a release build, run:
 
     $ macdeployqt towerofhanoi.app -dmg
     
@@ -23,9 +44,6 @@ icons must be explicitly specified on the command line (whereas
 `macdeployqt` infers this from the project file):
 
     $ windeployqt towerofhanoi.exe -svg
-
-Some gcc and clang-specific intrinsics and flags are used, so this is
-unlikely to build under MSVC without modification.
 
 
 Copyright and license
