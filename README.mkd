@@ -9,6 +9,9 @@ Visit the [downloads page](https://bitbucket.org/markshroyer/towerofhanoi/downlo
 to get binaries for OS X (10.6 or newer, 64-bit Intel only) and Windows
 (Vista or later).
 
+Some GCC/Clang-specific intrinsics and flags are used by this program, so
+it is unlikely to build under MSVC without modification.
+
 This program is open source software.  It may be freely used,
 redistributed, and modified under the terms of the following ISC license:
 
