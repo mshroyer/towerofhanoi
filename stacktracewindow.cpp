@@ -23,14 +23,14 @@ const char * const kPaddingEnd = kPadding + sizeof(kPadding) - 1;
 
 const char kCallHeader32[] = "Frame address  Sub  Call graph\n"
                              "--------------------------------------------------------------------\n";
-const char kCallHeader64[] = "Frame address       Sub  Call graph\n"
-                             "-------------------------------------------------------------------------\n";
+const char kCallHeader64[] = "Frame address     Sub  Call graph\n"
+                             "-----------------------------------------------------------------------\n";
 
 const char * const kCallHeader = IS32BIT ? kCallHeader32 : kCallHeader64;
 const size_t kCallHeaderSize = IS32BIT ? sizeof(kCallHeader32) : sizeof(kCallHeader64);
 
-const char * const kCallFormat32 = "0x%08lX     %c%s    moveTower(%d, %s, %s, %s)\n";
-const char * const kCallFormat64 = "0x%016lX  %c%s    moveTower(%d, %s, %s, %s)\n";
+const char * const kCallFormat32 = "%08lX       %c%s    moveTower(%d, %s, %s, %s)\n";
+const char * const kCallFormat64 = "%016lX  %c%s    moveTower(%d, %s, %s, %s)\n";
 
 const char * const kCallFormat = IS32BIT ? kCallFormat32 : kCallFormat64;
 
