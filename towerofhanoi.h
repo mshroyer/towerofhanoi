@@ -52,7 +52,7 @@ private slots:
     void finished();
 
     void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                         MoveTowerRecursion recursion, void *frame);
+                         int sub, void *frame);
     void moveTowerReturned();
     void moveDiskCalled(TowerStack from, TowerStack to);
 

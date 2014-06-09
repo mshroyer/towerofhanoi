@@ -17,7 +17,7 @@ public:
 
 signals:
     void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                         MoveTowerRecursion recursion, void *frame);
+                         int sub, void *frame);
     void moveTowerReturned();
     void moveDisk(TowerStack from, TowerStack to);
 
@@ -31,7 +31,7 @@ protected:
 
 private:
     void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
-                   MoveTowerRecursion recursion = MoveTowerRecursion::ROOT);
+                   int sub = -1);
 
     QMutex m_mutex;
     QWaitCondition m_condition;

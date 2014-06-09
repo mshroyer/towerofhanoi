@@ -9,7 +9,6 @@ int main(int argc, char *argv[])
     TowerOfHanoi w;
 
     qRegisterMetaType<TowerStack>("TowerStack");
-    qRegisterMetaType<MoveTowerRecursion>("MoveTowerRecursion");
 
     w.show();
     return a.exec();

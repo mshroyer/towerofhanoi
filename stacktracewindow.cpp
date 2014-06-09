@@ -47,15 +47,15 @@ const char *towerStackName(TowerStack stack)
     return nullptr;
 }
 
-char recursionLabel(MoveTowerRecursion recursion)
+char subLabel(int sub)
 {
-    switch (recursion) {
-    case MoveTowerRecursion::ROOT:
-        return ' ';
-    case MoveTowerRecursion::LEFT:
+    switch (sub) {
+    case 0:
         return '0';
-    case MoveTowerRecursion::RIGHT:
+    case 1:
         return '1';
+    default:
+        return ' ';
     }
     return ' ';
 }
@@ -120,7 +120,7 @@ void StackTraceWindow::updateStackTrace()
     *buf = '\0';
     for (const StackFrame call : stack) {
         ret = snprintf(buf + i, kBufLineLength + 1, kCallFormat, reinterpret_cast<uintptr_t>(call.fp),
-                       recursionLabel(call.recursion), kPaddingEnd - line, call.n,
+                       subLabel(call.sub), kPaddingEnd - line, call.n,
                        towerStackName(call.from), towerStackName(call.to), towerStackName(call.spare));
 
         if (ret < 0) {

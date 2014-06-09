@@ -205,9 +205,9 @@ void TowerOfHanoi::finished()
 }
 
 void TowerOfHanoi::moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                                   MoveTowerRecursion recursion, void *frame)
+                                   int sub, void *frame)
 {
-    m_stackNext.push({ n, from, to, spare, recursion, frame });
+    m_stackNext.push({ n, from, to, spare, sub, frame });
 }
 
 void TowerOfHanoi::moveTowerReturned()
