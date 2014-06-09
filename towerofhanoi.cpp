@@ -70,9 +70,7 @@ void TowerOfHanoi::about()
         "<a href='https://bitbucket.org/markshroyer/towerofhanoi/'>https://bitbucket.org/markshroyer/towerofhanoi/</a></p>"
         "<p>This build was created from revision <a href='%1/commits/%3'>%4</a>.</p>"
 
-        "<p>&nbsp;</p>"
-
-        "<p>Copyright (c) 2014 Mark Shroyer &lt;code@markshroyer.com&gt;</p>"
+        "<p><br>Copyright (c) 2014 Mark Shroyer &lt;code@markshroyer.com&gt;</p>"
 
         "<p>Permission to use, copy, modify, and/or distribute this software for any "
         "purpose with or without fee is hereby granted, provided that the above "
