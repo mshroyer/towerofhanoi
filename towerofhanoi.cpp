@@ -55,6 +55,7 @@ int TowerOfHanoi::numMoves() const
 
 void TowerOfHanoi::closeEvent(QCloseEvent *event)
 {
+    m_towerTimer->stop();
     m_towerSolver->stop();
     QWidget::closeEvent(event);
 }
