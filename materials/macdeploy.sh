@@ -25,8 +25,9 @@ if [ -e "$DMG_FILE" ]; then
 fi
 
 mkdir towerofhanoi
-cp -pr "$APP_BUNDLE" "towerofhanoi/Tower of Hanoi.app"
-macdeployqt "towerofhanoi/Tower of Hanoi.app"
+cp -pr "$APP_BUNDLE" towerofhanoi/towerofhanoi.app
+macdeployqt towerofhanoi/towerofhanoi.app
+mv towerofhanoi/towerofhanoi.app "towerofhanoi/Tower of Hanoi.app"
 cp "$(dirname $0)/../COPYING.txt" towerofhanoi/
 cp "$(dirname $0)/../README.txt" towerofhanoi/
 
