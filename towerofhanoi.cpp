@@ -95,7 +95,6 @@ void TowerOfHanoi::about()
     label->setOpenExternalLinks(true);
 
     auto *buttonBox = new QDialogButtonBox { QDialogButtonBox::Ok, Qt::Horizontal };
-    buttonBox->setCenterButtons(true);
     connect(buttonBox, &QDialogButtonBox::accepted, &aboutBox, &QDialog::accept);
 
     auto *layout = new QVBoxLayout;
