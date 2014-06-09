@@ -4,7 +4,8 @@
 #include "progresswindow.h"
 #include "stacktracewindow.h"
 
-#include <QMessageBox>
+#include <QDialog>
+#include <QDialogButtonBox>
 
 #include <cmath>
 
@@ -60,7 +61,7 @@ void TowerOfHanoi::closeEvent(QCloseEvent *event)
 
 void TowerOfHanoi::about()
 {
-    QMessageBox aboutBox { this };
+    QDialog aboutBox { this };
 
     const QString format =
         "<p><b>About Tower of Hanoi %2</b><p>"
@@ -88,9 +89,21 @@ void TowerOfHanoi::about()
     shortRevId.truncate(12);
     const auto aboutText = format.arg(REPOSITORY_URL).arg(ABOUT_VERSION).arg(REV_ID).arg(shortRevId);
 
+    auto *label = new QLabel { aboutText };
+    label->setTextFormat(Qt::RichText);
+    label->setWordWrap(true);
+    label->setOpenExternalLinks(true);
+
+    auto *buttonBox = new QDialogButtonBox { QDialogButtonBox::Ok, Qt::Horizontal };
+    buttonBox->setCenterButtons(true);
+    connect(buttonBox, &QDialogButtonBox::accepted, &aboutBox, &QDialog::accept);
+
+    auto *layout = new QVBoxLayout;
+    layout->addWidget(label);
+    layout->addWidget(buttonBox);
+
+    aboutBox.setLayout(layout);
     aboutBox.setWindowTitle("About Tower of Hanoi");
-    aboutBox.setTextFormat(Qt::RichText);
-    aboutBox.setText(aboutText);
     aboutBox.exec();
 }
 
