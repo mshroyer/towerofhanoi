@@ -276,11 +276,6 @@
     <string>Progress</string>
    </property>
   </action>
-  <action name="actionClose">
-   <property name="text">
-    <string>close</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -455,22 +450,6 @@
     <hint type="destinationlabel">
      <x>439</x>
      <y>59</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionClose</sender>
-   <signal>triggered()</signal>
-   <receiver>TowerOfHanoi</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>291</x>
-     <y>202</y>
     </hint>
    </hints>
   </connection>
