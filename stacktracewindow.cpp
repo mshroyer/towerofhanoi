@@ -72,6 +72,9 @@ StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
 {
     ui->setupUi(this);
 
+    ui->actionClose->setShortcut(QKeySequence::Close);
+    addAction(ui->actionClose);
+
 #if defined Q_OS_MAC
     QFont font { "Monaco" };
     font.setPointSize(12);

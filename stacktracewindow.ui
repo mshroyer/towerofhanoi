@@ -41,7 +41,29 @@
     </widget>
    </item>
   </layout>
+  <action name="actionClose">
+   <property name="text">
+    <string>close</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionClose</sender>
+   <signal>triggered()</signal>
+   <receiver>StackTraceWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>318</x>
+     <y>195</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

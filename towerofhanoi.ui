@@ -84,7 +84,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/play.svg</normaloff>:/icons/play.svg</iconset>
         </property>
         <property name="iconSize">
@@ -104,7 +104,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/step.svg</normaloff>:/icons/step.svg</iconset>
         </property>
         <property name="iconSize">
@@ -130,7 +130,7 @@
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="towerofhanoi.qrc">
           <normaloff>:/icons/reset.svg</normaloff>:/icons/reset.svg</iconset>
         </property>
         <property name="iconSize">
@@ -215,7 +215,7 @@
      <x>0</x>
      <y>0</y>
      <width>583</width>
-     <height>27</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -276,6 +276,11 @@
     <string>Progress</string>
    </property>
   </action>
+  <action name="actionClose">
+   <property name="text">
+    <string>close</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -289,7 +294,9 @@
  <tabstops>
   <tabstop>spinBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="towerofhanoi.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>
@@ -448,6 +455,22 @@
     <hint type="destinationlabel">
      <x>439</x>
      <y>59</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionClose</sender>
+   <signal>triggered()</signal>
+   <receiver>TowerOfHanoi</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>291</x>
+     <y>202</y>
     </hint>
    </hints>
   </connection>

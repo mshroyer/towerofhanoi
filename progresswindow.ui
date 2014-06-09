@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>343</width>
-    <height>63</height>
+    <height>64</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,29 @@
     </widget>
    </item>
   </layout>
+  <action name="actionClose">
+   <property name="text">
+    <string>close</string>
+   </property>
+  </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionClose</sender>
+   <signal>triggered()</signal>
+   <receiver>ProgressWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>171</x>
+     <y>31</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

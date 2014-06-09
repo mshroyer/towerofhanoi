@@ -17,6 +17,10 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     ui { new Ui::TowerOfHanoi }
 {
     ui->setupUi(this);
+
+    ui->actionClose->setShortcut(QKeySequence::Close);
+    addAction(ui->actionClose);
+
     ui->towerView->setTower(m_tower);
 
     connect(ui->actionAboutQt, &QAction::triggered, qApp, &QApplication::aboutQt);
@@ -100,6 +104,11 @@ void TowerOfHanoi::about()
     auto *layout = new QVBoxLayout;
     layout->addWidget(label);
     layout->addWidget(buttonBox);
+
+    auto *close = new QAction { &aboutBox };
+    close->setShortcut(QKeySequence::Close);
+    aboutBox.addAction(close);
+    connect(close, &QAction::triggered, &aboutBox, &QDialog::close);
 
     aboutBox.setLayout(layout);
     aboutBox.setWindowTitle("About Tower of Hanoi");

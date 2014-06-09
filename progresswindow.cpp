@@ -11,6 +11,9 @@ ProgressWindow::ProgressWindow(QWidget *parent) :
     ui(new Ui::ProgressWindow)
 {
     ui->setupUi(this);
+
+    ui->actionClose->setShortcut(QKeySequence::Close);
+    addAction(ui->actionClose);
 }
 
 ProgressWindow::~ProgressWindow()
