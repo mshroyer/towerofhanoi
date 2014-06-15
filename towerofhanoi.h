@@ -51,8 +51,7 @@ private slots:
     void step();
     void finished();
 
-    void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                         int sub, void *frame);
+    void moveTowerCalled(int n, TowerStack to, int sub, void *frame);
     void moveTowerReturned();
     void moveCalled();
 

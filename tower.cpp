@@ -8,6 +8,24 @@ QStack<int> &TowerState::stack(TowerStack name)
     return stacks[static_cast<int>(name)];
 }
 
+TowerStack TowerState::stackContainingDisk(int n)
+{
+    for (int i = 0; i < 3; ++i) {
+        const auto &stack = stacks[i];
+        for (int j = stack.size() - 1; j >= 0; --j) {
+            int disk = stack[j];
+
+            if (disk == n)
+                return static_cast<TowerStack>(i);
+
+            if (disk > n)
+                break;
+        }
+    }
+
+    return TowerStack::LEFT;
+}
+
 Tower::Tower(int ndisks, QObject *parent) :
     QObject { parent },
     m_lock { QReadWriteLock::Recursive }

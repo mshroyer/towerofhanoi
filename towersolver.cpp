@@ -46,7 +46,13 @@ void TowerSolver::stop()
 
 void TowerSolver::run()
 {
-    moveTower(m_initialState.ndisks, TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
+    int ndisks;
+
+    m_mutex.lock();
+    ndisks = m_initialState.ndisks;
+    m_mutex.unlock();
+
+    moveTower(ndisks, TowerStack::RIGHT);
 
     // Pause after last step so that stack trace is shown for final disk move
     {
@@ -65,9 +71,13 @@ void TowerSolver::run()
 extern const char * const kMoveTowerFile = "towersolver.cpp";
 extern const int          kMoveTowerLine = __LINE__ + 2;
 
-void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack spare, int sub)
+void TowerSolver::moveTower(int n, TowerStack to, int sub)
 {
-    emit moveTowerCalled(n, from, to, spare, sub, __builtin_frame_address(0));
+    auto from = m_tower->state().stackContainingDisk(n);
+    if (from == to)
+        return;
+
+    emit moveTowerCalled(n, to, sub, __builtin_frame_address(0));
 
     /*
      * This is a recursive solution to the Tower of Hanoi.
@@ -78,7 +88,7 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
 
     // First, move all except bottom disk to the spare stack
     if (n > 1) {
-        moveTower(n-1, from, spare, to, 0);
+        moveTower(n-1, remainingStack(from, to), 0);
 
         QMutexLocker locker { &m_mutex };
         if (m_stopRequested) return;
@@ -100,7 +110,7 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
 
     // Third, move all except bottom disk from spare to the target stack
     if (n > 1) {
-        moveTower(n-1, spare, to, from, 1);
+        moveTower(n-1, to, 1);
 
         QMutexLocker locker { &m_mutex };
         if (m_stopRequested) return;

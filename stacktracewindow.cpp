@@ -22,15 +22,15 @@ const char kPadding[] = "                ";
 const char * const kPaddingEnd = kPadding + sizeof(kPadding) - 1;
 
 const char kCallHeader32[] = "Frame address  Sub  Call graph\n"
-                             "--------------------------------------------------------------------\n";
+                             "-------------------------------------------------------\n";
 const char kCallHeader64[] = "Frame address     Sub  Call graph\n"
-                             "-----------------------------------------------------------------------\n";
+                             "----------------------------------------------------------\n";
 
 const char * const kCallHeader = IS32BIT ? kCallHeader32 : kCallHeader64;
 const size_t kCallHeaderSize = IS32BIT ? sizeof(kCallHeader32) : sizeof(kCallHeader64);
 
-const char * const kCallFormat32 = "%08lX       %c%s    moveTower(%d, %s, %s, %s)\n";
-const char * const kCallFormat64 = "%016lX  %c%s    moveTower(%d, %s, %s, %s)\n";
+const char * const kCallFormat32 = "%08lX       %c%s    moveTower(%d, %s)\n";
+const char * const kCallFormat64 = "%016lX  %c%s    moveTower(%d, %s)\n";
 
 const char * const kCallFormat = IS32BIT ? kCallFormat32 : kCallFormat64;
 
@@ -120,8 +120,7 @@ void StackTraceWindow::updateStackTrace()
     *buf = '\0';
     for (const StackFrame call : stack) {
         ret = snprintf(buf + i, kBufLineLength + 1, kCallFormat, reinterpret_cast<uintptr_t>(call.fp),
-                       subLabel(call.sub), kPaddingEnd - line, call.n,
-                       towerStackName(call.from), towerStackName(call.to), towerStackName(call.spare));
+                       subLabel(call.sub), kPaddingEnd - line, call.n, towerStackName(call.to));
 
         if (ret < 0) {
             qCritical("Error formatting call stack frame");

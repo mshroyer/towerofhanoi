@@ -16,8 +16,7 @@ public:
     explicit TowerSolver(Tower *tower, QObject *parent = nullptr);
 
 signals:
-    void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                         int sub, void *frame);
+    void moveTowerCalled(int n, TowerStack to, int sub, void *frame);
     void moveTowerReturned();
     void moveDisk(TowerStack from, TowerStack to);
 
@@ -30,8 +29,7 @@ protected:
     virtual void run() override;
 
 private:
-    void moveTower(int n, TowerStack from, TowerStack to, TowerStack spare,
-                   int sub = -1);
+    void moveTower(int n, TowerStack to, int sub = -1);
 
     QMutex m_mutex;
     QWaitCondition m_condition;

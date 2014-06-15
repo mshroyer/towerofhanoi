@@ -205,10 +205,9 @@ void TowerOfHanoi::finished()
     emit stackChanged();
 }
 
-void TowerOfHanoi::moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
-                                   int sub, void *frame)
+void TowerOfHanoi::moveTowerCalled(int n, TowerStack to, int sub, void *frame)
 {
-    m_stackNext.push({ n, from, to, spare, sub, frame });
+    m_stackNext.push({ n, to, sub, frame });
 }
 
 void TowerOfHanoi::moveTowerReturned()

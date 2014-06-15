@@ -10,6 +10,7 @@
 struct TowerState
 {
     QStack<int> &stack(TowerStack name);
+    TowerStack stackContainingDisk(int n);
 
     QStack<int> stacks[3];
     int ndisks;
