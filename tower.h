@@ -2,8 +2,18 @@
 #define TOWERS_H
 
 #include <QObject>
+#include <QVector>
+#include <QReadWriteLock>
 
 #include "datatypes.h"
+
+struct TowerState
+{
+    QVector<int> &stack(TowerStack name);
+
+    QVector<int> stacks[3];
+    int ndisks;
+};
 
 class Tower : public QObject
 {
@@ -22,13 +32,11 @@ public slots:
     void moveDisk(TowerStack from, TowerStack to);
 
 public:
-    int ndisks(void) const;
-    const QList<int> &stack(TowerStack name) const;
+    TowerState state() const;
 
 private:
-    QList<int> &getStack(TowerStack name);
-    int m_ndisks;
-    QList<int> m_stacks[3];
+    mutable QReadWriteLock m_lock;
+    TowerState m_state;
 };
 
 #endif // TOWERS_H

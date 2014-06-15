@@ -1,49 +1,49 @@
 #include "tower.h"
 
+#include <QReadLocker>
+#include <QWriteLocker>
+
+QVector<int> &TowerState::stack(TowerStack name)
+{
+    return stacks[static_cast<int>(name)];
+}
+
 Tower::Tower(int ndisks, QObject *parent) :
-    QObject{ parent }
+    QObject { parent },
+    m_lock { QReadWriteLock::Recursive }
 {
     reset(ndisks);
 }
 
-int Tower::ndisks(void) const
-{
-    return m_ndisks;
-}
-
-const QList<int> &Tower::stack(TowerStack name) const
-{
-    return m_stacks[static_cast<int>(name)];
-}
-
-QList<int> &Tower::getStack(TowerStack name)
-{
-    return const_cast<QList<int> &>(static_cast<const Tower *>(this)->stack(name));
-}
-
 void Tower::reset()
 {
-    auto &left = getStack(TowerStack::LEFT);
+    QWriteLocker locker { &m_lock };
+
+    auto &left = m_state.stack(TowerStack::LEFT);
     left.clear();
-    for (int i = m_ndisks; i > 0; --i)
+    for (int i = m_state.ndisks; i > 0; --i)
         left.insert(0, i);
 
-    getStack(TowerStack::MIDDLE).clear();
-    getStack(TowerStack::RIGHT).clear();
+    m_state.stack(TowerStack::MIDDLE).clear();
+    m_state.stack(TowerStack::RIGHT).clear();
 
     emit moved();
 }
 
 void Tower::reset(int ndisks)
 {
-    m_ndisks = ndisks;
+    QWriteLocker locker { &m_lock };
+
+    m_state.ndisks = ndisks;
     reset();
 }
 
 void Tower::moveDisk(TowerStack from, TowerStack to)
 {
-    auto &t_from = getStack(from);
-    auto &t_to   = getStack(to);
+    QWriteLocker locker { &m_lock };
+
+    auto &t_from = m_state.stack(from);
+    auto &t_to   = m_state.stack(to);
 
     if (t_from.isEmpty()) {
         emit moveError("Cannot move from empty tower");
@@ -60,4 +60,10 @@ void Tower::moveDisk(TowerStack from, TowerStack to)
     t_to.insert(0, disk);
 
     emit moved();
+}
+
+TowerState Tower::state() const
+{
+    QReadLocker locker { &m_lock };
+    return m_state;
 }

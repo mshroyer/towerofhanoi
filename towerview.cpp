@@ -52,16 +52,16 @@ void TowerView::setTower(Tower *tower)
 
 void TowerView::paintEvent(QPaintEvent *)
 {
+    TowerState state = m_tower->state();
     QPainter painter { this };
 
-    const int ndisks         = m_tower->ndisks();
     const int stroke         = 10;
 
     // Container dimensions
     const int width          = 9 * (rect().width() / 10);
     const int x_left         = rect().width() / 20;
     const int x_right        = x_left + width;
-    const int height         = stroke * (1 + m_tower->ndisks());
+    const int height         = stroke * (1 + state.ndisks);
     const int y_top          = (rect().height() - height) / 2;
     const int y_bottom       = y_top + height;
 
@@ -83,17 +83,12 @@ void TowerView::paintEvent(QPaintEvent *)
     int disk_position;
 
     int tower_x_offsets[] = { x_left, x_left + width / 3, x_left + 2 * width / 3 };
-    const QList<int> towers[] = {
-        m_tower->stack(TowerStack::LEFT),
-        m_tower->stack(TowerStack::MIDDLE),
-        m_tower->stack(TowerStack::RIGHT)
-    };
     for (int i = 0; i < 3; ++i) {
-        const QList<int> &tower = towers[i];
-        disk_position = ndisks - tower.size();
-        for (int disk : tower) {
+        const QVector<int> &stack = state.stacks[i];
+        disk_position = state.ndisks - stack.size();
+        for (int disk : stack) {
             const int y = y_top + stroke * (1 + disk_position++);
-            const int disk_width = diskWidth(disk_min, disk_max, ndisks, disk);
+            const int disk_width = diskWidth(disk_min, disk_max, state.ndisks, disk);
             const int disk_offset = (width / 3 - disk_width) / 2;
             const int x = tower_x_offsets[i] + disk_offset;
 
