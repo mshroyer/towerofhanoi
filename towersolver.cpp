@@ -10,7 +10,6 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     m_stepsRequested { 0 },
     m_tower { tower }
 {
-    connect(this, &TowerSolver::moveDisk, tower, &Tower::moveDisk, Qt::QueuedConnection);
 }
 
 void TowerSolver::start()
@@ -95,7 +94,7 @@ void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack sp
     }
 
     // Second, move the bottom disk to the target stack
-    emit moveDisk(from, to);
+    m_tower->moveDisk(from, to);
 
     // Third, move all except bottom disk from spare to the target stack
     if (n > 1) {

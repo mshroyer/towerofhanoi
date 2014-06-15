@@ -84,10 +84,10 @@ void TowerView::paintEvent(QPaintEvent *)
 
     int tower_x_offsets[] = { x_left, x_left + width / 3, x_left + 2 * width / 3 };
     for (int i = 0; i < 3; ++i) {
-        const QVector<int> &stack = state.stacks[i];
-        disk_position = state.ndisks - stack.size();
+        const auto &stack = state.stacks[i];
+        disk_position = 1;
         for (int disk : stack) {
-            const int y = y_top + stroke * (1 + disk_position++);
+            const int y = y_bottom - stroke * disk_position++;
             const int disk_width = diskWidth(disk_min, disk_max, state.ndisks, disk);
             const int disk_offset = (width / 3 - disk_width) / 2;
             const int x = tower_x_offsets[i] + disk_offset;

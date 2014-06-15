@@ -3,7 +3,7 @@
 #include <QReadLocker>
 #include <QWriteLocker>
 
-QVector<int> &TowerState::stack(TowerStack name)
+QStack<int> &TowerState::stack(TowerStack name)
 {
     return stacks[static_cast<int>(name)];
 }
@@ -22,7 +22,7 @@ void Tower::reset()
     auto &left = m_state.stack(TowerStack::LEFT);
     left.clear();
     for (int i = m_state.ndisks; i > 0; --i)
-        left.insert(0, i);
+        left.push(i);
 
     m_state.stack(TowerStack::MIDDLE).clear();
     m_state.stack(TowerStack::RIGHT).clear();
@@ -50,14 +50,13 @@ void Tower::moveDisk(TowerStack from, TowerStack to)
         return;
     }
 
-    if (!t_to.isEmpty() && t_to.first() < t_from.first()) {
+    if (!t_to.isEmpty() && t_to.top() < t_from.top()) {
         emit moveError("Cannot move onto a smaller disk");
         return;
     }
 
-    auto disk = t_from.first();
-    t_from.removeFirst();
-    t_to.insert(0, disk);
+    auto disk = t_from.pop();
+    t_to.push(disk);
 
     emit moved();
 }
@@ -65,5 +64,7 @@ void Tower::moveDisk(TowerStack from, TowerStack to)
 TowerState Tower::state() const
 {
     QReadLocker locker { &m_lock };
+
+    // Safe even though QStack<int> is implicitly shared
     return m_state;
 }

@@ -54,7 +54,7 @@ private slots:
     void moveTowerCalled(int n, TowerStack from, TowerStack to, TowerStack spare,
                          int sub, void *frame);
     void moveTowerReturned();
-    void moveDiskCalled(TowerStack from, TowerStack to);
+    void moveCalled();
 
 private:
     void setPlaying(bool playing);

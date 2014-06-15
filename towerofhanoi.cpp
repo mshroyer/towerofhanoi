@@ -24,7 +24,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     connect(m_towerSolver, &QThread::finished, this, &TowerOfHanoi::finished);
     connect(m_towerSolver, &TowerSolver::moveTowerCalled, this, &TowerOfHanoi::moveTowerCalled);
     connect(m_towerSolver, &TowerSolver::moveTowerReturned, this, &TowerOfHanoi::moveTowerReturned);
-    connect(m_towerSolver, &TowerSolver::moveDisk, this, &TowerOfHanoi::moveDiskCalled);
+    connect(m_tower, &Tower::moved, this, &TowerOfHanoi::moveCalled);
 
     m_towerTimer->setSingleShot(true);
     connect(m_towerTimer, &QTimer::timeout, this, &TowerOfHanoi::step);
@@ -216,7 +216,7 @@ void TowerOfHanoi::moveTowerReturned()
     m_stackNext.pop();
 }
 
-void TowerOfHanoi::moveDiskCalled(TowerStack, TowerStack)
+void TowerOfHanoi::moveCalled()
 {
     if (m_playing)
         m_towerTimer->start(m_delay);

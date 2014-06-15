@@ -2,16 +2,16 @@
 #define TOWERS_H
 
 #include <QObject>
-#include <QVector>
+#include <QStack>
 #include <QReadWriteLock>
 
 #include "datatypes.h"
 
 struct TowerState
 {
-    QVector<int> &stack(TowerStack name);
+    QStack<int> &stack(TowerStack name);
 
-    QVector<int> stacks[3];
+    QStack<int> stacks[3];
     int ndisks;
 };
 
