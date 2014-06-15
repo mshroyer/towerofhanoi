@@ -39,6 +39,7 @@ private:
     int m_stepsRequested;
 
     Tower *m_tower;
+    TowerState m_initialState;
 };
 
 #endif // TOWERSOLVER_H

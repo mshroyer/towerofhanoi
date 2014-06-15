@@ -8,13 +8,15 @@ TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     m_condition { },
     m_stopRequested { false },
     m_stepsRequested { 0 },
-    m_tower { tower }
+    m_tower { tower },
+    m_initialState { }
 {
 }
 
 void TowerSolver::start()
 {
     QMutexLocker locker { &m_mutex };
+    m_initialState = m_tower->state();
     m_stopRequested = false;
     m_stepsRequested = 0;
     locker.unlock();
@@ -44,7 +46,7 @@ void TowerSolver::stop()
 
 void TowerSolver::run()
 {
-    moveTower(m_tower->state().ndisks, TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
+    moveTower(m_initialState.ndisks, TowerStack::LEFT, TowerStack::RIGHT, TowerStack::MIDDLE);
 
     // Pause after last step so that stack trace is shown for final disk move
     {
