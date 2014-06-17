@@ -8,7 +8,7 @@ enum class TowerStack : char
     RIGHT = 2
 };
 
-inline TowerStack remainingStack(TowerStack a, TowerStack b)
+inline TowerStack otherStack(TowerStack a, TowerStack b)
 {
     return static_cast<TowerStack>(3 - static_cast<int>(a) - static_cast<int>(b));
 }

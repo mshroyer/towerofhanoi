@@ -88,7 +88,7 @@ void TowerSolver::moveTower(int n, TowerStack to, int sub)
 
     // First, move all except bottom disk to the spare stack
     if (n > 1) {
-        moveTower(n-1, remainingStack(from, to), 0);
+        moveTower(n-1, otherStack(from, to), 0);
 
         QMutexLocker locker { &m_mutex };
         if (m_stopRequested) return;

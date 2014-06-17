@@ -21,6 +21,7 @@ public:
     QStack<int> &stack(TowerStack name);
     TowerStack findDisk(int n) const;
     int ndisks() const;
+    int movesNeeded() const;
 
 private:
     QStack<int> m_stacks[3];

@@ -23,6 +23,21 @@ int TowerState::ndisks() const
     return m_ndisks;
 }
 
+int TowerState::movesNeeded() const
+{
+    int moves = (1 << m_ndisks) - 1;
+    TowerStack dest = TowerStack::RIGHT;
+
+    for (int i = m_ndisks - 1; i >= 0; --i) {
+        if (m_diskStacks[i] == dest)
+            moves -= (1 << i);
+        else
+            dest = otherStack(m_diskStacks[i], dest);
+    }
+
+    return moves;
+}
+
 Tower::Tower(int ndisks, QObject *parent) :
     QObject { parent },
     m_lock { QReadWriteLock::Recursive }
