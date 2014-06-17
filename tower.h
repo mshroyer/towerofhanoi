@@ -7,13 +7,25 @@
 
 #include "datatypes.h"
 
-struct TowerState
-{
-    QStack<int> &stack(TowerStack name);
-    TowerStack stackContainingDisk(int n);
+// Maximum number of disks supported
+constexpr int kMaxDisks = 16;
 
-    QStack<int> stacks[3];
-    int ndisks;
+class Tower;
+
+class TowerState
+{
+public:
+    friend class Tower;
+
+    const QStack<int> &stack(TowerStack name) const;
+    QStack<int> &stack(TowerStack name);
+    TowerStack findDisk(int n) const;
+    int ndisks() const;
+
+private:
+    QStack<int> m_stacks[3];
+    TowerStack m_diskStacks[kMaxDisks];
+    int m_ndisks;
 };
 
 class Tower : public QObject

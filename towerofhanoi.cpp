@@ -17,6 +17,7 @@ TowerOfHanoi::TowerOfHanoi(QWidget *parent) :
     ui { new Ui::TowerOfHanoi }
 {
     ui->setupUi(this);
+    ui->spinBox->setMaximum(kMaxDisks);
     ui->towerView->setTower(m_tower);
 
     connect(ui->actionAboutQt, &QAction::triggered, qApp, &QApplication::aboutQt);

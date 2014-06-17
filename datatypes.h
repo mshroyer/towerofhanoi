@@ -1,7 +1,7 @@
 #ifndef DATATYPES_H
 #define DATATYPES_H
 
-enum class TowerStack : int
+enum class TowerStack : char
 {
     LEFT = 0,
     MIDDLE = 1,

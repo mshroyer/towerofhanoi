@@ -52,7 +52,7 @@ void TowerView::setTower(Tower *tower)
 
 void TowerView::paintEvent(QPaintEvent *)
 {
-    TowerState state = m_tower->state();
+    const TowerState state = m_tower->state();
     QPainter painter { this };
 
     const int stroke         = 10;
@@ -61,7 +61,7 @@ void TowerView::paintEvent(QPaintEvent *)
     const int width          = 9 * (rect().width() / 10);
     const int x_left         = rect().width() / 20;
     const int x_right        = x_left + width;
-    const int height         = stroke * (1 + state.ndisks);
+    const int height         = stroke * (1 + state.ndisks());
     const int y_top          = (rect().height() - height) / 2;
     const int y_bottom       = y_top + height;
 
@@ -84,11 +84,11 @@ void TowerView::paintEvent(QPaintEvent *)
 
     int tower_x_offsets[] = { x_left, x_left + width / 3, x_left + 2 * width / 3 };
     for (int i = 0; i < 3; ++i) {
-        const auto &stack = state.stacks[i];
+        const auto &stack = state.stack(static_cast<TowerStack>(i));
         disk_position = 1;
         for (int disk : stack) {
             const int y = y_bottom - stroke * disk_position++;
-            const int disk_width = diskWidth(disk_min, disk_max, state.ndisks, disk);
+            const int disk_width = diskWidth(disk_min, disk_max, state.ndisks(), disk);
             const int disk_offset = (width / 3 - disk_width) / 2;
             const int x = tower_x_offsets[i] + disk_offset;
 

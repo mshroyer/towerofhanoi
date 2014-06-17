@@ -49,7 +49,7 @@ void TowerSolver::run()
     int ndisks;
 
     m_mutex.lock();
-    ndisks = m_initialState.ndisks;
+    ndisks = m_initialState.ndisks();
     m_mutex.unlock();
 
     moveTower(ndisks, TowerStack::RIGHT);
@@ -73,7 +73,7 @@ extern const int          kMoveTowerLine = __LINE__ + 2;
 
 void TowerSolver::moveTower(int n, TowerStack to, int sub)
 {
-    auto from = m_tower->state().stackContainingDisk(n);
+    auto from = m_tower->state().findDisk(n);
     if (from == to)
         return;
 

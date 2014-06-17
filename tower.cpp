@@ -3,27 +3,24 @@
 #include <QReadLocker>
 #include <QWriteLocker>
 
-QStack<int> &TowerState::stack(TowerStack name)
+const QStack<int> &TowerState::stack(TowerStack name) const
 {
-    return stacks[static_cast<int>(name)];
+    return m_stacks[static_cast<int>(name)];
 }
 
-TowerStack TowerState::stackContainingDisk(int n)
+QStack<int> &TowerState::stack(TowerStack name)
 {
-    for (int i = 0; i < 3; ++i) {
-        const auto &stack = stacks[i];
-        for (int j = stack.size() - 1; j >= 0; --j) {
-            int disk = stack[j];
+    return const_cast<QStack<int> &>(static_cast<const TowerState *>(this)->stack(name));
+}
 
-            if (disk == n)
-                return static_cast<TowerStack>(i);
+TowerStack TowerState::findDisk(int n) const
+{
+    return m_diskStacks[n-1];
+}
 
-            if (disk > n)
-                break;
-        }
-    }
-
-    return TowerStack::LEFT;
+int TowerState::ndisks() const
+{
+    return m_ndisks;
 }
 
 Tower::Tower(int ndisks, QObject *parent) :
@@ -39,8 +36,10 @@ void Tower::reset()
 
     auto &left = m_state.stack(TowerStack::LEFT);
     left.clear();
-    for (int i = m_state.ndisks; i > 0; --i)
+    for (int i = m_state.m_ndisks; i > 0; --i) {
+        m_state.m_diskStacks[i-1] = TowerStack::LEFT;
         left.push(i);
+    }
 
     m_state.stack(TowerStack::MIDDLE).clear();
     m_state.stack(TowerStack::RIGHT).clear();
@@ -52,7 +51,7 @@ void Tower::reset(int ndisks)
 {
     QWriteLocker locker { &m_lock };
 
-    m_state.ndisks = ndisks;
+    m_state.m_ndisks = ndisks;
     reset();
 }
 
@@ -75,6 +74,7 @@ void Tower::moveDisk(TowerStack from, TowerStack to)
 
     auto disk = t_from.pop();
     t_to.push(disk);
+    m_state.m_diskStacks[disk-1] = to;
 
     emit moved();
 }
