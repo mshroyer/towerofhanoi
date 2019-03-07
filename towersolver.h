@@ -41,4 +41,9 @@ private:
     Tower *m_tower;
 };
 
+// The name of the source file and line of code for hyperlinking to the solver
+// source code.
+extern const char * const kMoveTowerFile;
+extern const int kMoveTowerLine;
+
 #endif // TOWERSOLVER_H

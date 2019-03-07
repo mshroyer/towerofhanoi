@@ -61,8 +61,8 @@ void TowerSolver::run()
 
 
 // Don't move these, for linking to moveTower() source from stack trace window:
-extern const char * const kMoveTowerFile = "towersolver.cpp";
-extern const int          kMoveTowerLine = __LINE__ + 2;
+const char * const kMoveTowerFile = "towersolver.cpp";
+const int          kMoveTowerLine = __LINE__ + 2;
 
 void TowerSolver::moveTower(int n, TowerStack from, TowerStack to, TowerStack spare, int sub)
 {

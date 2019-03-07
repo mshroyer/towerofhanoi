@@ -42,7 +42,6 @@ void TowerView::setTower(Tower *tower)
 {
     if (m_tower) {
         qFatal("Tower has already been set");
-        return;
     }
 
     m_tower = tower;

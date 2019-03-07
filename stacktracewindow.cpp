@@ -57,7 +57,6 @@ char subLabel(int sub)
     default:
         return ' ';
     }
-    return ' ';
 }
 
 } // namespace
