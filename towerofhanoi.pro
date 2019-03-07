@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui svg
-CONFIG   += c++11
+CONFIG   += c++11 address_sanitizer
 
 QMAKE_CXXFLAGS += -Wall -Werror -Wextra -pedantic
 

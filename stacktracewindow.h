@@ -16,7 +16,7 @@ class StackTraceWindow : public QDialog
 
 public:
     explicit StackTraceWindow(TowerOfHanoi *parent = nullptr);
-    ~StackTraceWindow();
+    ~StackTraceWindow() override;
 
 protected:
     virtual void showEvent(QShowEvent *) override;

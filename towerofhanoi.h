@@ -22,7 +22,7 @@ class TowerOfHanoi : public QMainWindow
 
 public:
     explicit TowerOfHanoi(QWidget *parent = nullptr);
-    ~TowerOfHanoi();
+    ~TowerOfHanoi() override;
 
 signals:
     void maxMovesChanged(int);
