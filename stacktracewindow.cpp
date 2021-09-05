@@ -87,7 +87,7 @@ StackTraceWindow::StackTraceWindow(TowerOfHanoi *parent) :
     font.setStyleHint(QFont::Monospace);
     ui->textEdit->setFont(font);
 
-    const QString labelFormat = "See <a href='%3/src/%4/towersolver.cpp#cl-%2'>%1:%2</a> for algorithm implementation";
+    const QString labelFormat = "See <a href='%3/blob/%4/%1#L%2'>%1:%2</a> for algorithm implementation";
     const QString labelText = labelFormat.arg(kMoveTowerFile).arg(kMoveTowerLine).arg(REPOSITORY_URL).arg(REV_ID);
     ui->label->setText(labelText);
 
