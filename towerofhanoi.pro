@@ -14,7 +14,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = towerofhanoi
 TEMPLATE = app
 
-ABOUT_VERSION = v1.2.2
+ABOUT_VERSION = v1.2.3
 
 DEFINES *= QT_USE_STRINGBUILDER
 DEFINES += "REPOSITORY_URL=\\\"https://github.com/mshroyer/towerofhanoi\\\""
