@@ -17,7 +17,7 @@ TEMPLATE = app
 ABOUT_VERSION = v1.2.2
 
 DEFINES *= QT_USE_STRINGBUILDER
-DEFINES += "REPOSITORY_URL=\\\"https://bitbucket.org/mshroyer/towerofhanoi\\\""
+DEFINES += "REPOSITORY_URL=\\\"https://github.com/mshroyer/towerofhanoi\\\""
 DEFINES *= "ABOUT_VERSION=\\\"$$ABOUT_VERSION\\\""
 
 win32 {

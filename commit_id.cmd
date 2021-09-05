@@ -1,11 +1,11 @@
 @echo off
 setlocal ENABLEDELAYEDEXPANSION
 
-hg --debug id -i >commitid 2>NUL || echo default >commitid
+git rev-parse HEAD >commitid 2>NUL || echo main >commitid
 set /p commitid= <commitid
 del commitid
 
-echo %commitid:~0,40%
+echo %commitid%
 
 endlocal
 

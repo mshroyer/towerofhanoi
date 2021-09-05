@@ -70,9 +70,9 @@ void TowerOfHanoi::about()
         "see the Wikipedia article and source code repository linked below.</p>"
         "<p><a href='https://en.wikipedia.org/wiki/Tower_of_hanoi'>https://en.wikipedia.org/wiki/Tower_of_hanoi</a><br>"
         "<a href='https://github.com/mshroyer/towerofhanoi/'>https://github.com/mshroyer/towerofhanoi/</a></p>"
-        "<p>This build was created from revision <a href='%1/commits/%3'>%4</a>.</p>"
+        "<p>This build was created from commit <a href='%1/commit/%3'>%4</a>.</p>"
 
-        "<p><br>Copyright (c) 2014 Mark Shroyer &lt;mark@shroyer.name&gt;</p>"
+        "<p><br>Copyright (c) 2014 Mark Shroyer &lt;<a href=\"mailto:mark@shroyer.name\">mark@shroyer.name</a>&gt;</p>"
 
         "<p>Permission to use, copy, modify, and/or distribute this software for any "
         "purpose with or without fee is hereby granted, provided that the above "
@@ -86,9 +86,7 @@ void TowerOfHanoi::about()
         "ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR "
         "IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</p>";
 
-    QString shortRevId { REV_ID };
-    shortRevId.truncate(12);
-    const auto aboutText = format.arg(REPOSITORY_URL).arg(ABOUT_VERSION).arg(REV_ID).arg(shortRevId);
+    const auto aboutText = format.arg(REPOSITORY_URL).arg(ABOUT_VERSION).arg(REV_ID).arg(REV_ID);
 
     auto *label = new QLabel { aboutText };
     label->setTextFormat(Qt::RichText);
