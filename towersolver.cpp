@@ -4,7 +4,7 @@
 
 TowerSolver::TowerSolver(Tower *tower, QObject *parent) :
     QThread { parent },
-    m_mutex { QMutex::NonRecursive },
+    m_mutex { },
     m_condition { },
     m_stopRequested { false },
     m_stepsRequested { 0 },
