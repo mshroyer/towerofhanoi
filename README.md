@@ -3,6 +3,8 @@
 Mark Shroyer &lt;mark@shroyer.name&gt; \
 Last Updated: 2021-09-04
 
+![App screenshot](app.png)
+
 ## Overview
 
 This program illustrates a recursive solution to the Tower of Hanoi, written in C++11 and built on top of Qt 5.3. If you are reading this file as part of a source distribution, refer to towersolver.cpp for the algorithm itself and tower.cpp for the tower model; the rest of the code is about providing a GUI application to demonstrate the algorithm.
